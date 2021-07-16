@@ -36,7 +36,29 @@ describe('Ratio', () => {
     expect(modinv4).toEqual(1901)
   })
 
-  it('Perfoms correct padic conversion', () => {
+  it('Performs correct padic evalution', () => {
+    const test = [
+      { a: 1, b: 3, p: 5, k: 7, pav: '', pad: '' },
+      { a: 2, b: 1, p: 2, k: 4, pav: '', pad: '' },
+      { a: 1, b: 1, p: 2, k: 4, pav: '', pad: '' },
+      { a: 4, b: 1, p: 2, k: 4, pav: '', pad: '' },
+      { a: 3, b: 1, p: 2, k: 4, pav: '', pad: '' },
+      { a: 2, b: 7, p: 10, k: 7, pav: '', pad: '' },
+      { a: -1, b: 7, p: 10, k: 7, pav: '', pad: '' },
+      { a: 11, b: 4, p: 2, k: 43, pav: '', pad: '' },
+      { a: 679001, b: 207, p: 2, k: 43, pav: '', pad: '' },
+    ]
+    const i = 0
+    const a = test[i]['a']
+    const b = test[i]['b']
+    const p = test[i]['p']
+    const k = test[i]['k']
+    const ratio1 = new Ratio(a, b)
+    const padic1 = ratio1.convertToPadic(p, k)
+    padic1.toString()
+  })
+
+  xit('Perfoms correct padic conversion', () => {
     // Classic
     const test = [
       [2, 1, 2, 4, 1, 1],
@@ -63,9 +85,9 @@ describe('Ratio', () => {
       // More subtle digits
       [5, 8, 7, 11, 353, 30809],
     ]
-    const i = 0
+    const i = 1
     const p = test[i][2]
-    const k = test[i][2]
+    const k = test[i][3]
     const ratio1 = new Ratio(test[i][0], test[i][1])
     ratio1.convertToPadic(p, k)
     const ratio2 = new Ratio(test[i][4], test[i][5])

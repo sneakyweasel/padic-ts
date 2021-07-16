@@ -16,21 +16,18 @@ export function min(a: number, b: number): number {
  * Recursive Extended Euclidean Algorithm
  * https://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/
  */
-export function gcdExtended(a: number, b: number, x = 0, y = 0): any {
+export function gcdExtended(a: number, b: number, x = 0, y = 0): number {
   // Base Case
   if (a == 0) {
     x = 0
     y = 1
     return b
   }
-
   // To store results of recursive call
   const gcd = gcdExtended(b % a, a, x, y)
-
   // Update x and y using results of recursive call
   x = y - (b / a) * x
   y = x
-
   return gcd
 }
 

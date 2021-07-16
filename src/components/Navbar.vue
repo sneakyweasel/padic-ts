@@ -1,22 +1,18 @@
 <template>
   <ul class="text-right p-4 pr-4 font-semibold bg-gray-100">
-    <li
-      class="inline mx-2 text-pink-600 hover:text-pink-400 cursor-pointer"
-      v-for="link in links"
-      v-bind:key="link"
-    >
+    <li class="inline mx-2 text-pink-600 hover:text-pink-400 cursor-pointer" v-for="link in links" v-bind:key="link">
       {{ link }}
     </li>
   </ul>
 </template>
 
-<script>
-export default {
-  name: "Navbar",
-  props: {
-    links: [String],
-  },
-};
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
+
+@Component
+export default class NavBar extends Vue {
+  @Prop() readonly links: Array<string> | undefined
+}
 </script>
 
 <style></style>

@@ -40,7 +40,7 @@ export class Ratio {
    * @param p - prime
    * @param k - precision
    */
-  convertToPadic(p = 7, k = 11): number {
+  convertToPadic(p = 7, k = 11): Padic {
     let a = this.a
     let b = this.b
 
@@ -77,10 +77,8 @@ export class Ratio {
     let pav = MAX_EXP
     const pad = new Array<number>(2 * MAX_EXP).fill(0)
 
-    pav = MAX_EXP
-    for (;;) {
+    for (let i = 0; ; ) {
       // find exponent of P in a
-      let i = 0
       for (; a % p === 0; i++) {
         a = a / p
       }
@@ -112,8 +110,7 @@ export class Ratio {
         break
       }
     }
-    console.log('PADIC EXPANSION: ' + pad.toString())
-    return 0
+    return new Padic(this, p, k, pav, pad)
   }
 }
 
@@ -127,9 +124,28 @@ export class Padic {
   v = 0
   d: number[] = []
 
-  constructor(r: Ratio, p: number, k: number) {
+  constructor(r: Ratio, p: number, k: number, pav: number, pad: number[]) {
     this.r = r
     this.p = p
     this.k = k
+    this.v = pav
+    this.d = pad
+  }
+
+  /**
+   * Print expansion
+   */
+  toString(): string {
+    let str = ''
+    const t = min(this.v, 0)
+    for (let i = this.k - 1 + t; i >= t; i--) {
+      str += this.d[i + MAX_EXP]
+      if (i == 0 && this.v < 0) {
+        str += '.'
+      }
+      str += ' '
+    }
+    console.log(str)
+    return str
   }
 }
