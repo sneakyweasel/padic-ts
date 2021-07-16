@@ -118,16 +118,27 @@ export default class App extends Vue {
   ratio_d = 1477
   prime = 7
   precision = 11
-  padic_str = ''
+  padic_str = '1 2 3 4 3 5 4 6 4 1. 1'
 
-  // @Watch('prime')
-  // @Watch('precision')
-  // @Watch('ratio_n')
-  // @Watch('ratio_d')
+  @Watch('prime')
+  @Watch('precision')
+  @Watch('ratio_n')
+  @Watch('ratio_d')
   onSubmit(): void {
-    const ratio = new Ratio(this.ratio_n, this.ratio_d)
-    const padic = ratio.convertToPadic(this.prime, this.precision)
-    this.padic_str = padic.toString()
+    if (
+      Number.isInteger(this.ratio_n) &&
+      Number.isInteger(this.ratio_d) &&
+      Number.isInteger(this.prime) &&
+      Number.isInteger(this.precision) &&
+      this.ratio_n !== 0 &&
+      this.ratio_d !== 0 &&
+      this.prime > 0 &&
+      this.precision > 0
+    ) {
+      const ratio = new Ratio(this.ratio_n, this.ratio_d)
+      const padic = ratio.convertToPadic(this.prime, this.precision)
+      this.padic_str = padic.toString()
+    }
   }
 }
 </script>
