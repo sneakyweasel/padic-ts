@@ -51,14 +51,14 @@ export class Ratio {
     if (p < 2 || k < 1) {
       throw new Error('p should be >= 2')
     }
-    if (k < 1) {
-      throw new Error('k should be > 1')
-    }
     if (!Number.isInteger(p)) {
       throw new Error('p should be an integer.')
     }
     if (!Number.isInteger(k)) {
       throw new Error('k should be an integer.')
+    }
+    if (a === 0) {
+      throw new Error("a shouldn't be zero.")
     }
 
     // Clip values if they exceed maximum values
@@ -67,7 +67,10 @@ export class Ratio {
     console.log(`${a}/${b} + 0(${p}^${k})\n`) // numerator, denominator, prime, precision
 
     // find -exponent of p in b
-    b = negExp(b, p)
+    let i = 0
+    for (; b % p == 0; i--) {
+      b = b / p
+    }
 
     // modular inverse for small p
     const r = b % p
@@ -77,7 +80,7 @@ export class Ratio {
     let pav = MAX_EXP
     const pad = new Array<number>(2 * MAX_EXP).fill(0)
 
-    for (let i = 0; ; ) {
+    for (;;) {
       // find exponent of P in a
       for (; a % p === 0; i++) {
         a = a / p
@@ -110,6 +113,7 @@ export class Ratio {
         break
       }
     }
+    console.log('PAV: ' + pav)
     return new Padic(this, p, k, pav, pad)
   }
 }
@@ -124,12 +128,12 @@ export class Padic {
   v = 0
   d: number[] = []
 
-  constructor(r: Ratio, p: number, k: number, pav: number, pad: number[]) {
+  constructor(r: Ratio, p: number, k: number, v: number, d: number[]) {
     this.r = r
     this.p = p
     this.k = k
-    this.v = pav
-    this.d = pad
+    this.v = v
+    this.d = d
   }
 
   /**

@@ -1,7 +1,8 @@
 <template>
-  <div class="container w-300 mx-auto my-20 px-6 py-6 shadow">
+  <div class="container w-300 mx-auto my-6 px-6 py-6 shadow">
     <h1 class="text-pink-600 font-bold font-sans text-4xl text-center">{{ prime }}-adic number expansion</h1>
-    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5"></div>
+    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5 mb-3"></div>
+
     <form @submit.prevent="onSubmit">
       <div class="flex">
         <div class="flex-1 my-5">
@@ -96,7 +97,7 @@
         <div class="flex-1 w-full h-full m-4">
           <div class="mt-10">
             <p class="text-4xl text-center font-semibold">
-              {{ padic_str }}
+              ... {{ padic_str }}
               <sub>{{ prime }}</sub>
             </p>
           </div>
@@ -113,16 +114,16 @@ import { Ratio } from '../engine/Padic'
 @Component
 export default class App extends Vue {
   // Data
-  prime = 5
-  precision = 7
-  ratio_n = 1
-  ratio_d = 3
-  padic_str = '1 3 1 3 1 3 2'
+  ratio_n = -517
+  ratio_d = 1477
+  prime = 7
+  precision = 11
+  padic_str = ''
 
-  @Watch('prime')
-  @Watch('precision')
-  @Watch('ratio_n')
-  @Watch('ratio_d')
+  // @Watch('prime')
+  // @Watch('precision')
+  // @Watch('ratio_n')
+  // @Watch('ratio_d')
   onSubmit(): void {
     const ratio = new Ratio(this.ratio_n, this.ratio_d)
     const padic = ratio.convertToPadic(this.prime, this.precision)

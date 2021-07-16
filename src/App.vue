@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar :links="['Home', 'About', 'Contact']" />
+    <Navbar :links="['Weasel', 'Contact']" />
     <Form />
     <Footer />
   </div>

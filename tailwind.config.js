@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ["./index.html", "./src/**/*.vue,js,ts,jsx,tsx}"],
+  purge: ['./index.html', './src/App.vue', './src/components/*.vue'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -7,5 +7,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/forms")],
-};
+  plugins: [require('@tailwindcss/forms')],
+}
