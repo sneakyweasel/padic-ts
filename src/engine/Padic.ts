@@ -1,5 +1,5 @@
 // Imports
-import { min, abs, negExp, modInv } from './helpers'
+import { min, abs, modInv } from './helpers'
 
 // Constants
 const MAX_EXP = 64 // maximum exponent (if indexing starts at -EMX)

@@ -11,8 +11,10 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.3.3",
     "core-js": "^3.6.5",
+    "katex": "^0.13.11",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-katex": "^0.5.0",
     "vue-property-decorator": "^9.1.2"
   },
   "devDependencies": {

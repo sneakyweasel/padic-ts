@@ -1,6 +1,8 @@
 <template>
   <div class="container w-300 mx-auto my-6 px-6 py-6 shadow">
-    <h1 class="text-pink-600 font-bold font-sans text-4xl text-center">{{ prime }}-adic number expansion</h1>
+    <h1 class="text-pink-600 font-bold font-sans text-4xl text-center">
+      {{ prime }}-adic number expansion
+    </h1>
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5 mb-3"></div>
 
     <form @submit.prevent="onSubmit">
@@ -90,7 +92,10 @@
             </div>
           </div>
           <div class="text-right mt-2">
-            <button type="submit" class="px-7 py-2 mx-auto font-semibold text-white bg-pink-600 rounded">
+            <button
+              type="submit"
+              class="px-7 py-2 mx-auto font-semibold text-white bg-pink-600 rounded"
+            >
               Convert
             </button>
           </div>
@@ -102,6 +107,7 @@
               ... {{ padic_str }}
               <sub>{{ prime }}</sub>
             </p>
+            <div v-katex:auto>\(\frac{a_i}{1+x}\)</div>
           </div>
         </div>
       </div>
