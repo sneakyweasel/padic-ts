@@ -90,7 +90,9 @@
             </div>
           </div>
           <div class="text-right mt-2">
-            <button type="submit" class="px-7 py-2 mx-auto font-semibold text-white bg-pink-600 rounded">Submit</button>
+            <button type="submit" class="px-7 py-2 mx-auto font-semibold text-white bg-pink-600 rounded">
+              Convert
+            </button>
           </div>
         </div>
 

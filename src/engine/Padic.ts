@@ -22,10 +22,6 @@ export class Ratio {
    * @returns Creates a ratio a/b
    */
   constructor(a: number, b = 1) {
-    // Sanity check
-    if (b === 0) {
-      throw new Error("Can't divide by 0.")
-    }
     // Flip sign if denominator is negative
     if (b < 0) {
       a = -a
@@ -59,6 +55,9 @@ export class Ratio {
     }
     if (a === 0) {
       throw new Error("a shouldn't be zero.")
+    }
+    if (b === 0) {
+      throw new Error("b shouldn't be zero, can't divide by zero.")
     }
 
     // Clip values if they exceed maximum values
@@ -125,26 +124,69 @@ export class Padic {
   r: Ratio
   p: number
   k: number
-  v = 0
+  valuation = 0
   d: number[] = []
 
   constructor(r: Ratio, p: number, k: number, v: number, d: number[]) {
     this.r = r
     this.p = p
     this.k = k
-    this.v = v
+    this.valuation = v
     this.d = d
   }
 
   /**
+   * Horner's rule
+   * @returns sum
+   */
+  dsum(): number {
+    const t = min(this.valuation, 0)
+    let sum = 0
+    for (let i = this.k - 1 + t; i >= t; i--) {
+      const r = sum
+      sum *= this.p
+      if (r != 0 && sum / r - this.p != 0) {
+        // overflow
+        sum = -1
+        break
+      }
+      sum += this.d[i + MAX_EXP]
+    }
+    return sum
+  }
+
+  /**
+   * complement of receiver
+   * @returns Padic numbe
+   */
+  cmpt(): Padic {
+    let c = 1
+    const p1 = this.p - 1
+    const pa = new Padic(this.r, this.p, this.k, this.valuation, this.d)
+    pa.valuation = this.valuation
+    for (let i = this.valuation; i <= this.k + this.valuation; i++) {
+      c += p1 - pa.d[i + MAX_EXP]
+      if (c > p1) {
+        pa.d[i + MAX_EXP] = c - this.p
+        c = 1
+      } else {
+        pa.d[i + MAX_EXP] = c
+        c = 0
+      }
+    }
+    return pa
+  }
+
+  /**
    * Print expansion
+   * @returns expansion string
    */
   toString(): string {
     let str = ''
-    const t = min(this.v, 0)
+    const t = min(this.valuation, 0)
     for (let i = this.k - 1 + t; i >= t; i--) {
       str += this.d[i + MAX_EXP]
-      if (i == 0 && this.v < 0) {
+      if (i == 0 && this.valuation < 0) {
         str += '.'
       }
       str += ' '
