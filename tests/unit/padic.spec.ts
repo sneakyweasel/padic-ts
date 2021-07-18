@@ -1,4 +1,4 @@
-import { Ratio, Padic } from '../../src/engine/Padic'
+import { Ratio } from '../../src/engine/Padic'
 import { presets } from '../../src/engine/data'
 
 describe('Padic', () => {
@@ -49,8 +49,8 @@ describe('Padic', () => {
     const ratio = new Ratio(1, 2)
     const padic = ratio.convertToPadic(5, 10)
     const padic_str = padic.toString()
-    // expect(padic.valuation).toEqual(0)
-    // expect(padic_str).toEqual('3 1 3 1 3 1 3 1 3 2')
+    expect(padic.valuation).toEqual(0)
+    expect(padic_str).toEqual('3 1 3 1 3 1 3 1 3 2')
     const ratio_reconstruct = padic.convertToRatio().toString()
     expect(ratio_reconstruct).toEqual('1/3')
   })
