@@ -66,44 +66,11 @@ describe('Ratio', () => {
     const b = test[i]['b']
     const p = test[i]['p']
     const k = test[i]['k']
+    const pav = test[i]['pav']
+    const pad = test[i]['pad']
     const ratio1 = new Ratio(a, b)
     const padic1 = ratio1.convertToPadic(p, k)
-    padic1.toString()
-  })
-
-  xit('Perfoms correct padic conversion', () => {
-    // Classic
-    const test = [
-      [2, 1, 2, 4, 1, 1],
-      [4, 1, 2, 4, 3, 1],
-      [4, 1, 2, 5, 3, 1],
-      [4, 9, 5, 4, 8, 9],
-      [26, 25, 5, 4, -109, 125],
-      [49, 2, 7, 6, -4851, 2],
-      [-9, 5, 3, 8, 27, 7],
-      [5, 19, 2, 12, -101, 384],
-      // Two decadic pairs
-      [2, 7, 10, 7, -1, 7],
-      [34, 21, 10, 9, -39034, 791],
-      // Familiar digits
-      [11, 4, 2, 43, 679001, 207],
-      [-8, 9, 23, 9, 302113, 92],
-      [-22, 7, 3, 23, 46071, 379],
-      [-22, 7, 32749, 3, 46071, 379],
-      [35, 61, 5, 20, 9400, 109],
-      [-101, 109, 61, 7, 583376, 6649],
-      [-25, 26, 7, 13, 5571, 137],
-      [1, 4, 7, 11, 9263, 2837],
-      [122, 407, 7, 11, -517, 1477],
-      // More subtle digits
-      [5, 8, 7, 11, 353, 30809],
-    ]
-    const i = 1
-    const p = test[i][2]
-    const k = test[i][3]
-    const ratio1 = new Ratio(test[i][0], test[i][1])
-    ratio1.convertToPadic(p, k)
-    const ratio2 = new Ratio(test[i][4], test[i][5])
-    ratio2.convertToPadic(p, k)
+    const padic1_str = padic1.toString()
+    expect(padic1_str).toEqual(pad)
   })
 })

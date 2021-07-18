@@ -108,6 +108,15 @@
               <sub>{{ prime }}</sub>
             </p>
           </div>
+          <div class="mt-10">
+            <p class="text-2xl text-center font-semibold">
+              CMPT: ... {{ padic_cmpt }}
+              <sub>{{ prime }}</sub>
+            </p>
+          </div>
+          <div class="mt-10">
+            <p class="text-2xl text-center font-semibold">DSUM: {{ padic_dsum }}</p>
+          </div>
         </div>
       </div>
     </form>
@@ -126,6 +135,8 @@ export default class App extends Vue {
   prime = 7
   precision = 11
   padic_str = '1 2 3 4 3 5 4 6 4 1. 1'
+  padic_dsum = 0
+  padic_cmpt = ''
 
   @Watch('prime')
   @Watch('precision')
@@ -145,6 +156,8 @@ export default class App extends Vue {
       const ratio = new Ratio(this.ratio_n, this.ratio_d)
       const padic = ratio.convertToPadic(this.prime, this.precision)
       this.padic_str = padic.toString()
+      this.padic_dsum = padic.dsum()
+      this.padic_cmpt = padic.cmpt().toString()
     }
   }
 }

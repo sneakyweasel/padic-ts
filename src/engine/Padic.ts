@@ -22,6 +22,10 @@ export class Ratio {
    * @returns Creates a ratio a/b
    */
   constructor(a: number, b = 1) {
+    // Check for division by 0
+    if (b === 0) {
+      throw new Error("Can't divide by 0.")
+    }
     // Flip sign if denominator is negative
     if (b < 0) {
       a = -a
@@ -277,6 +281,6 @@ export class Padic {
       str += ' '
     }
     console.log(str)
-    return str
+    return str.trim()
   }
 }
