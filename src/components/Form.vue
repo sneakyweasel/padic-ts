@@ -107,7 +107,6 @@
               ... {{ padic_str }}
               <sub>{{ prime }}</sub>
             </p>
-            <div v-katex:auto>\(\frac{a_i}{1+x}\)</div>
           </div>
         </div>
       </div>

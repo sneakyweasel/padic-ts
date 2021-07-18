@@ -3,9 +3,9 @@ import { min, abs, modInv } from './helpers'
 
 // Constants
 const MAX_EXP = 64 // maximum exponent (if indexing starts at -EMX)
-const DMX = 100000 // maximum approximation loop
 const MAX_ARG = 1048576 // maximum argument
-const MAX_P = 32749 // maximum prime
+const MAX_PRIME = 32749 // maximum prime
+const MAX_APPROX = 100000 // maximum approximation loop
 
 /**
  * Ratio class
@@ -33,10 +33,10 @@ export class Ratio {
 
   /**
    * Convert ratio to p-adic number
-   * @param p - prime
-   * @param k - precision
+   * @param prime
+   * @param precision
    */
-  convertToPadic(p = 7, k = 11): Padic {
+  convertToPadic(prime = 7, precision = 11): Padic {
     let a = this.a
     let b = this.b
 
@@ -44,13 +44,13 @@ export class Ratio {
     if (abs(a) > MAX_ARG || b > MAX_ARG) {
       throw new Error('a and b should be > to MAX_ARG')
     }
-    if (p < 2 || k < 1) {
+    if (prime < 2 || precision < 1) {
       throw new Error('p should be >= 2')
     }
-    if (!Number.isInteger(p)) {
+    if (!Number.isInteger(prime)) {
       throw new Error('p should be an integer.')
     }
-    if (!Number.isInteger(k)) {
+    if (!Number.isInteger(precision)) {
       throw new Error('k should be an integer.')
     }
     if (a === 0) {
@@ -61,33 +61,33 @@ export class Ratio {
     }
 
     // Clip values if they exceed maximum values
-    p = min(p, MAX_P) // maximum short prime
-    k = min(k, MAX_EXP - 1) // maximum array length
-    console.log(`${a}/${b} + 0(${p}^${k})\n`) // numerator, denominator, prime, precision
+    prime = min(prime, MAX_PRIME) // maximum short prime
+    precision = min(precision, MAX_EXP - 1) // maximum array length
+    console.log(`${a}/${b} + 0(${prime}^${precision})\n`)
 
     // find -exponent of p in b
     let i = 0
-    for (; b % p == 0; i--) {
-      b = b / p
+    for (; b % prime == 0; i--) {
+      b = b / prime
     }
 
     // modular inverse for small p
-    const r = b % p
-    const b1 = modInv(r, p)
+    const r = b % prime
+    const b1 = modInv(r, prime)
 
     // Initialize padic variables
-    let pav = MAX_EXP
-    const pad = new Array<number>(2 * MAX_EXP).fill(0)
+    let valuation = MAX_EXP
+    const expansion = new Array<number>(2 * MAX_EXP).fill(0)
 
     for (;;) {
       // find exponent of P in a
-      for (; a % p === 0; i++) {
-        a = a / p
+      for (; a % prime === 0; i++) {
+        a = a / prime
       }
 
       // valuation
-      if (pav === MAX_EXP) {
-        pav = i
+      if (valuation === MAX_EXP) {
+        valuation = i
       }
 
       // upper bound
@@ -96,24 +96,24 @@ export class Ratio {
       }
 
       // check precision
-      if (i - pav > k) {
+      if (i - valuation > precision) {
         break
       }
 
       // next digit
-      pad[i + MAX_EXP] = (a * b1) % p
-      if (pad[i + MAX_EXP] < 0) {
-        pad[i + MAX_EXP] += p
+      expansion[i + MAX_EXP] = (a * b1) % prime
+      if (expansion[i + MAX_EXP] < 0) {
+        expansion[i + MAX_EXP] += prime
       }
 
       // remainder - digit * divisor
-      a -= pad[i + MAX_EXP] * b
+      a -= expansion[i + MAX_EXP] * b
       if (a === 0) {
         break
       }
     }
-    console.log('PAV: ' + pav)
-    return new Padic(this, p, k, pav, pad)
+    console.log('PAV: ' + valuation)
+    return new Padic(prime, precision, valuation, expansion)
   }
 }
 
@@ -121,18 +121,16 @@ export class Ratio {
  * Padic class
  */
 export class Padic {
-  r: Ratio
-  p: number
-  k: number
+  prime: number
+  precision: number
   valuation = 0
-  d: number[] = []
+  expansion: number[] = []
 
-  constructor(r: Ratio, p: number, k: number, v: number, d: number[]) {
-    this.r = r
-    this.p = p
-    this.k = k
-    this.valuation = v
-    this.d = d
+  constructor(prime: number, precision: number, valuation = 0, expansion: number[] = []) {
+    this.prime = prime
+    this.precision = precision
+    this.valuation = valuation
+    this.expansion = expansion
   }
 
   /**
@@ -142,17 +140,38 @@ export class Padic {
   dsum(): number {
     const t = min(this.valuation, 0)
     let sum = 0
-    for (let i = this.k - 1 + t; i >= t; i--) {
+    for (let i = this.precision - 1 + t; i >= t; i--) {
       const r = sum
-      sum *= this.p
-      if (r != 0 && sum / r - this.p != 0) {
+      sum *= this.prime
+      if (r != 0 && sum / r - this.prime != 0) {
         // overflow
         sum = -1
         break
       }
-      sum += this.d[i + MAX_EXP]
+      sum += this.expansion[i + MAX_EXP]
     }
     return sum
+  }
+
+  /**
+   * Add two padic numbers
+   * @returns Padic
+   */
+  add(b: Padic): Padic {
+    let c = 0
+    const result = new Padic(this.prime, this.precision)
+    result.valuation = min(this.valuation, b.valuation)
+    for (let i = result.valuation; i <= this.precision + result.valuation; i++) {
+      c += this.expansion[i + MAX_EXP] + b.expansion[i + MAX_EXP]
+      if (c > this.prime - 1) {
+        result.expansion[i + MAX_EXP] = c - this.prime
+        c = 1
+      } else {
+        result.expansion[i + MAX_EXP] = c
+        c = 0
+      }
+    }
+    return result
   }
 
   /**
@@ -161,20 +180,86 @@ export class Padic {
    */
   cmpt(): Padic {
     let c = 1
-    const p1 = this.p - 1
-    const pa = new Padic(this.r, this.p, this.k, this.valuation, this.d)
+    const p1 = this.prime - 1
+    const pa = new Padic(this.prime, this.precision, this.valuation, this.expansion)
     pa.valuation = this.valuation
-    for (let i = this.valuation; i <= this.k + this.valuation; i++) {
-      c += p1 - pa.d[i + MAX_EXP]
+    for (let i = this.valuation; i <= this.precision + this.valuation; i++) {
+      c += p1 - pa.expansion[i + MAX_EXP]
       if (c > p1) {
-        pa.d[i + MAX_EXP] = c - this.p
+        pa.expansion[i + MAX_EXP] = c - this.prime
         c = 1
       } else {
-        pa.d[i + MAX_EXP] = c
+        pa.expansion[i + MAX_EXP] = c
         c = 0
       }
     }
     return pa
+  }
+
+  /**
+   * Rational reconstruction of p-adic number
+   * @returns rational
+   */
+  crat(): Ratio {
+    let fl = false
+    let s = new Padic(this.prime, this.precision)
+    let j = 0
+    const p1 = this.prime - 1
+
+    // denominator count
+    let i = 1
+    for (; i <= MAX_APPROX; ) {
+      // check for integer
+      j = this.precision - 1 + this.valuation
+      for (; j >= this.valuation; j--) {
+        if (this.expansion[j + MAX_EXP] !== 0) {
+          break
+        }
+      }
+      fl = (j - this.valuation) * 2 < this.precision
+      if (fl) {
+        fl = false
+        break
+      }
+
+      // check negative integer
+      j = this.precision - 1 + this.valuation
+      for (; j >= this.valuation; j--) {
+        if (p1 - s.expansion[j + MAX_EXP] !== 0) {
+          break
+        }
+      }
+      fl = (j - this.valuation) * 2 < this.precision
+      if (fl) {
+        break
+      }
+
+      // repeatedly add self to s
+      s = s.add(this)
+      i++
+    }
+    if (fl) {
+      s = s.cmpt()
+    }
+
+    // numerator: weighted digit sum
+    let x = s.dsum()
+    let y = i
+    if (x < 0 || y > MAX_APPROX) {
+      console.log(x, y)
+      throw new Error('Rational reconstruction failed')
+    } else {
+      // negative powers
+      for (let i = this.valuation; i <= -1; i++) {
+        y *= this.prime
+      }
+
+      // negative rational
+      if (fl) {
+        x = -x
+      }
+      return new Ratio(x, y)
+    }
   }
 
   /**
@@ -184,8 +269,8 @@ export class Padic {
   toString(): string {
     let str = ''
     const t = min(this.valuation, 0)
-    for (let i = this.k - 1 + t; i >= t; i--) {
-      str += this.d[i + MAX_EXP]
+    for (let i = this.precision - 1 + t; i >= t; i--) {
+      str += this.expansion[i + MAX_EXP]
       if (i == 0 && this.valuation < 0) {
         str += '.'
       }
