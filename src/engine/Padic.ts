@@ -131,8 +131,8 @@ export class Ratio {
 export class Padic {
   prime: number
   precision: number
-  valuation = 0
-  expansion: number[] = new Array<number>(2 * MAX_EXP).fill(0)
+  valuation: number
+  expansion: number[]
 
   constructor(
     prime: number,
@@ -147,6 +147,17 @@ export class Padic {
   }
 
   /**
+   * Reconstruct Padic from string
+   * @param str Number string separated by spaces
+   */
+  // fromString(str: string): any {
+  //   const arr = str.split(' ')
+  //   const prime = parseInt(str[-1])
+  //   const precision = arr.length()
+  // }
+
+  /**
+   * Padic expansion sum
    * Horner's rule
    * @returns sum
    */
