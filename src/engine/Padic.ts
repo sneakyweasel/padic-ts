@@ -67,7 +67,7 @@ export class Ratio {
     // Clip values if they exceed maximum values
     prime = min(prime, MAX_PRIME) // maximum short prime
     precision = min(precision, MAX_EXP - 1) // maximum array length
-    console.log(`${a}/${b} + 0(${prime}^${precision})\n`)
+    // console.log(`${a}/${b} + 0(${prime}^${precision})\n`)
 
     // find -exponent of p in b
     let i = 0
@@ -116,7 +116,6 @@ export class Ratio {
         break
       }
     }
-    console.log('PAV: ' + valuation)
     return new Padic(prime, precision, valuation, expansion)
   }
 
@@ -270,7 +269,7 @@ export class Padic {
     let x = padic.dsum()
     let y = i
     if (x < 0 || y > MAX_APPROX) {
-      console.log(x, y)
+      // console.log(x, y)
       throw new Error('Rational reconstruction failed')
     } else {
       // negative powers
@@ -300,7 +299,6 @@ export class Padic {
       }
       str += ' '
     }
-    console.log(str)
     return str.trim()
   }
 }
