@@ -119,6 +119,10 @@ export class Ratio {
     console.log('PAV: ' + valuation)
     return new Padic(prime, precision, valuation, expansion)
   }
+
+  toString(): string {
+    return `${this.a}/${this.b}`
+  }
 }
 
 /**
@@ -128,9 +132,14 @@ export class Padic {
   prime: number
   precision: number
   valuation = 0
-  expansion: number[] = []
+  expansion: number[] = new Array<number>(2 * MAX_EXP).fill(0)
 
-  constructor(prime: number, precision: number, valuation = 0, expansion: number[] = []) {
+  constructor(
+    prime: number,
+    precision: number,
+    valuation = 0,
+    expansion: number[] = new Array<number>(2 * MAX_EXP).fill(0),
+  ) {
     this.prime = prime
     this.precision = precision
     this.valuation = valuation
@@ -204,9 +213,9 @@ export class Padic {
    * Rational reconstruction of p-adic number
    * @returns rational
    */
-  crat(): Ratio {
+  convertToRatio(): Ratio {
     let fl = false
-    let s = new Padic(this.prime, this.precision)
+    let padic = new Padic(this.prime, this.precision, this.valuation, this.expansion)
     let j = 0
     const p1 = this.prime - 1
 
@@ -229,7 +238,7 @@ export class Padic {
       // check negative integer
       j = this.precision - 1 + this.valuation
       for (; j >= this.valuation; j--) {
-        if (p1 - s.expansion[j + MAX_EXP] !== 0) {
+        if (p1 - padic.expansion[j + MAX_EXP] !== 0) {
           break
         }
       }
@@ -239,15 +248,15 @@ export class Padic {
       }
 
       // repeatedly add self to s
-      s = s.add(this)
+      padic = padic.add(this)
       i++
     }
     if (fl) {
-      s = s.cmpt()
+      padic = padic.cmpt()
     }
 
     // numerator: weighted digit sum
-    let x = s.dsum()
+    let x = padic.dsum()
     let y = i
     if (x < 0 || y > MAX_APPROX) {
       console.log(x, y)
