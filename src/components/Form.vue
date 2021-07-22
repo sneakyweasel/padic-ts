@@ -5,7 +5,7 @@
     </h1>
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5 mb-3"></div>
 
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="">
       <!-- Prime & Precision -->
       <div class="flex items-center">
         <div class="w-1/2 mr-3">
@@ -59,7 +59,7 @@
           <div class="w-2/3">
             <input
               type="number"
-              v-model.number="ratio1_n"
+              v-model.number="ratio_n"
               class="
                 w-full
                 mt-1
@@ -76,7 +76,7 @@
             <hr class="bg-black h-0.5" />
             <input
               type="number"
-              v-model.number="ratio1_d"
+              v-model.number="ratio_d"
               class="
                 w-full
                 mt-1
@@ -95,7 +95,7 @@
         <div class="w-1/2 h-full">
           <input
             type="text"
-            v-model.number="padic1_str"
+            v-model="padic_str"
             class="
               w-full
               h-full
@@ -116,7 +116,7 @@
 
       <!-- Table -->
       <div class="flex-1">
-        <PadicTable :padic="padic1" />
+        <PadicTable :padic="padic" />
       </div>
 
       <!-- Button -->
@@ -124,12 +124,23 @@
         <div class="text-center mt-8 flex-1">
           <button
             type="submit"
-            class="px-7 py-2 mx-auto text-xl font-semibold text-white bg-pink-600 rounded"
+            @click="handleConvertPadic"
+            class="px-7 py-2 mr-1 mx-auto text-xl font-semibold text-white bg-pink-600 rounded"
           >
-            Convert
+            Convert to p-adic
+          </button>
+          <button
+            type="submit"
+            @click="handleConvertRatio"
+            class="px-7 py-2 ml-1 mx-auto text-xl font-semibold text-white bg-pink-600 rounded"
+          >
+            Convert to ratio
           </button>
         </div>
       </div>
+      <!-- Padic array -->
+      <div class="mt-8">EXP: {{ padic.expansion }}</div>
+      <div>VAL: {{ padic.valuation }}</div>
     </form>
   </div>
 </template>
@@ -146,53 +157,52 @@ import PadicTable from '@/components/PadicTable.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio1_n = 1
-  ratio1_d = 3
-  ratio2_n = 123
-  ratio2_d = -5
+  ratio_n = 1
+  ratio_d = 3
   prime = 5
   precision = 7
-  padic1 = new Padic(this.prime, this.precision)
-  padic1_str = ''
-  padic1_dsum = 0
-  padic2_str = ''
-  padic_result = ''
+  padic = new Padic(this.prime, this.precision)
+  padic_str = ''
+  padic_dsum = 0
 
   mounted(): void {
-    this.onSubmit()
+    this.handleConvertPadic()
   }
 
   @Watch('prime')
   @Watch('precision')
-  @Watch('ratio1_n')
-  @Watch('ratio1_d')
-  @Watch('ratio2_n')
-  @Watch('ratio2_d')
-  onSubmit(): void {
+  @Watch('ratio_n')
+  @Watch('ratio_d')
+  handleConvertPadic(): void {
     if (
-      Number.isInteger(this.ratio1_n) &&
-      Number.isInteger(this.ratio1_d) &&
-      Number.isInteger(this.ratio2_n) &&
-      Number.isInteger(this.ratio2_d) &&
+      Number.isInteger(this.ratio_n) &&
+      Number.isInteger(this.ratio_d) &&
       Number.isInteger(this.prime) &&
       Number.isInteger(this.precision) &&
-      this.ratio1_n !== 0 &&
-      this.ratio1_d !== 0 &&
-      this.ratio2_n !== 0 &&
-      this.ratio2_d !== 0 &&
+      this.ratio_n !== 0 &&
+      this.ratio_d !== 0 &&
       this.prime > 0 &&
       this.precision > 0
     ) {
-      const ratio1 = new Ratio(this.ratio1_n, this.ratio1_d)
-      this.padic1 = ratio1.convertToPadic(this.prime, this.precision)
-      this.padic1_dsum = this.padic1.dsum()
-      this.padic1_str = this.padic1.toString()
+      const ratio = new Ratio(this.ratio_n, this.ratio_d)
+      this.padic = ratio.convertToPadic(this.prime, this.precision)
+      this.padic_dsum = this.padic.dsum()
+      this.padic_str = this.padic.toString()
+    }
+  }
 
-      const ratio2 = new Ratio(this.ratio2_n, this.ratio2_d)
-      const padic2 = ratio2.convertToPadic(this.prime, this.precision)
-      this.padic2_str = padic2.toString()
-
-      this.padic_result = this.padic1.add(padic2).toString()
+  @Watch('padic_str')
+  handleConvertRatio(): void {
+    if (
+      Number.isInteger(this.prime) &&
+      Number.isInteger(this.precision) &&
+      this.prime > 0 &&
+      this.precision > 0
+    ) {
+      let str: string = this.padic_str
+      let padic = Padic.fromString(str, this.prime, this.precision)
+      console.log('PADIC RECONSTRUCTION')
+      console.log(padic.expansion)
     }
   }
 }

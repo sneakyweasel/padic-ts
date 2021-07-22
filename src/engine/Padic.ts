@@ -146,14 +146,30 @@ export class Padic {
   }
 
   /**
-   * Reconstruct Padic from string
+   * Reconstruct Padic from string of numbers
+   * Convert to numbers and extract valuation point if any
    * @param str Number string separated by spaces
    */
-  // fromString(str: string): any {
-  //   const arr = str.split(' ')
-  //   const prime = parseInt(str[-1])
-  //   const precision = arr.length()
-  // }
+  static fromString(str: string, prime: number, precision: number): any {
+    let valuation = 0
+    // Convert to numbers and retrieve valuation
+    const arr: number[] = []
+    str
+      .split(' ')
+      .reverse()
+      .flatMap((chunk, i) => {
+        if (chunk.includes('.')) {
+          valuation = i
+        }
+        arr.push(parseInt(chunk))
+      })
+    // Copy into zero filled array
+    const expansion = new Array<number>(2 * MAX_EXP).fill(0)
+    arr.forEach((num, i) => {
+      expansion[i + MAX_EXP] = num
+    })
+    return new Padic(prime, precision, valuation, expansion)
+  }
 
   /**
    * Padic expansion sum
@@ -286,7 +302,17 @@ export class Padic {
   }
 
   /**
-   * Print expansion
+   * Returns precision sliced array
+   * @returns expansion number array
+   */
+  toArray(): number[] {
+    const start = min(this.valuation, 0) + MAX_EXP
+    const end = this.precision + start
+    return this.expansion.slice(start, end)
+  }
+
+  /**
+   * Generate expansion string
    * @returns expansion string
    */
   toString(): string {

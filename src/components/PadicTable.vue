@@ -2,18 +2,18 @@
   <div>
     <table class="text-2xl border-4 w-full text-center">
       <tr>
-        <td class="border-2" v-for="(char, i) in padic_arr" :key="'td1_' + i">
+        <td class="border-2" v-for="(num, i) in padic_arr" :key="'td1_' + i">
           {{ padic.prime }}<sup>{{ i }}</sup>
         </td>
       </tr>
       <tr>
-        <td class="border-2" v-for="(char, i) in padic_arr" :key="'td2_' + i">
-          {{ char }}
+        <td class="border-2" v-for="(num, i) in padic_arr" :key="'td2_' + i">
+          {{ num }}
         </td>
       </tr>
       <tr>
-        <td class="border-2" v-for="(char, i) in padic_arr" :key="'td3_' + i">
-          {{ parseInt(char) * padic.prime ** i }}
+        <td class="border-2" v-for="(num, i) in padic_arr" :key="'td3_' + i">
+          {{ num * padic.prime ** i }}
         </td>
       </tr>
     </table>
@@ -31,8 +31,8 @@ import { Padic } from '../engine/Padic'
 export default class App extends Vue {
   @Prop() readonly padic!: Padic
 
-  get padic_arr(): string[] {
-    return this.padic.toString().split(' ').reverse()
+  get padic_arr(): number[] {
+    return this.padic.toArray()
   }
 
   get katex(): string {
