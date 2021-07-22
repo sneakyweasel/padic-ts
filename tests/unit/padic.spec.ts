@@ -1,4 +1,4 @@
-import { Ratio } from '../../src/engine/Padic'
+import { Ratio, Padic } from '../../src/engine/Padic'
 import { presets } from '../../src/engine/data'
 
 describe('Padic', () => {
@@ -45,13 +45,37 @@ describe('Padic', () => {
     }
   })
 
-  xit('Converts to ratio.', () => {
-    const ratio = new Ratio(1, 2)
-    const padic = ratio.convertToPadic(5, 10)
+  it('Creates a padic from a text string.', () => {
+    const ratio = new Ratio(17, 7)
+    const padic = ratio.convertToPadic(5, 7)
     const padic_str = padic.toString()
     expect(padic.valuation).toEqual(0)
-    expect(padic_str).toEqual('3 1 3 1 3 1 3 1 3 2')
-    const ratio_reconstruct = padic.convertToRatio().toString()
-    expect(ratio_reconstruct).toEqual('1/3')
+    expect(padic_str).toEqual('3 2 4 1 2 1 1')
+    const padic_reconstruct = Padic.fromString(padic_str, 5, 7)
+    expect(padic_reconstruct.valuation).toEqual(0)
+    expect(padic_reconstruct.expansion).toEqual([
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 1, 1, 2, 1, 4, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0,
+    ])
+  })
+
+  it('Creates a ratio from a text string.', () => {
+    const ratio = new Ratio(17, 7)
+    const padic = ratio.convertToPadic(5, 7)
+    const padic_str = padic.toString()
+    expect(padic.valuation).toEqual(0)
+    expect(padic_str).toEqual('3 2 4 1 2 1 1')
+    const padic_reconstruct = Padic.fromString(padic_str, 5, 7)
+    expect(padic_reconstruct.valuation).toEqual(0)
+    expect(padic_reconstruct.expansion).toEqual([
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 1, 1, 2, 1, 4, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0,
+    ])
   })
 })

@@ -150,7 +150,7 @@ export class Padic {
    * Convert to numbers and extract valuation point if any
    * @param str Number string separated by spaces
    */
-  static fromString(str: string, prime: number, precision: number): any {
+  static fromString(str: string, prime: number, precision: number): Padic {
     let valuation = 0
     // Convert to numbers and retrieve valuation
     const arr: number[] = []
