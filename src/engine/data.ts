@@ -1,16 +1,22 @@
 /**
- * ratio[0, 1]
- * prime[2]
- * precision[3]
- * ratio[4, 5]
+ * Presets from RosettaCode: http://rosettacode.org/wiki/P-Adic_numbers,_basic
+ * n1: numerator of 1st ratio
+ * d1: denominator of 1st ratio
+ * n2: numerator of 2nd ratio
+ * d2: denominator of 2nd ratio
+ * n3: numerator of the result
+ * d3: denominator of the result
+ * p: prime
+ * p: precision
+ * exp: precision
  */
 export const presets = [
   // Classic
   {
-    n1: 2,
-    d1: 1,
     p: 2,
     k: 4,
+    n1: 2,
+    d1: 1,
     n2: 1,
     d2: 1,
     exp: '0 0 1 1',
@@ -18,10 +24,10 @@ export const presets = [
     d3: 1,
   },
   {
-    n1: 4,
-    d1: 1,
     p: 2,
     k: 4,
+    n1: 4,
+    d1: 1,
     n2: 3,
     d2: 1,
     exp: '0 1 1 1',
@@ -29,10 +35,10 @@ export const presets = [
     d3: 2,
   },
   {
-    n1: 4,
-    d1: 1,
     p: 2,
     k: 5,
+    n1: 4,
+    d1: 1,
     n2: 3,
     d2: 1,
     exp: '0 0 1 1 1',
@@ -40,10 +46,10 @@ export const presets = [
     d3: 1,
   },
   {
-    n1: 4,
-    d1: 9,
     p: 5,
     k: 4,
+    n1: 4,
+    d1: 9,
     n2: 8,
     d2: 9,
     exp: '3 1 3 3',
@@ -51,10 +57,10 @@ export const presets = [
     d3: 1,
   },
   {
-    n1: 26,
-    d1: 25,
     p: 5,
     k: 4,
+    n1: 26,
+    d1: 25,
     n2: -109,
     d2: 125,
     exp: '0. 0 4 1',
@@ -63,10 +69,10 @@ export const presets = [
   },
   // Zero padding
   {
-    n1: 49,
-    d1: 2,
     p: 7,
     k: 6,
+    n1: 49,
+    d1: 2,
     n2: -4851,
     d2: 2,
     exp: '6 6 0 0 0 0',
@@ -74,10 +80,10 @@ export const presets = [
     d3: 125,
   },
   {
-    n1: -9,
-    d1: 5,
     p: 3,
     k: 8,
+    n1: -9,
+    d1: 5,
     n2: 27,
     d2: 7,
     exp: '1 0 1 0 0 1 0 0',
@@ -85,10 +91,10 @@ export const presets = [
     d3: 1,
   },
   {
-    n1: 5,
-    d1: 19,
     p: 2,
     k: 12,
+    n1: 5,
+    d1: 19,
     n2: -101,
     d2: 384,
     exp: '1 1 1 0 0. 0 0 0 1 0 0 1',
@@ -97,10 +103,10 @@ export const presets = [
   },
   // Two decadic pairs
   {
-    n1: 2,
-    d1: 7,
     p: 10,
     k: 7,
+    n1: 2,
+    d1: 7,
     n2: -1,
     d2: 7,
     exp: '2 8 5 7 1 4 3',
@@ -108,10 +114,10 @@ export const presets = [
     d3: 7,
   },
   {
-    n1: 34,
-    d1: 21,
     p: 10,
     k: 9,
+    n1: 34,
+    d1: 21,
     n2: -39034,
     d2: 791,
     exp: '0 9 1 4 4 5 3 8 0',
@@ -120,10 +126,10 @@ export const presets = [
   },
   // Familiar digits
   {
-    n1: 11,
-    d1: 4,
     p: 2,
     k: 43,
+    n1: 11,
+    d1: 4,
     n2: 679001,
     d2: 207,
     exp: '0 0 0 1 0 1 0 1 0 0 0 0 0 1 1 0 0 0 1 0 1 1 1 1 0 0 0 0 0 1 0 1 0 0 1 0 1 1 0 0 1. 1 1',
@@ -131,10 +137,10 @@ export const presets = [
     d3: 828,
   },
   {
-    n1: -8,
-    d1: 9,
     p: 23,
     k: 9,
+    n1: -8,
+    d1: 9,
     n2: 302113,
     d2: 92,
     exp: '18 12 3 4 11 3 0 6. 2',
@@ -142,10 +148,10 @@ export const presets = [
     d3: 828,
   },
   {
-    n1: -22,
-    d1: 7,
     p: 3,
     k: 23,
+    n1: -22,
+    d1: 7,
     n2: 46071,
     d2: 379,
     exp: '0 1 1 1 1 0 0 0 2 0 1 1 1 1 2 0 2 2 0 0 0 0 2',
@@ -153,10 +159,10 @@ export const presets = [
     d3: 2653,
   },
   {
-    n1: -22,
-    d1: 7,
     p: 32749,
     k: 3,
+    n1: -22,
+    d1: 7,
     n2: 46071,
     d2: 379,
     exp: '32563 27441 785',
@@ -164,10 +170,10 @@ export const presets = [
     d3: 2653,
   },
   {
-    n1: 35,
-    d1: 61,
     p: 5,
     k: 20,
+    n1: 35,
+    d1: 61,
     n2: 9400,
     d2: 109,
     exp: '1 0 2 2 2 0 3 1 3 1 4 2 0 3 3 3 4 1 2 0',
@@ -175,10 +181,10 @@ export const presets = [
     d3: 6649,
   },
   {
-    n1: -101,
-    d1: 109,
     p: 61,
     k: 7,
+    n1: -101,
+    d1: 109,
     n2: 583376,
     d2: 6649,
     exp: '34 8 24 3 57 23. 35',
@@ -186,10 +192,10 @@ export const presets = [
     d3: 6649,
   },
   {
-    n1: -25,
-    d1: 26,
     p: 7,
     k: 13,
+    n1: -25,
+    d1: 26,
     n2: 5571,
     d2: 137,
     exp: '6 2 2 2 3 3 1 2 4 4 6 6 0',
@@ -197,10 +203,10 @@ export const presets = [
     d3: 3562,
   },
   {
-    n1: 1,
-    d1: 4,
     p: 7,
     k: 11,
+    n1: 1,
+    d1: 4,
     n2: 9263,
     d2: 2837,
     exp: '1 4 1 4 2 1 3 5 6 2 3',
@@ -208,10 +214,10 @@ export const presets = [
     d3: 11348,
   },
   {
-    n1: 122,
-    d1: 407,
     p: 7,
     k: 11,
+    n1: 122,
+    d1: 407,
     n2: -517,
     d2: 1477,
     exp: '3 2 6 5 3 1 2 4 1 4. 1',
@@ -220,10 +226,10 @@ export const presets = [
   },
   // More subtle
   {
-    n1: 5,
-    d1: 8,
     p: 7,
     k: 11,
+    n1: 5,
+    d1: 8,
     n2: 353,
     d2: 30809,
     exp: '6 6 4 2 1 2 1 6 2 1 3',

@@ -157,9 +157,9 @@ import PadicTable from '@/components/PadicTable.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio_n = 17
-  ratio_d = 7
-  prime = 5
+  ratio_n = -51
+  ratio_d = 1
+  prime = 11
   precision = 7
   padic = new Padic(this.prime, this.precision)
   padic_str = ''
@@ -211,8 +211,8 @@ export default class App extends Vue {
       console.log('PADIC')
       console.log(this.padic.toString())
       console.log(this.padic.toArray())
-      let ratio = this.padic.convertToRatio()
       console.log('RATIO')
+      let ratio = this.padic.convertToRatio()
       console.log(ratio.toString())
     }
   }

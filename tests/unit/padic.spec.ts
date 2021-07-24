@@ -62,20 +62,41 @@ describe('Padic', () => {
     ])
   })
 
-  it('Creates a ratio from a text string.', () => {
-    const ratio = new Ratio(17, 7)
+  it('Converts a padic to an integer.', () => {
+    const ratio = new Ratio(38, 1)
     const padic = ratio.convertToPadic(5, 7)
     const padic_str = padic.toString()
     expect(padic.valuation).toEqual(0)
-    expect(padic_str).toEqual('3 2 4 1 2 1 1')
+    expect(padic_str).toEqual('0 0 0 0 1 2 3')
     const padic_reconstruct = Padic.fromString(padic_str, 5, 7)
     expect(padic_reconstruct.valuation).toEqual(0)
     expect(padic_reconstruct.expansion).toEqual([
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 1, 1, 2, 1, 4, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0,
     ])
+    const integer = padic_reconstruct.convertToRatio()
+    expect(integer.toString()).toEqual('38/1')
+  })
+
+  it('Converts a padic to a negative integer.', () => {
+    const ratio = new Ratio(-51, 1)
+    const padic = ratio.convertToPadic(11, 7)
+    const padic_str = padic.toString()
+    expect(padic.valuation).toEqual(0)
+    expect(padic_str).toEqual('10 10 10 10 10 6 4')
+    const padic_reconstruct = Padic.fromString(padic_str, 11, 7)
+    expect(padic_reconstruct.valuation).toEqual(0)
+    expect(padic_reconstruct.expansion).toEqual([
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 4, 6, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+    ])
+    const integer = padic_reconstruct.convertToRatio()
+    expect(integer.toString()).toEqual('-51/1')
   })
 })
