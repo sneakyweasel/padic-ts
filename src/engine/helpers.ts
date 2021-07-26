@@ -58,38 +58,57 @@ export function modInv(a: number, b: number): number {
 }
 
 /**
- * Longest repeating substring
- * https://gist.github.com/codediodeio/24319b9b17cba57e7a34002228abaaaf
+ * Longest repeating and non-overlapping substring
+ * https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/
  */
-export function getRepeatedSequence(str: string): {
-  index: number
-  length: number
-  subString: string
-} {
-  if (!str.trim()) {
-    throw new Error('Blank string')
-  }
-  const strArray = str.trim().split(' ')
-  let count = 0
-  let maxLength = 0
-  let index = 0
-  for (let i = 0; i < strArray.length; i++) {
-    if (strArray[i] === strArray[i + 1]) {
-      count++
-    } else {
-      if (count > maxLength) {
-        maxLength = count
-        index = i
-      }
-      count = 0
+export function getRepeatedSequence(str: string): string {
+  {
+    const n = str.length
+    const LCSRe = new Array(n + 1)
+    for (let i = 0; i < n + 1; i++) {
+      LCSRe[i] = new Array(n + 1)
     }
-  }
+    for (let i = 0; i < n + 1; i++) {
+      for (let j = 0; j < n + 1; j++) {
+        LCSRe[i][j] = 0
+      }
+    }
 
-  const subStrIndex: number = index - maxLength
-  const subString: string = str.slice(subStrIndex, subStrIndex + maxLength + 1)
+    let res = '' // To store result
+    let res_length = 0 // To store length of result
 
-  if (subString) {
-    return { index: subStrIndex, length: maxLength + 1, subString: subString }
+    // building table in bottom-up manner
+    let i,
+      index = 0
+    for (i = 1; i <= n; i++) {
+      for (let j = i + 1; j <= n; j++) {
+        // (j-i) > LCSRe[i-1][j-1] to remove
+        // overlapping
+        if (str[i - 1] == str[j - 1] && LCSRe[i - 1][j - 1] < j - i) {
+          LCSRe[i][j] = LCSRe[i - 1][j - 1] + 1
+
+          // updating maximum length of the
+          // substring and updating the finishing
+          // index of the suffix
+          if (LCSRe[i][j] > res_length) {
+            res_length = LCSRe[i][j]
+            index = Math.max(i, index)
+          }
+        } else {
+          LCSRe[i][j] = 0
+        }
+      }
+    }
+
+    // If we have non-empty result, then insert all
+    // characters from first character to last
+    // character of String
+    if (res_length > 0) {
+      for (i = index - res_length + 1; i <= index; i++) {
+        res += str.charAt(i - 1)
+      }
+    }
+
+    return res
   }
-  return { index: -1, length: 0, subString: '' }
 }

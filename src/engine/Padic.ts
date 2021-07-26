@@ -1,5 +1,4 @@
 // Imports
-import { min } from './helpers'
 import { MAX_EXP, MAX_APPROX } from './constants'
 import { Ratio } from './Ratio'
 
@@ -56,7 +55,7 @@ export class Padic {
    * @returns sum
    */
   dsum(): number {
-    const t = min(this.valuation, 0)
+    const t = Math.min(this.valuation, 0)
     let sum = 0
     for (let i = this.precision - 1 + t; i >= t; i--) {
       const r = sum
@@ -78,7 +77,7 @@ export class Padic {
   add(b: Padic): Padic {
     let c = 0
     const result = new Padic(this.prime, this.precision)
-    result.valuation = min(this.valuation, b.valuation)
+    result.valuation = Math.min(this.valuation, b.valuation)
     for (let i = result.valuation; i <= this.precision + result.valuation; i++) {
       c += this.expansion[i + MAX_EXP] + b.expansion[i + MAX_EXP]
       if (c > this.prime - 1) {
@@ -185,7 +184,7 @@ export class Padic {
    * @returns expansion number array
    */
   toArray(): number[] {
-    const start = min(this.valuation, 0) + MAX_EXP
+    const start = Math.min(this.valuation, 0) + MAX_EXP
     const end = this.precision + start
     return this.expansion.slice(start, end)
   }
@@ -196,7 +195,7 @@ export class Padic {
    */
   toString(): string {
     let str = ''
-    const t = min(this.valuation, 0)
+    const t = Math.min(this.valuation, 0)
     for (let i = this.precision - 1 + t; i >= t; i--) {
       str += this.expansion[i + MAX_EXP]
       if (i == 0 && this.valuation < 0) {

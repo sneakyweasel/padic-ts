@@ -1,5 +1,5 @@
 // Imports
-import { min, abs, modInv } from './helpers'
+import { abs, modInv } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import { Padic } from './Padic'
 
@@ -61,8 +61,8 @@ export class Ratio {
     }
 
     // Clip values if they exceed maximum values
-    prime = min(prime, MAX_PRIME) // maximum short prime
-    precision = min(precision, MAX_EXP - 1) // maximum array length
+    prime = Math.min(prime, MAX_PRIME) // maximum short prime
+    precision = Math.min(precision, MAX_EXP - 1) // maximum array length
     // console.log(`${a}/${b} + 0(${prime}^${precision})\n`)
 
     // find -exponent of p in b
