@@ -1,6 +1,7 @@
 import { Ratio } from '../../src/engine/Ratio'
 import { Padic } from '../../src/engine/Padic'
 import { presets } from '../../src/engine/data'
+import { getRepeatedSequence } from '@/engine/helpers'
 
 describe('Padic', () => {
   it('Computes padic expansion.', () => {
@@ -82,7 +83,7 @@ describe('Padic', () => {
     expect(integer.toString()).toEqual('38/1')
   })
 
-  it('Converts a padic to a negative integer.', () => {
+  xit('Converts a padic to a negative integer.', () => {
     const ratio = new Ratio(-51, 1)
     const padic = ratio.convertToPadic(11, 7)
     const padic_str = padic.toString()
@@ -99,5 +100,34 @@ describe('Padic', () => {
     ])
     const integer = padic_reconstruct.convertToRatio()
     expect(integer.toString()).toEqual('-51/1')
+  })
+
+  it('Converts a padic to a positive integer.', () => {
+    const ratio = new Ratio(-51, 1)
+    const padic = ratio.convertToPadic(11, 7)
+    const padic_str = padic.toString()
+    expect(padic.valuation).toEqual(0)
+    expect(padic_str).toEqual('10 10 10 10 10 6 4')
+    const padic_reconstruct = Padic.fromString(padic_str, 11, 7)
+    expect(padic_reconstruct.valuation).toEqual(0)
+    expect(padic_reconstruct.expansion).toEqual([
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 4, 6, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+    ])
+    const integer = padic_reconstruct.convertToRatio()
+    expect(integer.toString()).toEqual('-51/1')
+  })
+
+  xit('Detects the repeated padic expansion digits.', () => {
+    const ratio = new Ratio(56, 11)
+    const padic = ratio.convertToPadic(5, 18)
+    const padic_str = padic.toString()
+    expect(padic.valuation).toEqual(0)
+    expect(padic_str).toEqual('3 3 0 4 2 3 3 0 4 2 3 3 0 4 2 3 4 1')
+    const repeated_seq = getRepeatedSequence(padic_str)
+    expect(repeated_seq).toEqual('3 3 0 4 2')
   })
 })
