@@ -1,4 +1,5 @@
-import { Ratio, Padic } from '../../src/engine/Padic'
+import { Ratio } from '../../src/engine/Ratio'
+import { Padic } from '../../src/engine/Padic'
 import { presets } from '../../src/engine/data'
 
 describe('Padic', () => {

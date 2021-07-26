@@ -1,5 +1,5 @@
 import { gcdExtended, modInv, negExp } from '../../src/engine/helpers'
-import { Ratio } from '../../src/engine/Padic'
+import { Ratio } from '../../src/engine/Ratio'
 
 describe('Ratio', () => {
   it('Errors when denominator is zéro.', () => {

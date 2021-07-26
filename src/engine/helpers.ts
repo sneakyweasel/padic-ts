@@ -56,3 +56,40 @@ export function modInv(a: number, b: number): number {
   }
   throw new Error('Impossible mod inv')
 }
+
+/**
+ * Longest repeating substring
+ * https://gist.github.com/codediodeio/24319b9b17cba57e7a34002228abaaaf
+ */
+export function getRepeatedSequence(str: string): {
+  index: number
+  length: number
+  subString: string
+} {
+  if (!str.trim()) {
+    throw new Error('Blank string')
+  }
+  const strArray = str.trim().split(' ')
+  let count = 0
+  let maxLength = 0
+  let index = 0
+  for (let i = 0; i < strArray.length; i++) {
+    if (strArray[i] === strArray[i + 1]) {
+      count++
+    } else {
+      if (count > maxLength) {
+        maxLength = count
+        index = i
+      }
+      count = 0
+    }
+  }
+
+  const subStrIndex: number = index - maxLength
+  const subString: string = str.slice(subStrIndex, subStrIndex + maxLength + 1)
+
+  if (subString) {
+    return { index: subStrIndex, length: maxLength + 1, subString: subString }
+  }
+  return { index: -1, length: 0, subString: '' }
+}
