@@ -1,5 +1,6 @@
 <template>
   <div>
+    q = ±pnp1 n1p2 n2 ·...· pmnm = pn (u / v)
     <table class="text-2xl border-4 w-full text-center">
       <tr>
         <td class="border-2" v-for="(num, i) in padic_arr" :key="'td1_' + i">
@@ -25,7 +26,7 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Padic } from '../engine/Padic'
+import Padic from '../engine/Padic'
 
 @Component
 export default class App extends Vue {

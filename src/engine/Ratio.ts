@@ -1,12 +1,12 @@
 // Imports
 import { abs, modInv } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
-import { Padic } from './Padic'
+import Padic from './Padic'
 
 /**
  * Ratio class
  */
-export class Ratio {
+export default class Ratio {
   a: number
   b: number
 
@@ -113,6 +113,22 @@ export class Ratio {
       }
     }
     return new Padic(prime, precision, valuation, expansion)
+  }
+
+  /**
+   * Classical distance between integers
+   * @param b another ratio
+   */
+  euclideanDistance(num: Ratio): number {
+    return this.a / this.b - num.a / num.b
+  }
+
+  /**
+   * Classical distance between integers
+   * @param b another ratio
+   */
+  padicDistance(num: Ratio): number {
+    return this.a / this.b - num.a / num.b
   }
 
   toString(): string {

@@ -1,5 +1,5 @@
 import { gcdExtended, modInv, negExp } from '../../src/engine/helpers'
-import { Ratio } from '../../src/engine/Ratio'
+import Ratio from '../../src/engine/Ratio'
 
 describe('Ratio', () => {
   it('Errors when denominator is zéro.', () => {
@@ -66,7 +66,6 @@ describe('Ratio', () => {
     const b = test[i]['b']
     const p = test[i]['p']
     const k = test[i]['k']
-    const pav = test[i]['pav']
     const pad = test[i]['pad']
     const ratio1 = new Ratio(a, b)
     const padic1 = ratio1.convertToPadic(p, k)

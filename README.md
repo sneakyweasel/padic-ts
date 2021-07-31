@@ -24,6 +24,9 @@
 
 ### Articles
 
+- [https://hal.archives-ouvertes.fr/hal-01444183/document](padic code)
+- [https://gist.github.com/meagtan/87b550d5129cc557ed6821c6f18af38b](python implémentation)
+- [http://www.sens-neuchatel.ch/bulletin/no18/art18-2-robert.pdf](Publication)
 - [https://math.stackexchange.com/questions/1186967/method-of-finding-a-p-adic-expansion-to-a-rational-number/1187037#1187037](math.stackexchange.com)
 - [http://rosettacode.org/wiki/P-Adic_numbers,_basic](RosettaCode)
 - [https://blogs.scientificamerican.com/roots-of-unity/the-numbers-behind-a-fields-medalists-math/](Vulgarization)

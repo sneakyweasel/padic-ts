@@ -1,11 +1,11 @@
 // Imports
 import { MAX_EXP, MAX_APPROX } from './constants'
-import { Ratio } from './Ratio'
+import Ratio from './Ratio'
 
 /**
  * Padic class
  */
-export class Padic {
+export default class Padic {
   prime: number
   precision: number
   valuation: number

@@ -147,7 +147,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { Ratio, Padic } from '../engine/Padic'
+import Padic from '../engine/Padic'
+import Ratio from '../engine/Ratio'
 import PadicTable from '@/components/PadicTable.vue'
 
 @Component({

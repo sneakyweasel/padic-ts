@@ -1,14 +1,14 @@
 /**
  * Presets from RosettaCode: http://rosettacode.org/wiki/P-Adic_numbers,_basic
+ * p: prime
+ * k: precision
  * n1: numerator of 1st ratio
  * d1: denominator of 1st ratio
  * n2: numerator of 2nd ratio
  * d2: denominator of 2nd ratio
+ * exp: precision
  * n3: numerator of the result
  * d3: denominator of the result
- * p: prime
- * p: precision
- * exp: precision
  */
 export const presets = [
   // Classic
