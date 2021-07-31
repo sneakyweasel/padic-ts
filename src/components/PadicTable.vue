@@ -1,6 +1,5 @@
 <template>
   <div>
-    q = ±pnp1 n1p2 n2 ·...· pmnm = pn (u / v)
     <table class="text-2xl border-4 w-full text-center">
       <tr>
         <td class="border-2" v-for="(num, i) in padic_arr" :key="'td1_' + i">
@@ -18,9 +17,6 @@
         </td>
       </tr>
     </table>
-    <div class="text-2xl mt-3">
-      <div class="flex-1" v-katex:display="katex"></div>
-    </div>
   </div>
 </template>
 
@@ -34,12 +30,6 @@ export default class App extends Vue {
 
   get padic_arr(): number[] {
     return this.padic.toArray()
-  }
-
-  get katex(): string {
-    return `r = \\sum_{i=${this.padic.precision}}^\\infty a_i${
-      this.padic.prime
-    }^i = ${this.padic.dsum()}`
   }
 }
 </script>

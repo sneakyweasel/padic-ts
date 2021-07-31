@@ -119,6 +119,16 @@
         <PadicTable :padic="padic" />
       </div>
 
+      <!-- Katex Sum -->
+      <div class="flex-1">
+        <KatexSum :padic="padic" />
+      </div>
+
+      <!-- Katex Expansion -->
+      <div class="flex-1">
+        <KatexExpansion :padic="padic" />
+      </div>
+
       <!-- Button -->
       <div class="flex-1">
         <div class="text-center mt-8 flex-1">
@@ -150,10 +160,14 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
 import PadicTable from '@/components/PadicTable.vue'
+import KatexSum from '@/components/KatexSum.vue'
+import KatexExpansion from '@/components/KatexExpansion.vue'
 
 @Component({
   components: {
     PadicTable,
+    KatexSum,
+    KatexExpansion,
   },
 })
 export default class App extends Vue {
@@ -200,14 +214,6 @@ export default class App extends Vue {
       this.prime > 0 &&
       this.precision > 0
     ) {
-      // let str: string = this.padic_str
-      // let padic = Padic.fromString(str, this.prime, this.precision)
-      // console.log('---')
-      // console.log('PADIC')
-      // console.log(padic.toString())
-      // let ratio = padic.convertToRatio()
-      // console.log('RATIO')
-      // console.log(ratio.toString())
       console.log('---')
       console.log('PADIC')
       console.log(this.padic.toString())

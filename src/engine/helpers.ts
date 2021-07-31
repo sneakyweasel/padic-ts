@@ -42,6 +42,36 @@ export function negExp(b: number, p: number): number {
 }
 
 /**
+ * Computes the greatest dividing exponent
+ * https://mathworld.wolfram.com/GreatestDividingExponent.html
+ */
+export function gde(a: number, b: number): number {
+  return -1
+}
+
+/**
+ * Prime factors of a number
+ * https://rosettacode.org/wiki/Prime_decomposition
+ * @param num: number
+ * @returns list of prime factors
+ */
+export function factors(n: number): Record<number, number> {
+  if (!n || n < 2) return []
+  const facs = []
+  for (let i = 2; i <= n; i++) {
+    while (n % i === 0) {
+      facs.push(i)
+      n /= i
+    }
+  }
+  // Group by common values
+  const occurrences = facs.reduce(function (acc: Record<number, number>, curr: number) {
+    return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc
+  }, {})
+  return occurrences
+}
+
+/**
  * Modular inverse bruteforce
  * @param a
  * @param b
