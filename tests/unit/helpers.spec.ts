@@ -1,7 +1,6 @@
 import {
   gcdExtended,
   factors,
-  invertFactors,
   ratioFactors,
   ratioFactorsArray,
   ratioFactorsKatex,
@@ -18,11 +17,6 @@ describe('Helpers', () => {
   it('Computes prime factors and their exponent in a dictionnary for a number.', () => {
     const facs1 = factors(60)
     expect(facs1).toEqual({ '2': 2, '3': 1, '5': 1 })
-  })
-
-  it('Inverts exponents fpr prime factorization of a number.', () => {
-    const facs1 = invertFactors(60)
-    expect(facs1).toEqual({ '2': -2, '3': -1, '5': -1 })
   })
 
   it('Computes the prime factors of a rational number in a dictionnary.', () => {
@@ -55,6 +49,6 @@ describe('Helpers', () => {
     const facs2 = factors(297)
     expect(facs2).toEqual({ '11': 1, '3': 3 })
     const rat1 = ratioFactorsKatex(140, 297)
-    expect(rat1).toEqual('2^{2} + 3^{-3} + 5^{1} + 7^{1} + 11^{-1}')
+    expect(rat1).toEqual('2^{2} + 3^{-3} + 5^{} + 7^{} + 11^{-1}')
   })
 })

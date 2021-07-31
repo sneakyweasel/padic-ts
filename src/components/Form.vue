@@ -122,18 +122,23 @@
 
       <!-- Table -->
       <div class="flex-1">
-        <PadicTable :padic="padic" />
+        {{ norm }}
       </div>
+
+      <!-- Table -->
+      <!-- <div class="flex-1">
+        <PadicTable :padic="padic" />
+      </div> -->
 
       <!-- Katex Sum -->
-      <div class="flex-1">
+      <!-- <div class="flex-1">
         <KatexSum :padic="padic" />
-      </div>
+      </div> -->
 
       <!-- Katex Expansion -->
-      <div class="flex-1">
+      <!-- <div class="flex-1">
         <KatexExpansion :padic="padic" />
-      </div>
+      </div> -->
 
       <!-- Button -->
       <div class="flex-1">
@@ -154,9 +159,6 @@
           </button>
         </div>
       </div>
-      <!-- Padic array -->
-      <div class="mt-8">EXP: {{ padic.expansion }}</div>
-      <div>VAL: {{ padic.valuation }}</div>
     </form>
   </div>
 </template>
@@ -165,6 +167,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
+import { padicNorm } from '../engine/helpers'
 import PadicTable from '@/components/PadicTable.vue'
 import KatexSum from '@/components/KatexSum.vue'
 import KatexExpansion from '@/components/KatexExpansion.vue'
@@ -180,8 +183,8 @@ import KatexFactors from '@/components/KatexFactors.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio_n = 140
-  ratio_d = 297
+  ratio_n = 63
+  ratio_d = 550
   prime = 11
   precision = 7
   padic = new Padic(this.prime, this.precision)
@@ -190,6 +193,10 @@ export default class App extends Vue {
 
   mounted(): void {
     this.handleConvertPadic()
+  }
+
+  get norm(): string {
+    return padicNorm(this.ratio_n, this.ratio_d, this.prime)
   }
 
   @Watch('prime')

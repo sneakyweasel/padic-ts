@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { ratioFactorsArray, ratioFactorsKatex } from '../engine/helpers'
+import { ratioFactorsKatex } from '../engine/helpers'
 
 @Component
 export default class KatexFactors extends Vue {

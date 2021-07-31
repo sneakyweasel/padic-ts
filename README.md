@@ -24,6 +24,7 @@
 
 ### Articles
 
+- [https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number](Code golf interesting)
 - [https://hal.archives-ouvertes.fr/hal-01444183/document](padic code)
 - [https://gist.github.com/meagtan/87b550d5129cc557ed6821c6f18af38b](python implémentation)
 - [http://www.sens-neuchatel.ch/bulletin/no18/art18-2-robert.pdf](Publication)

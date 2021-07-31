@@ -42,14 +42,6 @@ export function negExp(b: number, p: number): number {
 }
 
 /**
- * Computes the greatest dividing exponent
- * https://mathworld.wolfram.com/GreatestDividingExponent.html
- */
-export function gde(a: number, b: number): number {
-  return -1
-}
-
-/**
  * Prime factors of a number
  * https://rosettacode.org/wiki/Prime_decomposition
  * @param num: number
@@ -138,6 +130,31 @@ export function ratioFactorsKatex(a: number, b: number): string {
   })
   result = result.substring(0, result.length - 3)
   return result
+}
+
+/**
+ * Padic Norm
+ * https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number
+ * @param a
+ * @param b
+ * @returns padic distance
+ */
+export function padicNorm(a: number, b: number, p: number): string {
+  const factors = ratioFactors(a, b)
+  // check if prime is included in prime factorization
+  const keys = [...Object.keys(factors)]
+  const uniq = [...new Set(keys)]
+  if (!uniq.includes(p.toString())) {
+    return '1'
+  }
+  // in factors
+  const factor = factors[p.toString()]
+  const res = p ** Math.abs(factors[p.toString()])
+  if (factor > 0) {
+    return '1 / ' + res
+  } else {
+    return '' + res
+  }
 }
 
 /**
