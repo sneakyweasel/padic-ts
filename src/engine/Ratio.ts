@@ -34,7 +34,6 @@ export default class Ratio {
   /**
    * Simplify ratio with GCD and negative fix
    */
-  simplify() {}
 
   /**
    * Convert ratio to p-adic number

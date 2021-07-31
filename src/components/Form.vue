@@ -114,6 +114,12 @@
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
+      <!-- Ratio Prime Factors -->
+      <div class="flex-1">
+        <KatexFactors :a="ratio_n" :b="ratio_d" />
+      </div>
+      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+
       <!-- Table -->
       <div class="flex-1">
         <PadicTable :padic="padic" />
@@ -162,18 +168,20 @@ import Ratio from '../engine/Ratio'
 import PadicTable from '@/components/PadicTable.vue'
 import KatexSum from '@/components/KatexSum.vue'
 import KatexExpansion from '@/components/KatexExpansion.vue'
+import KatexFactors from '@/components/KatexFactors.vue'
 
 @Component({
   components: {
     PadicTable,
     KatexSum,
+    KatexFactors,
     KatexExpansion,
   },
 })
 export default class App extends Vue {
   // Data
-  ratio_n = -51
-  ratio_d = 1
+  ratio_n = 140
+  ratio_d = 297
   prime = 11
   precision = 7
   padic = new Padic(this.prime, this.precision)

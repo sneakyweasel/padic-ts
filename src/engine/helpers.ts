@@ -53,10 +53,14 @@ export function gde(a: number, b: number): number {
  * Prime factors of a number
  * https://rosettacode.org/wiki/Prime_decomposition
  * @param num: number
- * @returns list of prime factors
+ * @returns dict with prime and their exponents
  */
 export function factors(n: number): Record<number, number> {
-  if (!n || n < 2) return []
+  // Retrieve absolute value
+  if (n < 0) {
+    n = Math.abs(n)
+  }
+  if (!n || n < 2) return {}
   const facs = []
   for (let i = 2; i <= n; i++) {
     while (n % i === 0) {
@@ -64,11 +68,76 @@ export function factors(n: number): Record<number, number> {
       n /= i
     }
   }
-  // Group by common values
-  const occurrences = facs.reduce(function (acc: Record<number, number>, curr: number) {
+  // Group and count by occurences
+  const occurrences = facs.reduce(function (acc: Record<string, number>, curr: number) {
     return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc
   }, {})
   return occurrences
+}
+
+/**
+ * Ratio factors and their exponents
+ * @param a
+ * @param b
+ * @returns dict of prime and their exponents
+ */
+export function ratioFactors(a: number, b: number): Record<string, number> {
+  const factorsA: Record<string, number> = factors(a)
+  const factorsB: Record<string, number> = factors(b)
+  // get unique keys
+  const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
+  const uniq = [...new Set(keys)]
+  // perform addition
+  const result: Record<string, number> = {}
+  uniq.forEach((key: string) => {
+    let counter = 0
+    if (key in factorsA) {
+      counter += factorsA[key]
+    }
+    if (key in factorsB) {
+      counter -= factorsB[key]
+    }
+    if (counter !== 0) {
+      result[key] = counter
+    }
+  })
+  return result
+}
+
+/**
+ * Ratio factors in sorted array form
+ * @param a
+ * @param b
+ * @returns
+ */
+export function ratioFactorsArray(a: number, b: number): [number, number][] {
+  const ratioFacs = ratioFactors(a, b)
+  const result: [number, number][] = []
+  Object.keys(ratioFacs)
+    .map((key) => {
+      return parseInt(key)
+    })
+    .map(function (key) {
+      result.push([key, ratioFacs[key.toString()]])
+      return result
+    })
+  return result
+}
+
+/**
+ * Ratio factors in sorted array form
+ * @param a
+ * @param b
+ * @returns katex formatted string of prime factors and their exponents
+ */
+export function ratioFactorsKatex(a: number, b: number): string {
+  const ratioFacs = ratioFactorsArray(a, b)
+  let result = ''
+  ratioFacs.forEach((tuple) => {
+    result += `${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}} + `
+  })
+  result = result.substring(0, result.length - 3)
+  return result
 }
 
 /**
