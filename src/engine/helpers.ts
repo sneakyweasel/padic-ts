@@ -1,18 +1,4 @@
 /**
- * Absolute value
- */
-export function abs(a: number): number {
-  return a >= 0 ? a : -a
-}
-
-/**
- * Minimum
- */
-export function min(a: number, b: number): number {
-  return a < b ? a : b
-}
-
-/**
  * Primality tester
  * http://rosettacode.org/wiki/Primality_by_trial_division
  * @param prime
@@ -200,24 +186,24 @@ export function ratioFactorsKatex(a: number, b: number, p: number): string {
  * @param b
  * @returns padic distance
  */
-export function padicNorm(a: number, b: number, p: number): string {
+export function padicNorm(a: number, b: number, p: number): [number, number] {
   if (a === 0) {
-    return '0'
+    return [0, 0]
   }
   const factors = ratioFactors(a, b)
   // check if prime is included in prime factorization
   const keys = [...Object.keys(factors)]
   const uniq = [...new Set(keys)]
   if (!uniq.includes(p.toString())) {
-    return '1'
+    return [1, 1]
   }
   // in factors
   const factor = factors[p.toString()]
   const res = p ** Math.abs(factors[p.toString()])
   if (factor > 0) {
-    return '1 / ' + res
+    return [1, res]
   } else {
-    return '' + res
+    return [res, 1]
   }
 }
 

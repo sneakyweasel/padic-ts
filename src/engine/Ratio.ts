@@ -1,5 +1,5 @@
 // Imports
-import { abs, modInv } from './helpers'
+import { modInv } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import Padic from './Padic'
 
@@ -41,7 +41,7 @@ export default class Ratio {
     let b = this.b
 
     // Sanity checks
-    if (abs(a) > MAX_ARG || b > MAX_ARG) {
+    if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
       throw new Error('a and b should be > to MAX_ARG')
     }
     if (prime < 2 || precision < 1) {

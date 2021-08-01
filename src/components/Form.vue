@@ -11,7 +11,7 @@
         <!-- Left -->
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
-            <label class="block" for="psw">Rational number</label>
+            <label class="block" for="psw">Rational number (x)</label>
           </div>
           <div class="w-2/3">
             <input
@@ -78,9 +78,9 @@
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
-      <div class="flex">
+      <div class="flex-1">
         <!-- Ratio Prime Factors -->
-        <div class="w-1/2 mr-3">
+        <div class="w-full mr-3 text-2xl items-center">
           <label class="block" for="psw">{{ prime }}-adic expansion</label>
           <input
             type="text"
@@ -148,7 +148,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
-import { isPrime, padicNorm } from '../engine/helpers'
+import { isPrime } from '../engine/helpers'
 import PadicTable from '@/components/PadicTable.vue'
 import KatexSum from '@/components/KatexSum.vue'
 import KatexExpansion from '@/components/KatexExpansion.vue'

@@ -3,7 +3,6 @@ import {
   factors,
   ratioFactors,
   ratioFactorsArray,
-  ratioFactorsKatex,
   ratioNormReconstruct,
 } from '../../src/engine/helpers'
 

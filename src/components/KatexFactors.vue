@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="text-2xl mt-3">
-      <p>Prime decomposition of a/b</p>
+      <p>Prime decomposition of x</p>
       <div class="flex-1" v-katex:display="factorsKatex"></div>
-      <p>Prime exponent isolation</p>
+      <p>Isolate {{ p }}-adic prime</p>
       <div class="flex-1" v-katex:display="reconstructKatex"></div>
-      <p>Padic norm</p>
+      <p>{{ p }}-adic norm</p>
       <div class="flex-1" v-katex:display="normKatex"></div>
     </div>
   </div>
@@ -27,19 +27,33 @@ export default class KatexFactors extends Vue {
   @Prop() readonly p!: number
 
   get factorsKatex(): string {
-    return ratioFactorsKatex(this.a, this.b, this.p)
+    return '|x| ' + ratioFactorsKatex(this.a, this.b, this.p)
   }
+
   get reconstructKatex(): string {
     const rat = ratioNormReconstruct(this.a, this.b, this.p)
     const pri = ratioPrimeReconstruct(this.a, this.b, this.p)
-    return `= \\textcolor{red}{${pri[0]}^{${pri[1]}}} \\cdot \\frac{${rat[0]}}{${rat[1]}}`
+    return `|x| = \\textcolor{red}{${pri[0]}^{${pri[1]}}} * \\frac{${rat[0]}}{${rat[1]}}`
   }
+
+  get norm(): string {
+    const frac = padicNorm(this.a, this.b, this.p)
+    let result = ''
+    if (frac[0] === 0) {
+      result += '0'
+    } else if (frac[1] === 1) {
+      result += frac[0]
+    } else {
+      result += `\\frac{${frac[0]}}{${frac[1]}}`
+    }
+    return result
+  }
+
   get normKatex(): string {
-    return `\\lvert\\frac{${this.a}}{${this.b}}\\lvert_{${this.p}} = ${padicNorm(
-      this.a,
-      this.b,
-      this.p,
-    )}`
+    const pri = ratioPrimeReconstruct(this.a, this.b, this.p)
+    return `|x|_{${this.p}} = 
+    \\textcolor{red}{${pri[0]}^{-(${pri[1]})}} = 
+    ${this.norm}`
   }
 }
 </script>
