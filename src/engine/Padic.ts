@@ -163,7 +163,6 @@ export default class Padic {
     let x = padic.dsum()
     let y = i
     if (x < 0 || y > MAX_APPROX) {
-      // console.log(x, y)
       throw new Error('Rational reconstruction failed')
     } else {
       // negative powers

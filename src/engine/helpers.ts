@@ -13,6 +13,25 @@ export function min(a: number, b: number): number {
 }
 
 /**
+ * Primality tester
+ * http://rosettacode.org/wiki/Primality_by_trial_division
+ * @param prime
+ * @returns boolean
+ */
+export function isPrime(n: number): boolean {
+  if (n == 2 || n == 3 || n == 5 || n == 7) {
+    return true
+  } else if (n < 2 || n % 2 == 0) {
+    return false
+  } else {
+    for (let i = 3; i <= Math.sqrt(n); i += 2) {
+      if (n % i == 0) return false
+    }
+    return true
+  }
+}
+
+/**
  * Recursive Extended Euclidean Algorithm
  * https://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/
  */
@@ -117,6 +136,44 @@ export function ratioFactorsArray(a: number, b: number): [number, number][] {
 }
 
 /**
+ * Reconstruct rational part without prime used for padic norm
+ * @param a
+ * @param b
+ * @param p
+ * @returns ratio
+ */
+export function ratioNormReconstruct(a: number, b: number, p: number): [number, number] {
+  const ratioFacs = ratioFactorsArray(a, b)
+  let num = 1
+  let denum = 1
+  ratioFacs.forEach((factor) => {
+    if (factor[0] !== p) {
+      if (factor[1] > 0) {
+        num *= factor[0] ** Math.abs(factor[1])
+      } else {
+        denum *= factor[0] ** Math.abs(factor[1])
+      }
+    }
+  })
+  return [num, denum]
+}
+
+/**
+ * Reconstruct prime part used for padic norm
+ * @param a
+ * @param b
+ * @param p
+ * @returns ratio
+ */
+export function ratioPrimeReconstruct(a: number, b: number, p: number): [number, number] {
+  const ratioFacs = ratioFactors(a, b)
+  if (p in ratioFacs) {
+    return [p, ratioFacs[p]]
+  }
+  return [p, 0]
+}
+
+/**
  * Ratio factors in sorted array form
  * @param a
  * @param b
@@ -126,7 +183,6 @@ export function ratioFactorsKatex(a: number, b: number, p: number): string {
   const ratioFacs = ratioFactorsArray(a, b)
   let result = ' = '
   ratioFacs.forEach((tuple) => {
-    console.log(tuple)
     if (tuple[0] === p) {
       result += `\\textcolor{red}{${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}}\\:*\\:`
     } else {
