@@ -122,11 +122,16 @@ export function ratioFactorsArray(a: number, b: number): [number, number][] {
  * @param b
  * @returns katex formatted string of prime factors and their exponents
  */
-export function ratioFactorsKatex(a: number, b: number): string {
+export function ratioFactorsKatex(a: number, b: number, p: number): string {
   const ratioFacs = ratioFactorsArray(a, b)
-  let result = ''
+  let result = ' = '
   ratioFacs.forEach((tuple) => {
-    result += `${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}} + `
+    console.log(tuple)
+    if (tuple[0] === p) {
+      result += `\\textcolor{red}{${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}}\\:*\\:`
+    } else {
+      result += `${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}\\:*\\:`
+    }
   })
   result = result.substring(0, result.length - 3)
   return result
@@ -140,6 +145,9 @@ export function ratioFactorsKatex(a: number, b: number): string {
  * @returns padic distance
  */
 export function padicNorm(a: number, b: number, p: number): string {
+  if (a === 0) {
+    return '0'
+  }
   const factors = ratioFactors(a, b)
   // check if prime is included in prime factorization
   const keys = [...Object.keys(factors)]

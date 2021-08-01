@@ -93,6 +93,15 @@
           </div>
         </div>
         <div class="w-1/2 h-full">
+          <KatexFactors :a="ratio_n" :b="ratio_d" :p="prime" />
+        </div>
+      </div>
+      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+
+      <div class="flex items-center">
+        <!-- Ratio Prime Factors -->
+        <div class="w-1/2 mr-3">
+          <label class="block" for="psw">{{ prime }}-adic expansion</label>
           <input
             type="text"
             v-model="padic_str"
@@ -111,19 +120,13 @@
             "
           />
         </div>
-      </div>
-      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
-
-      <!-- Ratio Prime Factors -->
-      <div class="flex-1">
-        <KatexFactors :a="ratio_n" :b="ratio_d" />
+        <div class="w-1/2 mr-3 text-2xl text-center">
+          <div class="flex-1" v-katex:display="katexNorm"></div>
+        </div>
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
       <!-- Table -->
-      <div class="flex-1">
-        {{ norm }}
-      </div>
 
       <!-- Table -->
       <!-- <div class="flex-1">
@@ -197,6 +200,9 @@ export default class App extends Vue {
 
   get norm(): string {
     return padicNorm(this.ratio_n, this.ratio_d, this.prime)
+  }
+  get katexNorm(): string {
+    return `\\lvert\\frac{${this.ratio_n}}{${this.ratio_d}}\\lvert_{${this.prime}} = ${this.norm}`
   }
 
   @Watch('prime')

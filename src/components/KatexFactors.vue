@@ -14,10 +14,10 @@ import { ratioFactorsKatex } from '../engine/helpers'
 export default class KatexFactors extends Vue {
   @Prop() readonly a!: number
   @Prop() readonly b!: number
+  @Prop() readonly p!: number
 
   get katex(): string {
-    const primes = ratioFactorsKatex(this.a, this.b)
-    return `\\frac{${this.a}}{${this.b}} = ` + primes
+    return ratioFactorsKatex(this.a, this.b, this.p)
   }
 }
 </script>
