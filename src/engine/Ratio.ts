@@ -1,5 +1,5 @@
 // Imports
-import { modInv } from './helpers'
+import { modInv, factors } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import Padic from './Padic'
 
@@ -123,13 +123,136 @@ export default class Ratio {
   }
 
   /**
-   * Classical distance between integers
-   * @param b another ratio
+   * Padic Norm
+   * https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number
+   * @param a
+   * @param b
+   * @returns padic distance
    */
-  padicDistance(num: Ratio): number {
-    return this.a / this.b - num.a / num.b
+  padicNorm(p: number): [number, number] {
+    if (this.a === 0) {
+      return [0, 0]
+    }
+    const factors = this.factorsDict()
+    // check if prime is included in prime factorization
+    const keys = [...Object.keys(factors)]
+    const uniq = [...new Set(keys)]
+    if (!uniq.includes(p.toString())) {
+      return [1, 1]
+    }
+    // in factors
+    const factor = factors[p.toString()]
+    const res = p ** Math.abs(factors[p.toString()])
+    if (factor > 0) {
+      return [1, res]
+    } else {
+      return [res, 1]
+    }
   }
 
+  /**
+   * Prime decompomposition of ratio
+   * @returns dict of primes and their exponents
+   */
+  factorsDict(): Record<string, number> {
+    const factorsA: Record<string, number> = factors(Math.abs(this.a))
+    const factorsB: Record<string, number> = factors(Math.abs(this.b))
+    // get unique keys
+    const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
+    const uniq = [...new Set(keys)]
+    // perform addition
+    const result: Record<string, number> = {}
+    uniq.forEach((key: string) => {
+      let counter = 0
+      if (key in factorsA) {
+        counter += factorsA[key]
+      }
+      if (key in factorsB) {
+        counter -= factorsB[key]
+      }
+      if (counter !== 0) {
+        result[key] = counter
+      }
+    })
+    return result
+  }
+
+  /**
+   * Ratio factors in sorted array form
+   * @returns factors array
+   */
+  factorsArray(): [number, number][] {
+    const ratioFacs = this.factorsDict()
+    const result: [number, number][] = []
+    Object.keys(ratioFacs)
+      .map((key) => {
+        return parseInt(key)
+      })
+      .map(function (key) {
+        result.push([key, ratioFacs[key.toString()]])
+        return result
+      })
+    return result
+  }
+
+  /**
+   * Reconstruct rational part without prime used for padic norm
+   * @param p
+   * @returns ratio
+   */
+  normReconstruct(p: number): [number, number] {
+    const ratioFacs = this.factorsArray()
+    let num = 1
+    let denum = 1
+    ratioFacs.forEach((factor) => {
+      if (factor[0] !== p) {
+        if (factor[1] > 0) {
+          num *= factor[0] ** Math.abs(factor[1])
+        } else {
+          denum *= factor[0] ** Math.abs(factor[1])
+        }
+      }
+    })
+    return [num, denum]
+  }
+
+  /**
+   * Reconstruct prime part used for padic norm
+   * @param a
+   * @param b
+   * @param p
+   * @returns ratio
+   */
+  primeReconstruct(p: number): [number, number] {
+    const ratioFacs = this.factorsDict()
+    if (p in ratioFacs) {
+      return [p, ratioFacs[p]]
+    }
+    return [p, 0]
+  }
+
+  /**
+   * Factors in katex string format
+   * @returns katex string
+   */
+  factorsKatex(p: number): string {
+    const ratioFacs = this.factorsArray()
+    let result = ' = '
+    ratioFacs.forEach((tuple) => {
+      if (tuple[0] === p) {
+        result += `\\textcolor{red}{${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}}\\:.\\:`
+      } else {
+        result += `${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}\\:.\\:`
+      }
+    })
+    result = result.substring(0, result.length - 3)
+    return result
+  }
+
+  /**
+   * Convert to a string
+   * @returns ratio string
+   */
   toString(): string {
     return `${this.a}/${this.b}`
   }

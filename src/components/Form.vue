@@ -74,13 +74,16 @@
 
       <!-- Rational numbers -->
       <div class="flex-1">
+        <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">
+          {{ prime }}-adic norm
+        </h2>
         <KatexFactors :a="ratio_n" :b="ratio_d" :p="prime" />
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
       <div class="flex-1">
         <!-- Ratio Prime Factors -->
-        <div class="w-full mr-3 text-2xl items-center">
+        <div class="w-full mr-3 text-xl items-center">
           <label class="block" for="psw">{{ prime }}-adic expansion</label>
           <input
             type="text"
@@ -90,7 +93,7 @@
               h-full
               mt-1
               mb-3
-              text-3xl text-center
+              text-2xl text-center
               shadow-md
               border-none
               focus:ring-transparent
@@ -103,43 +106,6 @@
         <div class="w-1/2 mr-3 text-2xl text-center"></div>
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
-
-      <!-- Table -->
-
-      <!-- Table -->
-      <!-- <div class="flex-1">
-        <PadicTable :padic="padic" />
-      </div> -->
-
-      <!-- Katex Sum -->
-      <!-- <div class="flex-1">
-        <KatexSum :padic="padic" />
-      </div> -->
-
-      <!-- Katex Expansion -->
-      <!-- <div class="flex-1">
-        <KatexExpansion :padic="padic" />
-      </div> -->
-
-      <!-- Button -->
-      <!-- <div class="flex-1">
-        <div class="text-center mt-8 flex-1">
-          <button
-            type="submit"
-            @click="handleConvertPadic"
-            class="px-7 py-2 mr-1 mx-auto text-xl font-semibold text-white bg-pink-600 rounded"
-          >
-            Convert to p-adic
-          </button>
-          <button
-            type="submit"
-            @click="handleConvertRatio"
-            class="px-7 py-2 ml-1 mx-auto text-xl font-semibold text-white bg-pink-600 rounded"
-          >
-            Convert to ratio
-          </button>
-        </div>
-      </div> -->
     </form>
   </div>
 </template>
