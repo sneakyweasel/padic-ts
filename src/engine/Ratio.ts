@@ -299,7 +299,7 @@ export default class Ratio {
    * @param p
    * @returns ratio
    */
-  absReconstruct(p: number): [number, number] {
+  absReconstruct(p: number): Ratio {
     const ratioFacs = this.factorsArray()
     let num = 1
     let denum = 1
@@ -312,7 +312,7 @@ export default class Ratio {
         }
       }
     })
-    return [num, denum]
+    return new Ratio(num, denum)
   }
 
   /**
@@ -330,13 +330,20 @@ export default class Ratio {
     return [p, 0]
   }
 
+  //-------------
+  // OUTPUT
+  //-------------
+
   /**
    * Factors in katex string format
    * @returns katex string
    */
   factorsKatex(p: number): string {
     const ratioFacs = this.factorsArray()
-    let result = ' = '
+    let result = ''
+    if (this.sign < 0) {
+      result += '-'
+    }
     ratioFacs.forEach((tuple) => {
       if (tuple[0] === p) {
         result += `\\textcolor{red}{${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}}\\:.\\:`
@@ -348,23 +355,23 @@ export default class Ratio {
     return result
   }
 
-  //-------------
-  // OUTPUT
-  //-------------
-
   /**
    * Convert to a string
    * @returns ratio string
    */
   toKatex(): string {
     let result = ''
-    if (this.sign === -1) {
+    if (this.n === 0) {
+      return '0'
+    }
+    if (this.sign < 0) {
       result += '-'
     }
     if (this.d === 1) {
-      result += `${this.sign}${this.n}`
+      result += `${this.n}`
+    } else {
+      result += `\\frac{${this.n}}{${this.d}}`
     }
-    result += `${this.sign}\\frac{${this.n}}{${this.d}}`
     return result
   }
 

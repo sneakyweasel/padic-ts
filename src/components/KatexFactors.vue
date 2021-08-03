@@ -34,13 +34,13 @@ export default class KatexFactors extends Vue {
   }
 
   get factorsKatex(): string {
-    return `|${this.letter}| ` + this.ratio.factorsKatex(this.p)
+    return `|${this.letter}| = ` + this.ratio.factorsKatex(this.p)
   }
 
   get reconstructKatex(): string {
-    const rat = this.ratio.normReconstruct(this.p)
+    const rat = this.ratio.absReconstruct(this.p)
     const pri = this.ratio.primeReconstruct(this.p)
-    return `|${this.letter}| = \\textcolor{red}{${pri[0]}^{${pri[1]}}} \\cdot \\frac{${rat[0]}}{${rat[1]}}`
+    return `|${this.letter}| = \\textcolor{red}{${pri[0]}^{${pri[1]}}} \\cdot ${rat.toKatex()}`
   }
 
   get abs(): string {

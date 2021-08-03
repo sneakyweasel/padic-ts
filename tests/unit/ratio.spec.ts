@@ -44,5 +44,8 @@ describe('Ratio', () => {
     const rat1 = new Ratio(12, 5)
     const rat2 = new Ratio(12, 5, -1)
     expect(rat1.add(rat2).toString()).toEqual('0')
+    const rat3 = new Ratio(12, 5)
+    const rat4 = new Ratio(12, 5)
+    expect(rat3.add(rat4).reduce().toString()).toEqual('24/5')
   })
 })
