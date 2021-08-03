@@ -1,19 +1,14 @@
-# P-adic number
+# P-adic number library
 
-## Algorithm
+## P-adic numbers
 
-### Cleanest implementation
+In mathematics, the p-adic number system for any prime number p extends the ordinary arithmetic of the rational numbers in a different way from the extension of the rational number system to the real and complex number systems. The extension is achieved by an alternative interpretation of the concept of "closeness" or absolute value. In particular, two p-adic numbers are considered to be close when their difference is divisible by a high power of p: the higher the power, the closer they are. This property enables p-adic numbers to encode congruence information in a way that turns out to have powerful applications in number theory. [https://en.wikipedia.org/wiki/P-adic_number](Wikipedia)
 
-- Cleanest algorithm is long division with loop detection.
-- [https://stackoverflow.com/questions/62527047/implementing-long-division-while-checking-for-repeating-decimals](long division with repeated decimals)
+## Typescript implementation
 
-### Current implementation
-
-- Actually using RosettaCode followed by longest repeating sequence detection
-
-## P-adic distance
-
-- P-adic distance is the most interesting element to implement.
+- Ratio class and operations
+- P-adic absolute value, norm and expansion.
+- Jest tests
 
 ## Related links
 
@@ -24,6 +19,7 @@
 
 ### Articles
 
+- [https://stackoverflow.com/questions/62527047/implementing-long-division-while-checking-for-repeating-decimals](long division with repeated decimals)
 - [https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number](Code golf interesting)
 - [https://hal.archives-ouvertes.fr/hal-01444183/document](padic code)
 - [https://gist.github.com/meagtan/87b550d5129cc557ed6821c6f18af38b](python implémentation)

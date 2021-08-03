@@ -33,7 +33,7 @@
         <!-- Ratio x -->
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
-            <label class="block" for="psw">Ratio (x)</label>
+            <label class="block text-center" for="psw">Ratio (x)</label>
           </div>
           <div class="w-2/3">
             <input
@@ -74,7 +74,7 @@
         <!-- Ratio y -->
         <div class="flex w-1/2 items-center ml-3">
           <div class="w-1/3">
-            <label class="block" for="psw">Ratio (y)</label>
+            <label class="block text-center" for="psw">Ratio (y)</label>
           </div>
           <div class="w-2/3">
             <input
@@ -119,15 +119,15 @@
       <div v-if="primeCheck">
         <!-- Padic absolute value -->
         <h2 class="text-pink-600 mb-3 font-bold font-sans text-2xl text-center">
-          {{ prime }}-adic absolute value
+          {{ prime }}-adic valuation and absolute value
         </h2>
         <div class="flex-1 flex">
-          <div class="w-1/2 ml-3">
-            <KatexFactors :a="ratio_a" :b="ratio_b" :p="prime" letter="x" />
+          <div class="w-full ml-3">
+            <KatexValuation :a="ratio_a" :b="ratio_b" :p="prime" letter="x" />
           </div>
-          <div class="w-1/2 ml-3">
+          <!-- <div class="w-1/2 ml-3">
             <KatexFactors :a="ratio_c" :b="ratio_d" :p="prime" letter="y" />
-          </div>
+          </div> -->
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
@@ -181,14 +181,14 @@ import { isPrime } from '../engine/helpers'
 import PadicTable from '@/components/PadicTable.vue'
 import KatexSum from '@/components/KatexSum.vue'
 import KatexExpansion from '@/components/KatexExpansion.vue'
-import KatexFactors from '@/components/KatexFactors.vue'
+import KatexValuation from '@/components/KatexValuation.vue'
 import KatexDistance from '@/components/KatexDistance.vue'
 
 @Component({
   components: {
     PadicTable,
     KatexSum,
-    KatexFactors,
+    KatexValuation,
     KatexExpansion,
     KatexDistance,
   },

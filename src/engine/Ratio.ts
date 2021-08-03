@@ -135,95 +135,25 @@ export default class Ratio {
   }
 
   /**
-   * Convert ratio to p-adic number
-   * @param prime
-   * @param precision
-   */
-  convertToPadic(prime = 7, precision = 11): Padic {
-    let a = this.n * this.sign
-    let b = this.d
-
-    // Sanity checks
-    if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
-      throw new Error('a and b should be > to MAX_ARG')
-    }
-    if (prime < 2 || precision < 1) {
-      throw new Error('p should be >= 2')
-    }
-    if (!Number.isInteger(prime)) {
-      throw new Error('p should be an integer.')
-    }
-    if (!Number.isInteger(precision)) {
-      throw new Error('k should be an integer.')
-    }
-    if (a === 0) {
-      throw new Error("a shouldn't be zero.")
-    }
-    if (b === 0) {
-      throw new Error("b shouldn't be zero, can't divide by zero.")
-    }
-
-    // Clip values if they exceed maximum values
-    prime = Math.min(prime, MAX_PRIME) // maximum short prime
-    precision = Math.min(precision, MAX_EXP - 1) // maximum array length
-
-    // find -exponent of p in b
-    let i = 0
-    for (; b % prime == 0; i--) {
-      b = b / prime
-    }
-
-    // modular inverse for small p
-    const r = b % prime
-    const b1 = modInv(r, prime)
-
-    // Initialize padic variables
-    let valuation = MAX_EXP
-    const expansion = new Array<number>(2 * MAX_EXP).fill(0)
-
-    for (;;) {
-      // find exponent of P in a
-      for (; a % prime === 0; i++) {
-        a = a / prime
-      }
-
-      // valuation
-      if (valuation === MAX_EXP) {
-        valuation = i
-      }
-
-      // upper bound
-      if (i >= MAX_EXP) {
-        break
-      }
-
-      // check precision
-      if (i - valuation > precision) {
-        break
-      }
-
-      // next digit
-      expansion[i + MAX_EXP] = (a * b1) % prime
-      if (expansion[i + MAX_EXP] < 0) {
-        expansion[i + MAX_EXP] += prime
-      }
-
-      // remainder - digit * divisor
-      a -= expansion[i + MAX_EXP] * b
-      if (a === 0) {
-        break
-      }
-    }
-    return new Padic(prime, precision, valuation, expansion)
-  }
-
-  /**
    * Padic distance between ratios
    * @param b another ratio
    * @returns ratio
    */
   padicDistance(num: Ratio, p: number): Ratio {
     return this.distance(num).padicNorm(p)
+  }
+
+  /**
+   * Padic valuation
+   * @param p
+   * @returns
+   */
+  padicValuation(p: number): number {
+    const ratioFacs = this.factorsDict()
+    if (p in ratioFacs) {
+      return ratioFacs[p]
+    }
+    return 0
   }
 
   /**
@@ -334,6 +264,88 @@ export default class Ratio {
     }
     return [p, 0]
   }
+  /**
+   * Convert ratio to p-adic number
+   * @param prime
+   * @param precision
+   */
+  convertToPadic(prime = 7, precision = 11): Padic {
+    let a = this.n * this.sign
+    let b = this.d
+
+    // Sanity checks
+    if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
+      throw new Error('a and b should be > to MAX_ARG')
+    }
+    if (prime < 2 || precision < 1) {
+      throw new Error('p should be >= 2')
+    }
+    if (!Number.isInteger(prime)) {
+      throw new Error('p should be an integer.')
+    }
+    if (!Number.isInteger(precision)) {
+      throw new Error('k should be an integer.')
+    }
+    if (a === 0) {
+      throw new Error("a shouldn't be zero.")
+    }
+    if (b === 0) {
+      throw new Error("b shouldn't be zero, can't divide by zero.")
+    }
+
+    // Clip values if they exceed maximum values
+    prime = Math.min(prime, MAX_PRIME) // maximum short prime
+    precision = Math.min(precision, MAX_EXP - 1) // maximum array length
+
+    // find -exponent of p in b
+    let i = 0
+    for (; b % prime == 0; i--) {
+      b = b / prime
+    }
+
+    // modular inverse for small p
+    const r = b % prime
+    const b1 = modInv(r, prime)
+
+    // Initialize padic variables
+    let valuation = MAX_EXP
+    const expansion = new Array<number>(2 * MAX_EXP).fill(0)
+
+    for (;;) {
+      // find exponent of P in a
+      for (; a % prime === 0; i++) {
+        a = a / prime
+      }
+
+      // valuation
+      if (valuation === MAX_EXP) {
+        valuation = i
+      }
+
+      // upper bound
+      if (i >= MAX_EXP) {
+        break
+      }
+
+      // check precision
+      if (i - valuation > precision) {
+        break
+      }
+
+      // next digit
+      expansion[i + MAX_EXP] = (a * b1) % prime
+      if (expansion[i + MAX_EXP] < 0) {
+        expansion[i + MAX_EXP] += prime
+      }
+
+      // remainder - digit * divisor
+      a -= expansion[i + MAX_EXP] * b
+      if (a === 0) {
+        break
+      }
+    }
+    return new Padic(prime, precision, valuation, expansion)
+  }
 
   //-------------
   // OUTPUT
@@ -343,17 +355,25 @@ export default class Ratio {
    * Factors in katex string format
    * @returns katex string
    */
-  factorsKatex(p: number): string {
+  factorsKatex(p: number, expNeg = false): string {
     const ratioFacs = this.factorsArray()
     let result = ''
     if (this.sign < 0) {
       result += '-'
     }
+    if (this.n === 0) {
+      return '0'
+    }
+    if (this.n === 1) {
+      return '1'
+    }
+    const expMinus = expNeg ? '-' : ''
     ratioFacs.forEach((tuple) => {
+      const repr = `${tuple[0]}^{${expMinus}${tuple[1]}}`
       if (tuple[0] === p) {
-        result += `\\textcolor{red}{${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}}\\:.\\:`
+        result += `\\textcolor{red}{${repr}}\\:.\\:`
       } else {
-        result += `${tuple[0]}^{${tuple[1] !== 1 ? tuple[1] : ''}}\\:.\\:`
+        result += `${repr}\\:.\\:`
       }
     })
     result = result.substring(0, result.length - 3)
