@@ -32,7 +32,7 @@ export default class KatexFactors extends Vue {
     return new Ratio(this.c, this.d)
   }
   get euclideanDistance(): string {
-    let dist = this.ratio1.euclideanDistance(this.ratio2)
+    let dist = this.ratio1.distance(this.ratio2)
     return `|x-y| = ${dist.toKatex()}`
   }
   get padicDistance(): string {

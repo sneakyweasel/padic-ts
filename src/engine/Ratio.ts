@@ -25,9 +25,16 @@ export default class Ratio {
       throw new Error("Can't divide by 0.")
     }
     // Process sign from numerator, denominator and sign
-    if (Math.sign(n) < 0 && Math.sign(d) < 0) {
+    if (Math.sign(n) === -1 && Math.sign(d) === -1) {
       n = Math.abs(n)
       d = Math.abs(d)
+    } else if (
+      (Math.sign(n) === -1 && Math.sign(d) === 1) ||
+      (Math.sign(n) === 1 && Math.sign(d) === -1)
+    ) {
+      n = Math.abs(n)
+      d = Math.abs(d)
+      sign = -1
     }
     if (
       (Math.sign(n) < 0 && Math.sign(d) > 0 && sign < 0) ||
@@ -119,12 +126,21 @@ export default class Ratio {
   }
 
   /**
+   * Classical distance between ratios
+   * @param b another ratio
+   * @returns ratio
+   */
+  distance(b: Ratio): Ratio {
+    return this.add(b).reduce().abs()
+  }
+
+  /**
    * Convert ratio to p-adic number
    * @param prime
    * @param precision
    */
   convertToPadic(prime = 7, precision = 11): Padic {
-    let a = this.n
+    let a = this.n * this.sign
     let b = this.d
 
     // Sanity checks
@@ -202,23 +218,12 @@ export default class Ratio {
   }
 
   /**
-   * Classical distance between ratios
-   * @param b another ratio
-   * @returns ratio
-   */
-  euclideanDistance(num: Ratio): Ratio {
-    const resa = Math.abs(this.n * num.d - num.n * this.d)
-    const resb = Math.abs(this.d * num.d)
-    return new Ratio(resa, resb).reduce()
-  }
-
-  /**
    * Padic distance between ratios
    * @param b another ratio
    * @returns ratio
    */
   padicDistance(num: Ratio, p: number): Ratio {
-    return this.euclideanDistance(num).padicNorm(p)
+    return this.distance(num).padicNorm(p)
   }
 
   /**

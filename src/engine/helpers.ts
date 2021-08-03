@@ -1,4 +1,16 @@
 /**
+ * Get a random integer
+ * @param min
+ * @param max
+ * @returns random integer
+ */
+export function getRandomInt(min = -100, max = 100): number {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+/**
  * Primality tester
  * http://rosettacode.org/wiki/Primality_by_trial_division
  * @param prime

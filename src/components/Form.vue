@@ -174,6 +174,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
+import { getRandomInt } from '../engine/helpers'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
 import { isPrime } from '../engine/helpers'
@@ -194,10 +195,10 @@ import KatexDistance from '@/components/KatexDistance.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio_a = 2
-  ratio_b = 1
-  ratio_c = 28814
-  ratio_d = 1
+  ratio_a = getRandomInt()
+  ratio_b = getRandomInt()
+  ratio_c = getRandomInt()
+  ratio_d = getRandomInt()
   prime = 3
   primeCheck = true
   precision = 16
