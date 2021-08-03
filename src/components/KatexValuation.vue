@@ -47,12 +47,12 @@ export default class KatexFactors extends Vue {
 
   get factorsNKatex(): string {
     const factors = new Ratio(this.a).factorsKatex(this.p)
-    return `n = ` + factors
+    return `${this.a} = ` + factors
   }
 
   get factorsDKatex(): string {
     const factors = new Ratio(this.b).factorsKatex(this.p, true)
-    return `d = ` + factors
+    return `1/${this.b} = ` + factors
   }
 
   get isolationExplainKatex(): string {
@@ -66,7 +66,9 @@ export default class KatexFactors extends Vue {
     if (this.ratio.sign === -1) {
       result += '-'
     }
-    result += `\\textcolor{red}{${pri[0]}^{${pri[1]}}} \\cdot ${rat.toKatex()}`
+    result += `\\textcolor{red}{${pri[0]}}^{\\textcolor{magenta}{${
+      pri[1]
+    }}} \\cdot ${rat.toKatex()}`
     return result
   }
 
@@ -77,9 +79,9 @@ export default class KatexFactors extends Vue {
   get pValuationKatex(): string {
     const pvaln = new Ratio(this.ratio.n).padicValuation(this.p)
     const pvald = new Ratio(this.ratio.d).padicValuation(this.p)
-    return `v_{${this.p}}(${this.ratio.toKatex()}) 
-    = \\textcolor{red}{${pvaln} - ${pvald}}
-    = \\textcolor{red}{${pvaln - pvald}}`
+    return `v_{\\textcolor{red}{${this.p}}}(${this.ratio.toKatex()}) 
+    = \\textcolor{magenta}{${pvaln} - ${pvald}}
+    = \\textcolor{magenta}{${pvaln - pvald}}`
   }
 
   get absExplainKatex(): string {
@@ -89,8 +91,7 @@ export default class KatexFactors extends Vue {
   get absKatex(): string {
     const frac = this.ratio.padicNorm(this.p).toKatex()
     const pri = this.ratio.primeReconstruct(this.p)
-    // return `|${this.letter}|_{${this.p}} = \\textcolor{red}{${pri[0]}^{-(${pri[1]})}} = ${frac}`
-    return `|x|_{${this.p}} = \\textcolor{red}{\\frac{1}{${pri[0]}^{${pri[1]}}}} = ${frac}`
+    return `|x|_{\\textcolor{red}{${this.p}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{magenta}{${pri[1]}}}} = ${frac}`
   }
 }
 </script>

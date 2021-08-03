@@ -369,9 +369,12 @@ export default class Ratio {
     }
     const expMinus = expNeg ? '-' : ''
     ratioFacs.forEach((tuple) => {
-      const repr = `${tuple[0]}^{${expMinus}${tuple[1]}}`
+      const prime = tuple[0]
+      const exp = tuple[1]
+      const repr_color = `\\textcolor{red}{${prime}}^{\\textcolor{magenta}{${expMinus}${exp}}}`
+      const repr = `${prime}^{${expMinus}${exp}}`
       if (tuple[0] === p) {
-        result += `\\textcolor{red}{${repr}}\\:.\\:`
+        result += `${repr_color}\\:.\\:`
       } else {
         result += `${repr}\\:.\\:`
       }
