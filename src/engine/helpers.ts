@@ -21,7 +21,7 @@ export function isPrime(n: number): boolean {
  * Recursive Extended Euclidean Algorithm
  * https://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/
  */
-export function gcdExtended(a: number, b: number, x = 0, y = 0): number {
+export function gcd(a: number, b: number, x = 0, y = 0): number {
   // Base Case
   if (a == 0) {
     x = 0
@@ -29,11 +29,11 @@ export function gcdExtended(a: number, b: number, x = 0, y = 0): number {
     return b
   }
   // To store results of recursive call
-  const gcd = gcdExtended(b % a, a, x, y)
+  const res = gcd(b % a, a, x, y)
   // Update x and y using results of recursive call
   x = y - (b / a) * x
   y = x
-  return gcd
+  return res
 }
 
 /**
@@ -142,4 +142,21 @@ export function getRepeatedSequence(str: string): string {
 
     return res
   }
+}
+
+/**
+ * Modular power
+ * @param b
+ * @param exp
+ * @param mod
+ * @returns number
+ */
+export function modpow(b: number, exp: number, mod: number): number {
+  let r = 1
+  for (; exp > 0; b = (b * b) % mod, exp >>= 1) {
+    if (exp & 1) {
+      r = (r * b) % mod
+    }
+  }
+  return r
 }

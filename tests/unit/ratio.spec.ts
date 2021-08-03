@@ -1,4 +1,4 @@
-import { gcdExtended, modInv, negExp } from '../../src/engine/helpers'
+import { gcd, modInv, negExp } from '../../src/engine/helpers'
 import Ratio from '../../src/engine/Ratio'
 
 describe('Ratio', () => {
@@ -10,9 +10,9 @@ describe('Ratio', () => {
   })
 
   it('Computes greatest common divisor.', () => {
-    const gcd1 = gcdExtended(15, 6)
+    const gcd1 = gcd(15, 6)
     expect(gcd1).toEqual(3)
-    const gcd2 = gcdExtended(15156, 6564)
+    const gcd2 = gcd(15156, 6564)
     expect(gcd2).toEqual(12)
   })
 

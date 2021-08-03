@@ -1,5 +1,5 @@
 // Imports
-import { modInv, factors } from './helpers'
+import { modInv, factors, gcd } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import Padic from './Padic'
 
@@ -7,28 +7,51 @@ import Padic from './Padic'
  * Ratio class
  */
 export default class Ratio {
-  a: number
-  b: number
+  n: number
+  d: number
+  sign: number
 
   /**
    * Creates a rational number
    *
-   * @param a - numerator
-   * @param b - denominator
+   * @param n - numerator
+   * @param d - denominator
+   * @param s - sign
    * @returns Creates a ratio a/b
    */
-  constructor(a: number, b = 1) {
+  constructor(n: number, d = 1, sign = 1) {
     // Check for division by 0
-    if (b === 0) {
+    if (d === 0) {
       throw new Error("Can't divide by 0.")
     }
     // Flip sign if denominator is negative
-    if (b < 0) {
-      a = -a
-      b = -b
+    if (d < 0) {
+      n = -n
+      d = -d
     }
-    this.a = a
-    this.b = b
+    this.n = n
+    this.d = d
+    this.sign = sign
+  }
+
+  /**
+   * Ratio addition
+   */
+  add(b: Ratio): Ratio {
+    const n = this.sign * this.n * b.d + b.sign * this.d * b.n
+    const d = this.d * b.d
+    return new Ratio(n, d)
+  }
+
+  /**
+   * Reduce ratio using GCD
+   * @param numerator
+   * @param denominator
+   * @returns
+   */
+  reduce(): Ratio {
+    const res = gcd(this.n, this.d)
+    return new Ratio(this.n / res, this.d / res)
   }
 
   /**
@@ -37,8 +60,8 @@ export default class Ratio {
    * @param precision
    */
   convertToPadic(prime = 7, precision = 11): Padic {
-    let a = this.a
-    let b = this.b
+    let a = this.n
+    let b = this.d
 
     // Sanity checks
     if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
@@ -115,11 +138,23 @@ export default class Ratio {
   }
 
   /**
-   * Classical distance between integers
+   * Classical distance between ratios
    * @param b another ratio
+   * @returns ratio
    */
-  euclideanDistance(num: Ratio): number {
-    return this.a / this.b - num.a / num.b
+  euclideanDistance(num: Ratio): Ratio {
+    const resa = Math.abs(this.n * num.d - num.n * this.d)
+    const resb = Math.abs(this.d * num.d)
+    return new Ratio(resa, resb).reduce()
+  }
+
+  /**
+   * Padic distance between ratios
+   * @param b another ratio
+   * @returns ratio
+   */
+  padicDistance(num: Ratio, p: number): Ratio {
+    return this.euclideanDistance(num).padicNorm(p)
   }
 
   /**
@@ -129,24 +164,24 @@ export default class Ratio {
    * @param b
    * @returns padic distance
    */
-  padicNorm(p: number): [number, number] {
-    if (this.a === 0) {
-      return [0, 0]
+  padicNorm(p: number): Ratio {
+    if (this.n === 0) {
+      return new Ratio(0, 1)
     }
     const factors = this.factorsDict()
     // check if prime is included in prime factorization
     const keys = [...Object.keys(factors)]
     const uniq = [...new Set(keys)]
     if (!uniq.includes(p.toString())) {
-      return [1, 1]
+      return new Ratio(1, 1)
     }
     // in factors
     const factor = factors[p.toString()]
     const res = p ** Math.abs(factors[p.toString()])
     if (factor > 0) {
-      return [1, res]
+      return new Ratio(1, res)
     } else {
-      return [res, 1]
+      return new Ratio(res, 1)
     }
   }
 
@@ -155,8 +190,8 @@ export default class Ratio {
    * @returns dict of primes and their exponents
    */
   factorsDict(): Record<string, number> {
-    const factorsA: Record<string, number> = factors(Math.abs(this.a))
-    const factorsB: Record<string, number> = factors(Math.abs(this.b))
+    const factorsA: Record<string, number> = factors(Math.abs(this.n))
+    const factorsB: Record<string, number> = factors(Math.abs(this.d))
     // get unique keys
     const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
     const uniq = [...new Set(keys)]
@@ -200,7 +235,7 @@ export default class Ratio {
    * @param p
    * @returns ratio
    */
-  normReconstruct(p: number): [number, number] {
+  absReconstruct(p: number): [number, number] {
     const ratioFacs = this.factorsArray()
     let num = 1
     let denum = 1
@@ -253,7 +288,18 @@ export default class Ratio {
    * Convert to a string
    * @returns ratio string
    */
+  toKatex(): string {
+    if (this.d === 1) {
+      return `${this.n}`
+    }
+    return `\\frac{${this.n}}{${this.d}}`
+  }
+
+  /**
+   * Convert to a string
+   * @returns ratio string
+   */
   toString(): string {
-    return `${this.a}/${this.b}`
+    return `${this.n}/${this.d}`
   }
 }
