@@ -16,7 +16,7 @@ export default class Ratio {
    *
    * @param n - numerator
    * @param d - denominator
-   * @param s - sign
+   * @param sign - sign
    * @returns Creates a ratio a/b
    */
   constructor(n: number, d = 1, sign = 1) {
@@ -24,22 +24,86 @@ export default class Ratio {
     if (d === 0) {
       throw new Error("Can't divide by 0.")
     }
-    // Flip sign if denominator is negative
-    if (d < 0) {
-      n = -n
-      d = -d
+    // Process sign from numerator, denominator and sign
+    if (Math.sign(n) < 0 && Math.sign(d) < 0) {
+      n = Math.abs(n)
+      d = Math.abs(d)
+    }
+    if (
+      (Math.sign(n) < 0 && Math.sign(d) > 0 && sign < 0) ||
+      (Math.sign(n) > 0 && Math.sign(d) < 0 && sign < 0)
+    ) {
+      n = Math.abs(n)
+      d = Math.abs(d)
+      sign = 1
     }
     this.n = n
     this.d = d
     this.sign = sign
   }
 
+  //-------------------
+  // UNARY OPERATIONS
+  //-------------------
+
   /**
-   * Ratio addition
+   * Negation
+   */
+  neg(): Ratio {
+    return new Ratio(this.n, this.d, -this.sign)
+  }
+
+  /**
+   * Absolute value
+   */
+  abs(): Ratio {
+    return new Ratio(this.n, this.d)
+  }
+
+  /**
+   * Inverse
+   */
+  inverse(): Ratio {
+    return new Ratio(this.sign * this.d, this.n)
+  }
+
+  //-------------------
+  // BINARY OPERATIONS
+  //-------------------
+
+  /**
+   * Addition
    */
   add(b: Ratio): Ratio {
     const n = this.sign * this.n * b.d + b.sign * this.d * b.n
     const d = this.d * b.d
+    return new Ratio(n, d)
+  }
+
+  /**
+   * Substraction
+   */
+  sub(b: Ratio): Ratio {
+    const n = this.sign * this.n - b.d + b.sign * this.d * b.n
+    const d = this.d * b.d
+    return new Ratio(n, d)
+  }
+
+  /**
+   * Multiply
+   */
+  mul(b: Ratio): Ratio {
+    const n = this.sign * b.sign * this.n * b.n
+    const d = this.d * b.d
+    return new Ratio(n, d)
+  }
+
+  /**
+   * Divide
+   */
+  div(b: Ratio): Ratio {
+    const n = this.sign * b.sign * this.n * b.d
+    const d = this.d * b.n
     return new Ratio(n, d)
   }
 
@@ -284,15 +348,24 @@ export default class Ratio {
     return result
   }
 
+  //-------------
+  // OUTPUT
+  //-------------
+
   /**
    * Convert to a string
    * @returns ratio string
    */
   toKatex(): string {
-    if (this.d === 1) {
-      return `${this.n}`
+    let result = ''
+    if (this.sign === -1) {
+      result += '-'
     }
-    return `\\frac{${this.n}}{${this.d}}`
+    if (this.d === 1) {
+      result += `${this.sign}${this.n}`
+    }
+    result += `${this.sign}\\frac{${this.n}}{${this.d}}`
+    return result
   }
 
   /**
@@ -300,6 +373,18 @@ export default class Ratio {
    * @returns ratio string
    */
   toString(): string {
-    return `${this.n}/${this.d}`
+    let result = ''
+    if (this.n === 0) {
+      return '0'
+    }
+    if (this.sign < 0) {
+      result += '-'
+    }
+    if (this.d === 1) {
+      result += `${this.n}`
+    } else {
+      result += `${this.n}/${this.d}`
+    }
+    return result
   }
 }
