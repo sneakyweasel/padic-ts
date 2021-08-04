@@ -195,8 +195,8 @@ import KatexDistance from '@/components/KatexDistance.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio_a = getRandomInt()
-  ratio_b = getRandomInt()
+  ratio_a = 60
+  ratio_b = -12
   ratio_c = getRandomInt()
   ratio_d = getRandomInt()
   prime = 3

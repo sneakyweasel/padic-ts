@@ -48,4 +48,28 @@ describe('Ratio', () => {
     const rat4 = new Ratio(12, 5)
     expect(rat3.add(rat4).reduce().toString()).toEqual('24/5')
   })
+
+  it('Substract two ratios.', () => {
+    const rat1 = new Ratio(12, 5)
+    const rat2 = new Ratio(12, 5)
+    expect(rat1.sub(rat2).toString()).toEqual('0')
+    const rat3 = new Ratio(12, 1)
+    const rat4 = new Ratio(5, 1, -1)
+    expect(rat3.sub(rat4).reduce().toString()).toEqual('17')
+    const rat5 = new Ratio(12, 3)
+    const rat6 = new Ratio(5, 2)
+    expect(rat5.sub(rat6).reduce().toString()).toEqual('3/2')
+  })
+
+  it('Multiplies two ratios.', () => {
+    const rat1 = new Ratio(12, 5)
+    const rat2 = new Ratio(12, 5)
+    expect(rat1.mul(rat2).toString()).toEqual('144/25')
+    const rat3 = new Ratio(12)
+    const rat4 = new Ratio(-5)
+    expect(rat3.mul(rat4).reduce().toString()).toEqual('-60')
+    const rat5 = new Ratio(12, 3)
+    const rat6 = new Ratio(5, 2)
+    expect(rat5.mul(rat6).reduce().toString()).toEqual('10')
+  })
 })

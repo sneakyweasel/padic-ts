@@ -24,26 +24,17 @@ export default class Ratio {
     if (d === 0) {
       throw new Error("Can't divide by 0.")
     }
-    // Process sign from numerator, denominator and sign
-    if (Math.sign(n) === -1 && Math.sign(d) === -1) {
+    // Process sign from numerator, denominator and sign by multiplicating
+    if (Math.sign(n * d * sign) >= 0) {
       n = Math.abs(n)
       d = Math.abs(d)
-    } else if (
-      (Math.sign(n) === -1 && Math.sign(d) === 1) ||
-      (Math.sign(n) === 1 && Math.sign(d) === -1)
-    ) {
+      sign = 1
+    } else {
       n = Math.abs(n)
       d = Math.abs(d)
       sign = -1
     }
-    if (
-      (Math.sign(n) < 0 && Math.sign(d) > 0 && sign < 0) ||
-      (Math.sign(n) > 0 && Math.sign(d) < 0 && sign < 0)
-    ) {
-      n = Math.abs(n)
-      d = Math.abs(d)
-      sign = 1
-    }
+
     this.n = n
     this.d = d
     this.sign = sign
@@ -91,7 +82,7 @@ export default class Ratio {
    * Substraction
    */
   sub(b: Ratio): Ratio {
-    const n = this.sign * this.n - b.d + b.sign * this.d * b.n
+    const n = this.sign * this.n * b.d - b.sign * this.d * b.n
     const d = this.d * b.d
     return new Ratio(n, d)
   }
@@ -121,8 +112,8 @@ export default class Ratio {
    * @returns
    */
   reduce(): Ratio {
-    const res = gcd(this.n, this.d)
-    return new Ratio(this.n / res, this.d / res)
+    const common = gcd(this.n, this.d)
+    return new Ratio(this.n / common, this.d / common, this.sign)
   }
 
   /**
