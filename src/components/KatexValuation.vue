@@ -17,13 +17,19 @@
     </div>
     <!-- P-valuation -->
     <div class="flex-1 flex text-xl mt-2">
-      <div class="w-1/3 text-right mr-3">{{ p }}-adic valuation of x</div>
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation of x</div>
       <div class="w-1/3 text-left bg-gray-100 mr-2" v-katex:display="pValuationExplainKatex"></div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="pValuationKatex"></div>
     </div>
     <!-- Padic absolute value -->
     <div class="flex-1 flex text-xl mt-2">
-      <div class="w-1/3 text-right mr-3">{{ p }}-adic absolute value</div>
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic absolute value</div>
+      <div class="w-1/3 items-left bg-gray-100 mr-2" v-katex:display="absExplainKatex"></div>
+      <div class="w-1/3 items-left bg-gray-200" v-katex:display="absKatex"></div>
+    </div>
+    <!-- Padic mirror -->
+    <div class="flex-1 flex text-xl mt-2">
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic absolute value</div>
       <div class="w-1/3 items-left bg-gray-100 mr-2" v-katex:display="absExplainKatex"></div>
       <div class="w-1/3 items-left bg-gray-200" v-katex:display="absKatex"></div>
     </div>
@@ -38,7 +44,7 @@ import Ratio from '../engine/Ratio'
 export default class KatexFactors extends Vue {
   @Prop() readonly a!: number
   @Prop() readonly b!: number
-  @Prop() readonly p!: number
+  @Prop() readonly prime!: number
   @Prop() readonly letter!: string
 
   get ratio(): Ratio {
@@ -46,12 +52,12 @@ export default class KatexFactors extends Vue {
   }
 
   get factorsNKatex(): string {
-    const factors = new Ratio(this.a).factorsKatex(this.p)
+    const factors = new Ratio(this.a).factorsKatex(this.prime)
     return `${this.a} = ` + factors
   }
 
   get factorsDKatex(): string {
-    const factors = new Ratio(this.b).factorsKatex(this.p, true)
+    const factors = new Ratio(this.b).factorsKatex(this.prime, true)
     return `1/${this.b} = ` + factors
   }
 
@@ -60,8 +66,8 @@ export default class KatexFactors extends Vue {
   }
 
   get isolationKatex(): string {
-    const rat = this.ratio.absReconstruct(this.p)
-    const pri = this.ratio.primeReconstruct(this.p)
+    const rat = this.ratio.absReconstruct(this.prime)
+    const pri = this.ratio.primeReconstruct(this.prime)
     let result = 'x = '
     if (this.ratio.sign === -1) {
       result += '-'
@@ -75,9 +81,9 @@ export default class KatexFactors extends Vue {
   }
 
   get pValuationKatex(): string {
-    const pvaln = new Ratio(this.ratio.n).padicValuation(this.p)
-    const pvald = new Ratio(this.ratio.d).padicValuation(this.p)
-    return `v_{\\textcolor{red}{${this.p}}}(${this.ratio.toKatex()}) 
+    const pvaln = new Ratio(this.ratio.n).padicValuation(this.prime)
+    const pvald = new Ratio(this.ratio.d).padicValuation(this.prime)
+    return `v_{\\textcolor{red}{${this.prime}}}(${this.ratio.toKatex()}) 
     = \\textcolor{red}{${pvaln} - ${pvald}}
     = \\textcolor{red}{${pvaln - pvald}}`
   }
@@ -87,9 +93,9 @@ export default class KatexFactors extends Vue {
   }
 
   get absKatex(): string {
-    const frac = this.ratio.padicAbs(this.p).toKatex()
-    const pri = this.ratio.primeReconstruct(this.p)
-    return `|x|_{\\textcolor{red}{${this.p}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}}} = ${frac}`
+    const frac = this.ratio.padicAbs(this.prime).toKatex()
+    const pri = this.ratio.primeReconstruct(this.prime)
+    return `|x|_{\\textcolor{red}{${this.prime}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}}} = ${frac}`
   }
 }
 </script>

@@ -123,7 +123,7 @@
         </h2>
         <div class="flex-1 flex">
           <div class="w-full ml-3">
-            <KatexValuation :a="ratio_a" :b="ratio_b" :p="prime" letter="x" />
+            <KatexValuation :a="ratio_a" :b="ratio_b" :prime="prime" letter="x" />
           </div>
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
@@ -133,7 +133,7 @@
           {{ prime }}-adic distance
         </h2>
         <div class="flex-1 flex mt-3">
-          <KatexDistance :a="ratio_a" :b="ratio_b" :c="ratio_c" :d="ratio_d" :p="prime" />
+          <KatexDistance :a="ratio_a" :b="ratio_b" :c="ratio_c" :d="ratio_d" :prime="prime" />
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
