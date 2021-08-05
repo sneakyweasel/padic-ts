@@ -1,27 +1,40 @@
 <template>
   <div>
-    <div class="mt-3">
-      <div class="flex-1 text-2xl" v-katex:display="katex"></div>
-      <ul>
-        <li>x is a nonzero rational number</li>
-        <li>p is a prime number</li>
-        <li>r is a an integer non divisible by p</li>
-        <li>s is a an integer non divisible by p</li>
-      </ul>
+    <div class="flex-1 flex text-xl">
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion</div>
+      <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
+      <div class="w-1/3 text-left bg-gray-200">
+        {{ padicExpansion }}
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Ratio from '@/engine/Ratio'
+import Padic from '@/engine/Padic'
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import Padic from '../engine/Padic'
 
 @Component
 export default class KatexSum extends Vue {
-  @Prop() readonly padic!: Padic
+  @Prop() readonly n!: number
+  @Prop() readonly d!: number
+  @Prop() readonly prime!: number
 
-  get katex(): string {
-    return `x = ${this.padic.prime}^a.\\frac{r}{s}`
+  get ratio(): Ratio {
+    return new Ratio(this.n, this.d)
+  }
+
+  get padic(): Padic {
+    return this.ratio.toPadic(this.prime)
+  }
+
+  get explainKatex(): string {
+    return `x = \\sum_{k=n}^{\\infin} a_{k} \\cdot p^{k}`
+  }
+
+  get padicExpansion(): string {
+    return this.padic.toString()
   }
 }
 </script>

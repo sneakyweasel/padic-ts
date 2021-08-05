@@ -85,6 +85,63 @@ export function factors(n: number): Record<number, number> {
 }
 
 /**
+ * Cycle start detection
+ * @param n
+ * @param d
+ * @param len
+ * @returns cycle starting index
+ */
+export function cycleStart(n: number, d: number, len: number): number {
+  let rem1 = 1
+  let rem2 = modpow(10, len, d)
+
+  for (let t = 0; t < 300; t++) {
+    // s < ~log10(Number.MAX_VALUE)
+    // Solve 10^s == 10^(s+t) (mod d)
+
+    if (rem1 === rem2) return t
+
+    rem1 = (rem1 * 10) % d
+    rem2 = (rem2 * 10) % d
+  }
+  return 0
+}
+
+/**
+ * Cycle length detection
+ * @param n
+ * @param d
+ * @param len
+ * @returns cycle length
+ */
+export function cycleLen(n: number, d: number): number {
+  const MAX_CYCLE_LEN = 1000
+  // eslint-disable-next-line no-empty
+  for (; d % 2 === 0; d /= 2) {}
+  // eslint-disable-next-line no-empty
+  for (; d % 5 === 0; d /= 5) {}
+
+  if (d === 1)
+    // Catch non-cyclic numbers
+    return 0
+
+  // If we would like to compute really large numbers quicker, we could make use of Fermat's little theorem:
+  // 10^(d-1) % d == 1
+  // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
+  // as we want to translate the numbers to strings.
+
+  let rem = 10 % d
+  let t = 1
+
+  for (; rem !== 1; t++) {
+    rem = (rem * 10) % d
+
+    if (t > MAX_CYCLE_LEN) return 0 // Returning 0 here means that we don't print it as a cyclic number. It's likely that the answer is `d-1`
+  }
+  return t
+}
+
+/**
  * Modular inverse bruteforce
  * @param a
  * @param b

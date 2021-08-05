@@ -91,26 +91,11 @@
           <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">
             {{ prime }}-adic expansion
           </h2>
-          <div class="w-full mr-3 text-xl items-center">
-            <input
-              type="text"
-              v-model="padic_str"
-              class="
-                w-full
-                h-full
-                mt-1
-                mb-3
-                text-2xl text-center
-                shadow-md
-                border-none
-                focus:ring-transparent
-                rounded-sm
-                bg-gray-100
-                text-pink-500
-              "
-            />
+          <div class="flex-1 flex">
+            <div class="w-full ml-3">
+              <KatexExpansion :n="n" :d="d" :prime="prime" letter="x" />
+            </div>
           </div>
-          <div class="w-1/2 mr-3 text-2xl text-center"></div>
         </div>
       </div>
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
@@ -140,7 +125,7 @@ import KatexDistance from '@/components/KatexDistance.vue'
 })
 export default class App extends Vue {
   // Data
-  n = 10
+  n = 2
   d = 5
   prime = 3
   primeCheck = true
@@ -171,7 +156,7 @@ export default class App extends Vue {
       this.primeCheck
     ) {
       const ratio = new Ratio(this.n, this.d)
-      this.padic = ratio.convertToPadic(this.prime, this.precision)
+      this.padic = ratio.toPadic(this.prime, this.precision)
       this.padic_dsum = this.padic.dsum()
       this.padic_str = this.padic.toString()
     }

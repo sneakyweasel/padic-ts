@@ -269,20 +269,21 @@ export default class Ratio {
    * Convert ratio to p-adic number
    * @param prime
    * @param precision
+   * @returns Padic
    */
-  convertToPadic(prime = 7, precision = 11): Padic {
+  toPadic(prime: number, precision = 64): Padic {
     let a = this.n * this.sign
     let b = this.d
 
     // Sanity checks
     if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
-      throw new Error('a and b should be > to MAX_ARG')
+      throw new Error("a and b shouldn't be > to MAX_ARG")
     }
     if (prime < 2 || precision < 1) {
-      throw new Error('p should be >= 2')
+      throw new Error('prime should be >= 2')
     }
     if (!Number.isInteger(prime)) {
-      throw new Error('p should be an integer.')
+      throw new Error('prime should be an integer.')
     }
     if (!Number.isInteger(precision)) {
       throw new Error('k should be an integer.')

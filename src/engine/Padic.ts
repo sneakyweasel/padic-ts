@@ -117,7 +117,7 @@ export default class Padic {
    * Rational reconstruction of p-adic number
    * @returns rational
    */
-  convertToRatio(): Ratio {
+  toRatio(): Ratio {
     let fl = false
     let padic = new Padic(this.prime, this.precision, this.valuation, this.expansion)
     let j = 0
