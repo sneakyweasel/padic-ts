@@ -4,7 +4,11 @@ import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import Padic from './Padic'
 
 /**
- * Ratio class
+ * RATIO CLASS
+ * Class describing a ratio and its operations.
+ * n: numerator
+ * d: denominator
+ * sign: sign
  */
 export default class Ratio {
   n: number
@@ -16,7 +20,7 @@ export default class Ratio {
    *
    * @param n - numerator
    * @param d - denominator
-   * @param sign - sign
+   * @param sign - sign (+1 ou -1)
    * @returns Creates a ratio a/b
    */
   constructor(n: number, d = 1, sign = 1) {
@@ -25,7 +29,7 @@ export default class Ratio {
       throw new Error("Can't divide by 0.")
     }
     // Process sign from numerator, denominator and sign by multiplicating
-    if (Math.sign(n * d * sign) >= 0) {
+    if (n * d * sign >= 0) {
       n = Math.abs(n)
       d = Math.abs(d)
       sign = 1
@@ -40,12 +44,13 @@ export default class Ratio {
     this.sign = sign
   }
 
-  //-------------------
+  //------------------
   // UNARY OPERATIONS
-  //-------------------
+  //------------------
 
   /**
    * Negation
+   * @returns -n/d ratio
    */
   neg(): Ratio {
     return new Ratio(this.n, this.d, -this.sign)
@@ -53,6 +58,7 @@ export default class Ratio {
 
   /**
    * Absolute value
+   * @returns |n/d| ratio
    */
   abs(): Ratio {
     return new Ratio(this.n, this.d)
@@ -60,20 +66,99 @@ export default class Ratio {
 
   /**
    * Inverse
+   * @returns d/n ratio
    */
   inverse(): Ratio {
     return new Ratio(this.sign * this.d, this.n)
   }
 
   /**
-   * Reduce ratio using GCD
-   * @param numerator
-   * @param denominator
-   * @returns
+   * Reduce ratio using the GCD
+   * @returns s2n/2d -> n/d
    */
   reduce(): Ratio {
     const common = gcd(this.n, this.d)
     return new Ratio(this.n / common, this.d / common, this.sign)
+  }
+
+  /**
+   * Prime decompomposition of ratio
+   * Returns a dict of primes and their exponents
+   * @returns {"2": 1, "5": 2}
+   */
+  factors(): Record<string, number> {
+    const factorsA: Record<string, number> = factors(Math.abs(this.n))
+    const factorsB: Record<string, number> = factors(Math.abs(this.d))
+    // get unique keys
+    const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
+    const uniq = [...new Set(keys)]
+    // perform addition
+    const result: Record<string, number> = {}
+    uniq.forEach((key: string) => {
+      let counter = 0
+      if (key in factorsA) {
+        counter += factorsA[key]
+      }
+      if (key in factorsB) {
+        counter -= factorsB[key]
+      }
+      if (counter !== 0) {
+        result[key] = counter
+      }
+    })
+    return result
+  }
+
+  /**
+   * Ratio factors in sorted array form
+   * @returns [[3, 2], [5, 1], [7, -1]]
+   */
+  factorsArray(): [number, number][] {
+    const ratioFacs = this.factors()
+    const result: [number, number][] = []
+    Object.keys(ratioFacs)
+      .map((key) => {
+        return parseInt(key)
+      })
+      .map(function (key) {
+        result.push([key, ratioFacs[key.toString()]])
+        return result
+      })
+    return result
+  }
+
+  /**
+   * Reconstruct rational part without prime exponent
+   * @param prime
+   * @returns ratio
+   */
+  absReconstruct(prime: number): Ratio {
+    const ratioFacs = this.factorsArray()
+    let num = 1
+    let denum = 1
+    ratioFacs.forEach((factor) => {
+      if (factor[0] !== prime) {
+        if (factor[1] > 0) {
+          num *= factor[0] ** Math.abs(factor[1])
+        } else {
+          denum *= factor[0] ** Math.abs(factor[1])
+        }
+      }
+    })
+    return new Ratio(num, denum)
+  }
+
+  /**
+   * Reconstruct prime part
+   * @param prime
+   * @returns ratio
+   */
+  primeReconstruct(prime: number): [number, number] {
+    const ratioFacs = this.factors()
+    if (prime in ratioFacs) {
+      return [prime, ratioFacs[prime]]
+    }
+    return [prime, 0]
   }
 
   //-------------------
@@ -82,6 +167,7 @@ export default class Ratio {
 
   /**
    * Addition
+   * @returns a+b ratio
    */
   add(b: Ratio): Ratio {
     const n = this.sign * this.n * b.d + b.sign * this.d * b.n
@@ -91,6 +177,7 @@ export default class Ratio {
 
   /**
    * Substraction
+   * @returns a-b ratio
    */
   sub(b: Ratio): Ratio {
     const n = this.sign * this.n * b.d - b.sign * this.d * b.n
@@ -100,6 +187,7 @@ export default class Ratio {
 
   /**
    * Multiply
+   * @returns a*b ratio
    */
   mul(b: Ratio): Ratio {
     const n = this.sign * b.sign * this.n * b.n
@@ -109,6 +197,7 @@ export default class Ratio {
 
   /**
    * Divide
+   * @returns a/b ratio
    */
   div(b: Ratio): Ratio {
     const n = this.sign * b.sign * this.n * b.d
@@ -134,14 +223,9 @@ export default class Ratio {
     return this.sub(b).reduce().abs()
   }
 
-  /**
-   * Padic distance between ratios
-   * @param b another ratio
-   * @returns ratio
-   */
-  padicDistance(num: Ratio, p: number): Ratio {
-    return this.distance(num).padicAbs(p)
-  }
+  //------------------
+  // PADIC OPERATIONS
+  //------------------
 
   /**
    * Padic valuation
@@ -149,7 +233,7 @@ export default class Ratio {
    * @returns
    */
   padicValuation(p: number): number {
-    const ratioFacs = this.factorsDict()
+    const ratioFacs = this.factors()
     if (p in ratioFacs) {
       return ratioFacs[p]
     }
@@ -164,7 +248,7 @@ export default class Ratio {
     if (this.n === 0) {
       return new Ratio(0, 1)
     }
-    const factors = this.factorsDict()
+    const factors = this.factors()
     // check if prime is included in prime factorization
     const keys = [...Object.keys(factors)]
     const uniq = [...new Set(keys)]
@@ -182,85 +266,14 @@ export default class Ratio {
   }
 
   /**
-   * Prime decompomposition of ratio
-   * @returns dict of primes and their exponents
-   */
-  factorsDict(): Record<string, number> {
-    const factorsA: Record<string, number> = factors(Math.abs(this.n))
-    const factorsB: Record<string, number> = factors(Math.abs(this.d))
-    // get unique keys
-    const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
-    const uniq = [...new Set(keys)]
-    // perform addition
-    const result: Record<string, number> = {}
-    uniq.forEach((key: string) => {
-      let counter = 0
-      if (key in factorsA) {
-        counter += factorsA[key]
-      }
-      if (key in factorsB) {
-        counter -= factorsB[key]
-      }
-      if (counter !== 0) {
-        result[key] = counter
-      }
-    })
-    return result
-  }
-
-  /**
-   * Ratio factors in sorted array form
-   * @returns factors array
-   */
-  factorsArray(): [number, number][] {
-    const ratioFacs = this.factorsDict()
-    const result: [number, number][] = []
-    Object.keys(ratioFacs)
-      .map((key) => {
-        return parseInt(key)
-      })
-      .map(function (key) {
-        result.push([key, ratioFacs[key.toString()]])
-        return result
-      })
-    return result
-  }
-
-  /**
-   * Reconstruct rational part without prime used for padic norm
-   * @param p
+   * Padic distance between ratios
+   * @param b another ratio
    * @returns ratio
    */
-  absReconstruct(p: number): Ratio {
-    const ratioFacs = this.factorsArray()
-    let num = 1
-    let denum = 1
-    ratioFacs.forEach((factor) => {
-      if (factor[0] !== p) {
-        if (factor[1] > 0) {
-          num *= factor[0] ** Math.abs(factor[1])
-        } else {
-          denum *= factor[0] ** Math.abs(factor[1])
-        }
-      }
-    })
-    return new Ratio(num, denum)
+  padicDistance(num: Ratio, p: number): Ratio {
+    return this.distance(num).padicAbs(p)
   }
 
-  /**
-   * Reconstruct prime part used for padic norm
-   * @param a
-   * @param b
-   * @param p
-   * @returns ratio
-   */
-  primeReconstruct(p: number): [number, number] {
-    const ratioFacs = this.factorsDict()
-    if (p in ratioFacs) {
-      return [p, ratioFacs[p]]
-    }
-    return [p, 0]
-  }
   /**
    * Convert ratio to p-adic number
    * @param prime
@@ -368,7 +381,7 @@ export default class Ratio {
     ratioFacs.forEach((tuple) => {
       const prime = tuple[0]
       const exp = tuple[1]
-      const repr_color = `\\textcolor{red}{${prime}}^{\\textcolor{magenta}{${expMinus}${exp}}}`
+      const repr_color = `\\textcolor{red}{${prime}}^{\\textcolor{red}{${expMinus}${exp}}}`
       const repr = `${prime}^{${expMinus}${exp}}`
       if (tuple[0] === p) {
         result += `${repr_color}\\:.\\:`
