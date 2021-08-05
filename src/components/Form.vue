@@ -128,9 +128,6 @@
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
-        <!-- Padic table -->
-        <PadicTable :a="ratio_a" :b="ratio_b" />
-
         <!-- Padic distance -->
         <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">
           {{ prime }}-adic distance
