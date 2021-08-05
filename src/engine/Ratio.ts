@@ -244,21 +244,12 @@ export default class Ratio {
    * Padic absolute value
    * @returns padic absolute value
    */
-  padicAbs(p: number): Ratio {
+  padicAbs(prime: number): Ratio {
+    const pValuation = this.padicValuation(prime)
+    const res = prime ** Math.abs(pValuation)
     if (this.n === 0) {
       return new Ratio(0, 1)
-    }
-    const factors = this.factors()
-    // check if prime is included in prime factorization
-    const keys = [...Object.keys(factors)]
-    const uniq = [...new Set(keys)]
-    if (!uniq.includes(p.toString())) {
-      return new Ratio(1, 1)
-    }
-    // in factors
-    const factor = factors[p.toString()]
-    const res = p ** Math.abs(factors[p.toString()])
-    if (factor > 0) {
+    } else if (pValuation > 0) {
       return new Ratio(1, res)
     } else {
       return new Ratio(res, 1)

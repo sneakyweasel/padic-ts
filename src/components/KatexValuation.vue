@@ -9,6 +9,10 @@
       <div class="w-1/3 text-right mr-3">Prime decomposition of d</div>
       <div class="w-2/3 text-left bg-gray-200" v-katex:display="factorsDKatex"></div>
     </div>
+    <div class="flex-1 flex text-xl mt-2">
+      <div class="w-1/3 text-right mr-3">Prime decomposition of x</div>
+      <div class="w-2/3 text-left bg-gray-200" v-katex:display="factorsNDKatex"></div>
+    </div>
     <!-- Prime isolation form -->
     <div class="flex-1 flex text-xl mt-2">
       <div class="w-1/3 text-right mr-3">Any ratio can be expressed as</div>
@@ -29,9 +33,9 @@
     </div>
     <!-- Padic mirror -->
     <div class="flex-1 flex text-xl mt-2">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic absolute value</div>
-      <div class="w-1/3 items-left bg-gray-100 mr-2" v-katex:display="absExplainKatex"></div>
-      <div class="w-1/3 items-left bg-gray-200" v-katex:display="absKatex"></div>
+      <div class="w-1/3 text-right mr-3">Ostrowski theorem</div>
+      <div class="w-1/3 items-left bg-gray-100 mr-2" v-katex:display="ostrowskiExplainKatex"></div>
+      <div class="w-1/3 items-left bg-gray-200" v-katex:display="ostrowskiKatex"></div>
     </div>
   </div>
 </template>
@@ -42,23 +46,28 @@ import Ratio from '../engine/Ratio'
 
 @Component
 export default class KatexFactors extends Vue {
-  @Prop() readonly a!: number
-  @Prop() readonly b!: number
+  @Prop() readonly n!: number
+  @Prop() readonly d!: number
   @Prop() readonly prime!: number
   @Prop() readonly letter!: string
 
   get ratio(): Ratio {
-    return new Ratio(this.a, this.b)
+    return new Ratio(this.n, this.d)
   }
 
   get factorsNKatex(): string {
-    const factors = new Ratio(this.a).factorsKatex(this.prime)
-    return `${this.a} = ` + factors
+    const factors = new Ratio(this.n).factorsKatex(this.prime)
+    return `${this.n} = ` + factors
   }
 
   get factorsDKatex(): string {
-    const factors = new Ratio(this.b).factorsKatex(this.prime, true)
-    return `1/${this.b} = ` + factors
+    const factors = new Ratio(this.d).factorsKatex(this.prime, true)
+    return `1/${this.d} = ` + factors
+  }
+
+  get factorsNDKatex(): string {
+    const factors = new Ratio(this.n, this.d).factorsKatex(this.prime)
+    return `${this.n}/${this.d} = ` + factors
   }
 
   get isolationExplainKatex(): string {
@@ -77,7 +86,7 @@ export default class KatexFactors extends Vue {
   }
 
   get pValuationExplainKatex(): string {
-    return `v_{p}(\\frac{a}{b}) = v_{p}(a)-v_{p}(b)`
+    return `v_{p}(\\frac{n}{d}) = v_{p}(n)-v_{p}(d)`
   }
 
   get pValuationKatex(): string {
@@ -96,6 +105,17 @@ export default class KatexFactors extends Vue {
     const frac = this.ratio.padicAbs(this.prime).toKatex()
     const pri = this.ratio.primeReconstruct(this.prime)
     return `|x|_{\\textcolor{red}{${this.prime}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}}} = ${frac}`
+  }
+
+  get ostrowskiExplainKatex(): string {
+    return `|\\frac{n}{d}| \\cdot  \\prod_{p \\geq 2}^{\\infin} |\\frac{n}{d}|_{p} = 1`
+  }
+  get ostrowskiKatex(): string {
+    let result = ''
+    result += new Ratio(this.n, this.d).factorsKatex(this.prime, true)
+    result += '\\cdot 1 ... 1'
+
+    return `|\\frac{${this.n}}{${this.d}}| \\cdot ${result} = 1`
   }
 }
 </script>

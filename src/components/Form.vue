@@ -6,31 +6,6 @@
     <form @submit.prevent="">
       <!-- Prime & Precision -->
       <div class="flex">
-        <div class="w-1/2 mr-6">
-          <label class="my-2 text-center" for="uname">Prime (p)</label>
-          <input
-            type="number"
-            v-model.number="prime"
-            class="
-              w-full
-              mt-1
-              mb-3
-              text-xl text-center
-              shadow-md
-              border-none
-              focus:ring-transparent
-              rounded-sm
-              bg-gray-100
-              text-pink-500
-            "
-          />
-          <p class="text-red-500" v-if="!primeCheck">{{ prime }} is not a prime number.</p>
-        </div>
-        <div class="w-1/2"></div>
-      </div>
-      <!-- Rational numbers -->
-      <div class="flex">
-        <!-- Ratio x -->
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
             <label class="block text-center" for="psw">Ratio (x)</label>
@@ -38,7 +13,7 @@
           <div class="w-2/3">
             <input
               type="number"
-              v-model.number="ratio_a"
+              v-model.number="n"
               class="
                 w-full
                 mt-1
@@ -55,7 +30,7 @@
             <hr class="bg-black h-0.5" />
             <input
               type="number"
-              v-model.number="ratio_b"
+              v-model.number="d"
               class="
                 w-full
                 mt-1
@@ -71,15 +46,14 @@
             />
           </div>
         </div>
-        <!-- Ratio y -->
-        <div class="flex w-1/2 items-center ml-3">
+        <div class="flex w-1/2 items-center mr-6">
           <div class="w-1/3">
-            <label class="block text-center" for="psw">Ratio (y)</label>
+            <label class="my-2 text-center" for="uname">Prime (p)</label>
           </div>
           <div class="w-2/3">
             <input
               type="number"
-              v-model.number="ratio_c"
+              v-model.number="prime"
               class="
                 w-full
                 mt-1
@@ -93,23 +67,7 @@
                 text-pink-500
               "
             />
-            <hr class="bg-black h-0.5" />
-            <input
-              type="number"
-              v-model.number="ratio_d"
-              class="
-                w-full
-                mt-1
-                mb-3
-                text-xl text-center
-                shadow-md
-                border-none
-                focus:ring-transparent
-                rounded-sm
-                bg-gray-100
-                text-pink-500
-              "
-            />
+            <p class="text-red-500" v-if="!primeCheck">{{ prime }} is not a prime number.</p>
           </div>
         </div>
       </div>
@@ -123,17 +81,8 @@
         </h2>
         <div class="flex-1 flex">
           <div class="w-full ml-3">
-            <KatexValuation :a="ratio_a" :b="ratio_b" :prime="prime" letter="x" />
+            <KatexValuation :n="n" :d="d" :prime="prime" letter="x" />
           </div>
-        </div>
-        <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
-
-        <!-- Padic distance -->
-        <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">
-          {{ prime }}-adic distance
-        </h2>
-        <div class="flex-1 flex mt-3">
-          <KatexDistance :a="ratio_a" :b="ratio_b" :c="ratio_c" :d="ratio_d" :prime="prime" />
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
@@ -171,7 +120,6 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { getRandomInt } from '../engine/helpers'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
 import { isPrime } from '../engine/helpers'
@@ -192,10 +140,8 @@ import KatexDistance from '@/components/KatexDistance.vue'
 })
 export default class App extends Vue {
   // Data
-  ratio_a = 60
-  ratio_b = -12
-  ratio_c = getRandomInt()
-  ratio_d = getRandomInt()
+  n = 10
+  d = 5
   prime = 3
   primeCheck = true
   precision = 16
@@ -209,28 +155,22 @@ export default class App extends Vue {
 
   @Watch('prime')
   @Watch('precision')
-  @Watch('ratio_a')
-  @Watch('ratio_b')
-  @Watch('ratio_c')
-  @Watch('ratio_d')
+  @Watch('n')
+  @Watch('d')
   handleConvertPadic(): void {
     this.primeCheck = isPrime(this.prime)
     if (
-      Number.isInteger(this.ratio_a) &&
-      Number.isInteger(this.ratio_b) &&
-      Number.isInteger(this.ratio_c) &&
-      Number.isInteger(this.ratio_d) &&
+      Number.isInteger(this.n) &&
+      Number.isInteger(this.d) &&
       Number.isInteger(this.prime) &&
       Number.isInteger(this.precision) &&
-      this.ratio_a !== 0 &&
-      this.ratio_b !== 0 &&
-      this.ratio_c !== 0 &&
-      this.ratio_d !== 0 &&
+      this.n !== 0 &&
+      this.d !== 0 &&
       this.prime > 0 &&
       this.precision > 0 &&
       this.primeCheck
     ) {
-      const ratio = new Ratio(this.ratio_a, this.ratio_b)
+      const ratio = new Ratio(this.n, this.d)
       this.padic = ratio.convertToPadic(this.prime, this.precision)
       this.padic_dsum = this.padic.dsum()
       this.padic_str = this.padic.toString()
