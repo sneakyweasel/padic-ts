@@ -89,7 +89,7 @@ export default class KatexFactors extends Vue {
   }
 
   get absKatex(): string {
-    const frac = this.ratio.padicNorm(this.p).toKatex()
+    const frac = this.ratio.padicAbs(this.p).toKatex()
     const pri = this.ratio.primeReconstruct(this.p)
     return `|x|_{\\textcolor{red}{${this.p}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{magenta}{${pri[1]}}}} = ${frac}`
   }

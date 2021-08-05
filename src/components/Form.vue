@@ -125,11 +125,11 @@
           <div class="w-full ml-3">
             <KatexValuation :a="ratio_a" :b="ratio_b" :p="prime" letter="x" />
           </div>
-          <!-- <div class="w-1/2 ml-3">
-            <KatexFactors :a="ratio_c" :b="ratio_d" :p="prime" letter="y" />
-          </div> -->
         </div>
         <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+
+        <!-- Padic table -->
+        <PadicTable :a="ratio_a" :b="ratio_b" />
 
         <!-- Padic distance -->
         <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">

@@ -72,4 +72,16 @@ describe('Ratio', () => {
     const rat6 = new Ratio(5, 2)
     expect(rat5.mul(rat6).reduce().toString()).toEqual('10')
   })
+
+  it('Divides two ratios.', () => {
+    const rat1 = new Ratio(12, 5)
+    const rat2 = new Ratio(12, 5)
+    expect(rat1.div(rat2).toString()).toEqual('60/60')
+    const rat3 = new Ratio(12)
+    const rat4 = new Ratio(-5)
+    expect(rat3.div(rat4).reduce().toString()).toEqual('-12/5')
+    const rat5 = new Ratio(12, 3)
+    const rat6 = new Ratio(5, 2)
+    expect(rat5.div(rat6).reduce().toString()).toEqual('8/5')
+  })
 })

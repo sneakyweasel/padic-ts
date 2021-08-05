@@ -65,6 +65,17 @@ export default class Ratio {
     return new Ratio(this.sign * this.d, this.n)
   }
 
+  /**
+   * Reduce ratio using GCD
+   * @param numerator
+   * @param denominator
+   * @returns
+   */
+  reduce(): Ratio {
+    const common = gcd(this.n, this.d)
+    return new Ratio(this.n / common, this.d / common, this.sign)
+  }
+
   //-------------------
   // BINARY OPERATIONS
   //-------------------
@@ -106,14 +117,12 @@ export default class Ratio {
   }
 
   /**
-   * Reduce ratio using GCD
-   * @param numerator
-   * @param denominator
-   * @returns
+   * Equality check
+   * @param b other ratio
+   * @returns boolean
    */
-  reduce(): Ratio {
-    const common = gcd(this.n, this.d)
-    return new Ratio(this.n / common, this.d / common, this.sign)
+  equals(b: Ratio): boolean {
+    return this.reduce().toString() === b.reduce().toString()
   }
 
   /**
@@ -122,7 +131,7 @@ export default class Ratio {
    * @returns ratio
    */
   distance(b: Ratio): Ratio {
-    return this.add(b).reduce().abs()
+    return this.sub(b).reduce().abs()
   }
 
   /**
@@ -131,7 +140,7 @@ export default class Ratio {
    * @returns ratio
    */
   padicDistance(num: Ratio, p: number): Ratio {
-    return this.distance(num).padicNorm(p)
+    return this.distance(num).padicAbs(p)
   }
 
   /**
@@ -148,13 +157,10 @@ export default class Ratio {
   }
 
   /**
-   * Padic Norm
-   * https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number
-   * @param a
-   * @param b
-   * @returns padic distance
+   * Padic absolute value
+   * @returns padic absolute value
    */
-  padicNorm(p: number): Ratio {
+  padicAbs(p: number): Ratio {
     if (this.n === 0) {
       return new Ratio(0, 1)
     }
