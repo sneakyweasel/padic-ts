@@ -5,6 +5,30 @@
 
     <form @submit.prevent="">
       <!-- Prime & Precision -->
+      <div class="flex items-center">
+        <div class="w-1/3">
+          <label class="block text-center" for="psw">Preset</label>
+        </div>
+        <div class="w-2/3">
+          <input
+            type="number"
+            v-model.number="preset_id"
+            class="
+              w-full
+              mt-1
+              mb-3
+              text-xl text-center
+              shadow-md
+              border-none
+              focus:ring-transparent
+              rounded-sm
+              bg-gray-100
+              text-pink-500
+            "
+          />
+        </div>
+      </div>
+      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
       <div class="flex">
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
@@ -46,7 +70,7 @@
             />
           </div>
         </div>
-        <div class="flex w-1/2 items-center mr-6">
+        <div class="flex w-1/2 items-center ml-3">
           <div class="w-1/3">
             <label class="my-2 text-center" for="uname">Prime (p)</label>
           </div>
@@ -88,12 +112,12 @@
 
         <!-- Padic expansion -->
         <div class="flex-1">
-          <h2 class="text-pink-600 font-bold font-sans text-2xl text-center">
+          <h2 class="text-pink-600 font-bold font-sans text-2xl text-center mb-3">
             {{ prime }}-adic expansion
           </h2>
           <div class="flex-1 flex">
             <div class="w-full ml-3">
-              <KatexExpansion :n="n" :d="d" :prime="prime" letter="x" />
+              <KatexExpansion :n="n" :d="d" :prime="prime" :precision="precision" />
             </div>
           </div>
         </div>
@@ -105,6 +129,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
+import { presets } from '../engine/data'
 import Padic from '../engine/Padic'
 import Ratio from '../engine/Ratio'
 import { isPrime } from '../engine/helpers'
@@ -125,17 +150,27 @@ import KatexDistance from '@/components/KatexDistance.vue'
 })
 export default class App extends Vue {
   // Data
+  preset_id = 1
   n = 2
   d = 5
   prime = 3
   primeCheck = true
-  precision = 16
+  precision = 8
   padic = new Padic(this.prime, this.precision)
   padic_str = ''
   padic_dsum = 0
 
   mounted(): void {
     this.handleConvertPadic()
+  }
+
+  @Watch('preset_id')
+  loadPreset(): void {
+    const preset = presets[this.preset_id]
+    this.n = preset.n1
+    this.d = preset.d1
+    this.prime = preset.p
+    this.precision = preset.k
   }
 
   @Watch('prime')

@@ -404,6 +404,23 @@ export default class Ratio {
     return new Padic(prime, precision, valuation, expansion)
   }
 
+  /**
+   * Reconstruct padic computation steps from p-adic digits
+   * @param prime
+   * @returns p-adic steps
+   */
+  toPadicSteps(prime: number, precision: number): Step[] {
+    const steps: Step[] = []
+    const digits = this.toPadic(prime).toArray()
+    let orig = this.clone()
+    for (const digit of digits) {
+      const next = orig.sub(new Ratio(digit)).div(new Ratio(prime)).reduce()
+      steps.push({ digit, orig, next })
+      orig = next
+    }
+    return steps.slice(0, precision)
+  }
+
   //-------------
   // OUTPUT
   //-------------

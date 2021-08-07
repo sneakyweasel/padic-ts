@@ -71,14 +71,16 @@ describe('Padic', () => {
   })
 
   it('Adds two padic numbers.', () => {
-    for (const preset of presets) {
-      const ratio1 = new Ratio(preset.n1, preset.d1)
-      const padic1 = ratio1.toPadic(preset.p, preset.k)
-      const ratio2 = new Ratio(preset.n2, preset.d2)
-      const padic2 = ratio2.toPadic(preset.p, preset.k)
-      const result = padic1.add(padic2)
-      const result_str = result.toString()
-      expect(result_str).toEqual(preset.exp)
-    }
+    // for (const preset of presets) {}
+    const preset = presets[3]
+    const ratio1 = new Ratio(preset.n1, preset.d1)
+    const ratio2 = new Ratio(preset.n2, preset.d2)
+    const ratio3 = new Ratio(preset.n3, preset.d3)
+    const padic1 = ratio1.toPadic(preset.p, preset.k)
+    const padic2 = ratio2.toPadic(preset.p, preset.k)
+    const result = padic1.add(padic2)
+    const result_str = result.toString()
+    expect(result_str).toEqual(preset.exp)
+    expect(result.toRatio().toString()).toEqual(ratio3.toString())
   })
 })

@@ -1,22 +1,26 @@
 <template>
   <div>
     <div class="flex-1 flex text-xl">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion</div>
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion (rtl)</div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
       <div class="w-1/3 text-left bg-gray-200">
         {{ padic.toString() }}
       </div>
     </div>
-    <div class="flex-1 flex text-xl">
+    <div class="flex-1 flex text-xl mt-3">
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation</div>
+      <div class="w-2/3 text-center bg-gray-200">
+        {{ padic.valuation }}
+      </div>
+    </div>
+    <div class="flex-1 flex text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion steps</div>
       <div class="w-2/3 text-left bg-gray-200">
         <table class="text-xl border-4 w-full text-center">
           <tr v-for="(tup, index) of padicExpansion" :key="'tr_' + index">
+            <td>step {{ index }}:</td>
             <td>
-              <span class="text-pink-600">{{ tup.digit }}</span>
-              .
-              <span class="text-red-600">{{ prime }}</span>
-              <sup>{{ index }}</sup>
+              <div v-katex:display="sumKatex(tup, index)"></div>
             </td>
             <td>
               <div v-katex:display="fractionKatex(tup)"></div>
@@ -35,10 +39,11 @@ import Padic from '@/engine/Padic'
 import { Prop, Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class KatexSum extends Vue {
+export default class KatexExpansion extends Vue {
   @Prop() readonly n!: number
   @Prop() readonly d!: number
   @Prop() readonly prime!: number
+  @Prop() readonly precision!: number
 
   get ratio(): Ratio {
     return new Ratio(this.n, this.d)
@@ -52,6 +57,10 @@ export default class KatexSum extends Vue {
     return `x = \\sum_{k=n}^{\\infin} a_{k} \\cdot p^{k}`
   }
 
+  sumKatex(step: Step, index: number): string {
+    return `${step.digit} \\cdot \\textcolor{red}{${this.prime}}^{${index}}`
+  }
+
   fractionKatex(step: Step): string {
     return `${step.orig.toKatex()} = \\textcolor{magenta}{${step.digit}} + \\textcolor{red}{${
       this.prime
@@ -59,11 +68,11 @@ export default class KatexSum extends Vue {
   }
 
   get padicExpansion(): Step[] {
-    return this.ratio.toPadicExpansion(this.prime, 10)
+    return this.ratio.toPadicSteps(this.prime, this.precision)
   }
 
   get padicStr(): string {
-    return this.padic.toArray().toString()
+    return this.padic.toArray().join(' ')
   }
 }
 </script>
