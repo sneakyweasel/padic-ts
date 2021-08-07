@@ -34,7 +34,7 @@ describe('Padic', () => {
     expect(cmpt_str).toEqual('5 4 3 2 3 1 2 0 2 5. 6')
   })
 
-  xit('Adds two padic numbers.', () => {
+  it('Adds two padic numbers.', () => {
     for (const preset of presets) {
       const ratio1 = new Ratio(preset.n1, preset.d1)
       const padic1 = ratio1.toPadic(preset.p, preset.k)
@@ -43,6 +43,16 @@ describe('Padic', () => {
       const result = padic1.add(padic2)
       const result_str = result.toString()
       expect(result_str).toEqual(preset.exp)
+    }
+  })
+
+  it('Computes padic expansion.', () => {
+    for (const preset of presets) {
+      const ratio1 = new Ratio(2, 1)
+      const exp1 = ratio1.toPadicExpansion(preset.p, preset.k).map((e) => {
+        return e[0]
+      })
+      expect(exp1).toEqual([0, 0, 1, 0])
     }
   })
 

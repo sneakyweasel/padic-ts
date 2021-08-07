@@ -1,3 +1,11 @@
+import Ratio from './Ratio'
+
+export interface Step {
+  digit: number
+  next: Ratio
+  orig: Ratio
+}
+
 /**
  * Get a random integer
  * @param min
@@ -85,76 +93,40 @@ export function factors(n: number): Record<number, number> {
 }
 
 /**
- * Cycle start detection
- * @param n
- * @param d
- * @param len
- * @returns cycle starting index
- */
-export function cycleStart(n: number, d: number, len: number): number {
-  let rem1 = 1
-  let rem2 = modpow(10, len, d)
-
-  for (let t = 0; t < 300; t++) {
-    // s < ~log10(Number.MAX_VALUE)
-    // Solve 10^s == 10^(s+t) (mod d)
-
-    if (rem1 === rem2) return t
-
-    rem1 = (rem1 * 10) % d
-    rem2 = (rem2 * 10) % d
-  }
-  return 0
-}
-
-/**
- * Cycle length detection
- * @param n
- * @param d
- * @param len
- * @returns cycle length
- */
-export function cycleLen(n: number, d: number): number {
-  const MAX_CYCLE_LEN = 1000
-  // eslint-disable-next-line no-empty
-  for (; d % 2 === 0; d /= 2) {}
-  // eslint-disable-next-line no-empty
-  for (; d % 5 === 0; d /= 5) {}
-
-  if (d === 1)
-    // Catch non-cyclic numbers
-    return 0
-
-  // If we would like to compute really large numbers quicker, we could make use of Fermat's little theorem:
-  // 10^(d-1) % d == 1
-  // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
-  // as we want to translate the numbers to strings.
-
-  let rem = 10 % d
-  let t = 1
-
-  for (; rem !== 1; t++) {
-    rem = (rem * 10) % d
-
-    if (t > MAX_CYCLE_LEN) return 0 // Returning 0 here means that we don't print it as a cyclic number. It's likely that the answer is `d-1`
-  }
-  return t
-}
-
-/**
- * Modular inverse bruteforce
+ * Modular inverse of a under modulo m
+ * https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
+ * Check Fermat Little Theorem implementation
  * @param a
- * @param b
- * @returns number
+ * @param mod prime number
  */
-export function modInv(a: number, b: number): number {
-  a %= b
-  for (let x = 1; x < b; x++) {
-    if ((a * x) % b == 1) {
-      return x
+export function modInverse(a: number, mod: number): number {
+  {
+    const m0 = mod
+    let y = 0
+    let x = 1
+
+    if (mod == 1) return 0
+
+    while (a > 1) {
+      // q is quotient
+      const q = parseInt((a / mod).toString())
+      let t = mod
+
+      // m is remainder now, process same as Euclid's algo
+      mod = a % mod
+      a = t
+      t = y
+
+      // Update y and x
+      y = x - q * y
+      x = t
     }
+
+    // Make x positive
+    if (x < 0) x += m0
+
+    return x
   }
-  throw new Error('Impossible mod inv')
 }
 
 /**
@@ -215,12 +187,13 @@ export function getRepeatedSequence(str: string): string {
 
 /**
  * Modular power
- * @param b
- * @param exp
- * @param mod
+ * https://en.wikipedia.org/wiki/Modular_exponentiation
+ * @param b base
+ * @param exp exponent
+ * @param mod modulus
  * @returns number
  */
-export function modpow(b: number, exp: number, mod: number): number {
+export function modPower(b: number, exp: number, mod: number): number {
   let r = 1
   for (; exp > 0; b = (b * b) % mod, exp >>= 1) {
     if (exp & 1) {

@@ -84,4 +84,26 @@ describe('Ratio', () => {
     const rat6 = new Ratio(5, 2)
     expect(rat5.div(rat6).reduce().toString()).toEqual('8/5')
   })
+
+  it('Computes next padic digit in the padic expansion.', () => {
+    const rat1 = new Ratio(2, 5)
+    const res1 = rat1.nextPadicRatio(3)
+    const resDigit1 = res1[0]
+    const resRat1 = res1[1]
+    expect(resDigit1).toEqual(1)
+    expect(resRat1.toString()).toEqual('-1/5')
+    const res2 = resRat1.nextPadicRatio(3)
+    const resDigit2 = res2[0]
+    const resRat2 = res2[1]
+    expect(resDigit2).toEqual(1)
+    expect(resRat2.toString()).toEqual('-2/5')
+  })
+
+  it('Computes next padic digit in the padic expansion.', () => {
+    const rat1 = new Ratio(2, 5)
+    const ext1 = rat1.toPadicExpansion(3, 6).map((e) => {
+      return e[0]
+    })
+    expect(ext1).toEqual([1, 1, 2, 1, 0, 1])
+  })
 })

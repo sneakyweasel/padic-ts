@@ -1,5 +1,5 @@
 // Imports
-import { modInv, factors, gcd } from './helpers'
+import { Step, modInverse, factors, gcd } from './helpers'
 import { MAX_EXP, MAX_ARG, MAX_PRIME } from './constants'
 import Padic from './Padic'
 
@@ -79,6 +79,14 @@ export default class Ratio {
   reduce(): Ratio {
     const common = gcd(this.n, this.d)
     return new Ratio(this.n / common, this.d / common, this.sign)
+  }
+
+  /**
+   * Clone a ratio
+   * @returns ratio copy
+   */
+  clone(): Ratio {
+    return new Ratio(this.n, this.d, this.sign)
   }
 
   /**
@@ -266,14 +274,61 @@ export default class Ratio {
   }
 
   /**
+   * Returns next padic digit
+   * @param prime
+   * @returns integer < prime
+   */
+  nextPadicRatio(prime: number): Step {
+    const pRatio = new Ratio(prime)
+    for (let i = 0; i < prime; i++) {
+      const digit = new Ratio(i)
+      for (let n = 0; n <= this.d; n++) {
+        const newRatio = new Ratio(n, this.d, -1)
+        if (digit.add(pRatio.mul(newRatio)).equals(this)) {
+          return { digit: digit.n, next: newRatio, orig: this }
+        }
+      }
+    }
+    throw new Error(`Can't compute next digit: ${pRatio}`)
+  }
+
+  /**
+   * ToPadicExpansion
+   * Alternate generating fonction for padic expansion
+   * TODO: Add a cycle detection
+   * Exemple:
+   * 3-adic expansion of 2/5 = 1,1,2,1,0,1
+   *  2/5 = 1 - 3 * 1/5
+   * -1/5 = 1 - 3 * 2/5
+   * -2/5 = 2 - 3 * 4/5
+   * -4/5 = 1 - 3 * 3/5
+   * -3/5 = 0 - 3 * 1/5
+   * -1/5 = 0 - 3 * 2/5
+   * @param prime
+   * @param precision
+   * @returns
+   */
+  toPadicExpansion(prime: number, precision = 32): Step[] {
+    const result: { digit: number; next: Ratio; orig: Ratio }[] = []
+    let ratio = this.clone()
+    for (let i = 0; i < precision; i++) {
+      const nextDigit = ratio.nextPadicRatio(prime)
+      result.push(nextDigit)
+      ratio = nextDigit.next
+    }
+    return result
+  }
+
+  /**
    * Convert ratio to p-adic number
    * @param prime
    * @param precision
    * @returns Padic
    */
   toPadic(prime: number, precision = 64): Padic {
-    let a = this.n * this.sign
-    let b = this.d
+    const ratio = this.reduce()
+    let a = ratio.n * ratio.sign
+    let b = ratio.d
 
     // Sanity checks
     if (Math.abs(a) > MAX_ARG || b > MAX_ARG) {
@@ -307,7 +362,7 @@ export default class Ratio {
 
     // modular inverse for small p
     const r = b % prime
-    const b1 = modInv(r, prime)
+    const b1 = modInverse(r, prime)
 
     // Initialize padic variables
     let valuation = MAX_EXP

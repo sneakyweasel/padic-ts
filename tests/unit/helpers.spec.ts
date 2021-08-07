@@ -1,4 +1,4 @@
-import { gcd, factors } from '../../src/engine/helpers'
+import { gcd, factors, modInverse } from '../../src/engine/helpers'
 import Ratio from '../../src/engine/Ratio'
 
 describe('Helpers', () => {
@@ -7,6 +7,10 @@ describe('Helpers', () => {
     expect(gcd1).toEqual(3)
     const gcd2 = gcd(15156, 6564)
     expect(gcd2).toEqual(12)
+  })
+
+  it('Performs modular multiplicative inverse of a under mod m.', () => {
+    expect(modInverse(3, 11)).toEqual(4)
   })
 
   it('Computes prime factors and their exponent in a dictionnary for a number.', () => {
