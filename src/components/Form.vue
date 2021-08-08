@@ -100,7 +100,7 @@
       <!-- Toggle if not prime -->
       <div v-if="primeCheck">
         <!-- Padic absolute value -->
-        <!-- <h2 class="text-pink-600 mb-3 font-bold font-sans text-2xl text-center">
+        <h2 class="text-pink-600 mb-3 font-bold font-sans text-2xl text-center">
           {{ prime }}-adic valuation and absolute value
         </h2>
         <div class="flex-1 flex">
@@ -108,7 +108,7 @@
             <KatexValuation :n="n" :d="d" :prime="prime" letter="x" />
           </div>
         </div>
-        <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div> -->
+        <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
         <!-- Padic expansion -->
         <div class="flex-1">
