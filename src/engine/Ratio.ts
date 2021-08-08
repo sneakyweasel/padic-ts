@@ -496,4 +496,11 @@ export default class Ratio {
     }
     return result
   }
+
+  /**
+   * To fixed
+   */
+  toFixed(dec = 2): string {
+    return ((this.sign * this.n) / this.d).toFixed(dec)
+  }
 }

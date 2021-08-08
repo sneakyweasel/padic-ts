@@ -1,21 +1,19 @@
 <template>
   <div>
+    <div class="flex-1 mb-1">
+      <p class="text-center">
+        <b>We can write numbers like the sum of how digits relate to p={{ prime }}</b>
+      </p>
+    </div>
     <div class="flex-1 flex text-xl">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion (rtl)</div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
       <div class="w-1/3 text-left text-2xl bg-gray-200" v-katex:display="padic.toKatex()"></div>
     </div>
-    <div class="flex-1 flex text-xl mt-3">
-      <div class="w-1/3 text-right mr-3">Repeated expansion sequence</div>
-      <div class="w-2/3 text-center text-lg bg-gray-200">
-        {{ padic.toStringLTR() }}
-      </div>
-    </div>
-    <div class="flex-1 flex text-xl mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation</div>
-      <div class="w-2/3 text-center bg-gray-200">
-        {{ padic.valuation }}
-      </div>
+    <div class="flex-1 mb-1">
+      <p class="text-center">
+        <b>Steps will repeat after some time in a infinite loop like regular fractions</b>
+      </p>
     </div>
     <div class="flex-1 flex text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion steps</div>
@@ -33,6 +31,23 @@
             </td>
           </tr>
         </table>
+      </div>
+    </div>
+    <div class="flex-1 flex text-xl mt-3">
+      <div class="w-1/3 text-right mr-3">Repeated expansion sequence</div>
+      <div class="w-2/3 text-center text-lg bg-gray-200">
+        {{ padic.toStringLTR() }}
+      </div>
+    </div>
+    <div class="flex-1 mb-1">
+      <p class="text-center">
+        <b>Valuation acts like a decimal point</b>
+      </p>
+    </div>
+    <div class="flex-1 flex text-xl mt-3">
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation</div>
+      <div class="w-2/3 text-center bg-gray-200">
+        {{ padic.valuation }}
       </div>
     </div>
   </div>
