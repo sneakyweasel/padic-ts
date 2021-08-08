@@ -4,10 +4,16 @@
 
 In mathematics, the p-adic number system for any prime number p extends the ordinary arithmetic of the rational numbers in a different way from the extension of the rational number system to the real and complex number systems. The extension is achieved by an alternative interpretation of the concept of "closeness" or absolute value. In particular, two p-adic numbers are considered to be close when their difference is divisible by a high power of p: the higher the power, the closer they are. This property enables p-adic numbers to encode congruence information in a way that turns out to have powerful applications in number theory. [https://en.wikipedia.org/wiki/P-adic_number](Wikipedia)
 
+## Todo
+
+- Convert from p-adic expansion to ratio
+- Check edge cases for numerator and denominator
+- Add inscribed circle viz
+
 ## Typescript implementation
 
 - Ratio class and operations
-- P-adic absolute value, norm and expansion.
+- P-adic class with absolute value, norm and expansion.
 - Jest tests
 
 ## Related links
@@ -17,7 +23,7 @@ In mathematics, the p-adic number system for any prime number p extends the ordi
 - [https://www.youtube.com/watch?v=_9POg4HSgfI](Youtube)
 - [https://www.youtube.com/watch?v=XFDM1ip5HdU](3Blue1Brown)
 
-### Articles
+### Docs and articles
 
 - [https://stackoverflow.com/questions/62527047/implementing-long-division-while-checking-for-repeating-decimals](long division with repeated decimals)
 - [https://codegolf.stackexchange.com/questions/63629/calculate-the-p-adic-norm-of-a-rational-number](Code golf interesting)

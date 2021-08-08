@@ -4,7 +4,8 @@ import { repeatedSequencePattern } from './helpers'
 import Ratio from './Ratio'
 
 /**
- * Padic class
+ * PADIC CLASS
+ * Class describing a p-adic number and its operations.
  */
 export default class Padic {
   prime: number

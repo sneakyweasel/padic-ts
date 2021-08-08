@@ -16,11 +16,10 @@ export default class Ratio {
   sign: number
 
   /**
-   * Creates a rational number
-   *
-   * @param n - numerator
-   * @param d - denominator
-   * @param sign - sign (+1 ou -1)
+   * Ratio constructor and sign processing
+   * @param n numerator
+   * @param d denominator
+   * @param sign sign (+1 ou -1)
    * @returns Creates a ratio a/b
    */
   constructor(n: number, d = 1, sign = 1) {
@@ -65,7 +64,7 @@ export default class Ratio {
   }
 
   /**
-   * Inverse
+   * Inverse numerator and denominator
    * @returns d/n ratio
    */
   inverse(): Ratio {
@@ -74,7 +73,7 @@ export default class Ratio {
 
   /**
    * Reduce ratio using the GCD
-   * @returns s2n/2d -> n/d
+   * @returns simplified ratio
    */
   reduce(): Ratio {
     const common = gcd(this.n, this.d)
@@ -83,16 +82,16 @@ export default class Ratio {
 
   /**
    * Clone a ratio
-   * @returns ratio copy
+   * @returns ratio deep copy
    */
   clone(): Ratio {
     return new Ratio(this.n, this.d, this.sign)
   }
 
   /**
-   * Prime decompomposition of ratio
+   * Prime factorization of ratio
    * Returns a dict of primes and their exponents
-   * @returns {"2": 1, "5": 2}
+   * @returns prime factors in dict format. Eg: {"2": 1, "5": 2}
    */
   factors(): Record<string, number> {
     const factorsA: Record<string, number> = factors(Math.abs(this.n))
@@ -119,7 +118,7 @@ export default class Ratio {
 
   /**
    * Ratio factors in sorted array form
-   * @returns [[3, 2], [5, 1], [7, -1]]
+   * @returns [prime, exponent] array. Eg: [[3, 2], [5, 1], [7, -1]]
    */
   factorsArray(): [number, number][] {
     const ratioFacs = this.factors()
@@ -138,7 +137,7 @@ export default class Ratio {
   /**
    * Reconstruct rational part without prime exponent
    * @param prime
-   * @returns ratio
+   * @returns ratio without p-adic prime
    */
   absReconstruct(prime: number): Ratio {
     const ratioFacs = this.factorsArray()
@@ -175,7 +174,7 @@ export default class Ratio {
 
   /**
    * Addition
-   * @returns a+b ratio
+   * @returns a + b ratio
    */
   add(b: Ratio): Ratio {
     const n = this.sign * this.n * b.d + b.sign * this.d * b.n
@@ -185,7 +184,7 @@ export default class Ratio {
 
   /**
    * Substraction
-   * @returns a-b ratio
+   * @returns a - b ratio
    */
   sub(b: Ratio): Ratio {
     const n = this.sign * this.n * b.d - b.sign * this.d * b.n
@@ -195,7 +194,7 @@ export default class Ratio {
 
   /**
    * Multiply
-   * @returns a*b ratio
+   * @returns a * b ratio
    */
   mul(b: Ratio): Ratio {
     const n = this.sign * b.sign * this.n * b.n
@@ -205,21 +204,12 @@ export default class Ratio {
 
   /**
    * Divide
-   * @returns a/b ratio
+   * @returns a / b ratio
    */
   div(b: Ratio): Ratio {
     const n = this.sign * b.sign * this.n * b.d
     const d = this.d * b.n
     return new Ratio(n, d)
-  }
-
-  /**
-   * Equality check
-   * @param b other ratio
-   * @returns boolean
-   */
-  equals(b: Ratio): boolean {
-    return this.reduce().toString() === b.reduce().toString()
   }
 
   /**
@@ -231,21 +221,26 @@ export default class Ratio {
     return this.sub(b).reduce().abs()
   }
 
+  /**
+   * Equality check
+   * @param b other ratio
+   * @returns boolean
+   */
+  equals(b: Ratio): boolean {
+    return this.reduce().toString() === b.reduce().toString()
+  }
+
   //------------------
   // PADIC OPERATIONS
   //------------------
 
   /**
    * Padic valuation
-   * @param p
-   * @returns
+   * @param prime
+   * @returns padic valuation
    */
-  padicValuation(p: number): number {
-    const ratioFacs = this.factors()
-    if (p in ratioFacs) {
-      return ratioFacs[p]
-    }
-    return 0
+  padicValuation(prime: number): number {
+    return this.primeReconstruct(prime)[1]
   }
 
   /**
@@ -275,6 +270,7 @@ export default class Ratio {
 
   /**
    * Returns next padic digit
+   * TODO: Tests not passing
    * @param prime
    * @returns integer < prime
    */
@@ -295,7 +291,7 @@ export default class Ratio {
   /**
    * ToPadicExpansion
    * Alternate generating fonction for padic expansion
-   * TODO: Add a cycle detection
+   * TODO: Tests not passing
    * Exemple:
    * 3-adic expansion of 2/5 = 1,1,2,1,0,1
    *  2/5 = 1 - 3 * 1/5
@@ -306,7 +302,7 @@ export default class Ratio {
    * -1/5 = 0 - 3 * 2/5
    * @param prime
    * @param precision
-   * @returns
+   * @returns padic expansion
    */
   toPadicExpansion(prime: number, precision = 32): Step[] {
     const result: { digit: number; next: Ratio; orig: Ratio }[] = []

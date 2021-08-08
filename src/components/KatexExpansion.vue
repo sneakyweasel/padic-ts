@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Prime factorization -->
     <div class="flex-1 mb-1">
       <p class="text-center">
         <b>We can write numbers like the sum of how digits relate to p={{ prime }}</b>
@@ -10,6 +11,8 @@
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
       <div class="w-1/3 text-left text-2xl bg-gray-200" v-katex:display="padic.toKatex()"></div>
     </div>
+
+    <!-- Computation steps -->
     <div class="flex-1 mb-1">
       <p class="text-center">
         <b>Steps will repeat after some time in a infinite loop like regular fractions</b>
@@ -39,6 +42,8 @@
         {{ padic.toStringLTR() }}
       </div>
     </div>
+
+    <!-- Padic valuation -->
     <div class="flex-1 mb-1">
       <p class="text-center">
         <b>Valuation acts like a decimal point</b>
@@ -61,14 +66,9 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class KatexExpansion extends Vue {
-  @Prop() readonly n!: number
-  @Prop() readonly d!: number
+  @Prop() readonly ratio!: Ratio
   @Prop() readonly prime!: number
   @Prop() readonly precision!: number
-
-  get ratio(): Ratio {
-    return new Ratio(this.n, this.d)
-  }
 
   get padic(): Padic {
     return this.ratio.toPadic(this.prime)
