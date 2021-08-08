@@ -195,10 +195,19 @@ export default class Padic {
     const repeated = this.repeatedDigits()
     const offset = repeated.offset
     const size = repeated.size
-    const unique = this.toArray().slice(0, offset).join('\\space')
-    const window = this.toArray()
-      .slice(offset, offset + size)
-      .join('\\space')
+    const strArr = this.toArray().map((e) => e.toString())
+    // Add valuation point
+    if (this.valuation < 0) {
+      strArr[-this.valuation - 1] += '\\space.'
+    }
+    // Window too small
+    let unique = ''
+    if (offset === 0 && size === 0) {
+      unique = strArr.join('\\space')
+    } else {
+      unique = strArr.slice(0, offset).join('\\space')
+    }
+    const window = strArr.slice(offset, offset + size).join('\\space')
     return `${unique} \\space \\space \\textcolor{red}{\\overline{${window}}}`
     // return `\\textcolor{red}{\\overline{${window}}} \\space \\space ${unique}`
   }
@@ -211,6 +220,19 @@ export default class Padic {
     const start = Math.min(this.valuation, 0) + MAX_EXP
     const end = this.precision + start
     return this.expansion.slice(start, end)
+  }
+
+  /**
+   * Generate expansion string
+   * @returns expansion string
+   */
+  toStringLTR(): string {
+    const arr = this.toArray().map((e) => e.toString())
+    // Add valuation point
+    if (this.valuation < 0) {
+      arr[-this.valuation - 1] += ' .'
+    }
+    return arr.join(' ')
   }
 
   /**

@@ -7,8 +7,8 @@
     </div>
     <div class="flex-1 flex text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Repeated expansion sequence</div>
-      <div class="w-2/3 text-center bg-gray-200">
-        {{ padic.toString() }}
+      <div class="w-2/3 text-center text-lg bg-gray-200">
+        {{ padic.toStringLTR() }}
       </div>
     </div>
     <div class="flex-1 flex text-xl mt-3">
