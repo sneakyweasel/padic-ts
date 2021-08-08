@@ -3,7 +3,11 @@
     <div class="flex-1 flex text-xl">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion (rtl)</div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
-      <div class="w-1/3 text-left bg-gray-200">
+      <div class="w-1/3 text-left text-2xl bg-gray-200" v-katex:display="padic.toKatex()"></div>
+    </div>
+    <div class="flex-1 flex text-xl mt-3">
+      <div class="w-1/3 text-right mr-3">Repeated expansion sequence</div>
+      <div class="w-2/3 text-center bg-gray-200">
         {{ padic.toString() }}
       </div>
     </div>
@@ -18,12 +22,14 @@
       <div class="w-2/3 text-left bg-gray-200">
         <table class="text-xl border-4 w-full text-center">
           <tr v-for="(tup, index) of padicExpansion" :key="'tr_' + index">
-            <td>step {{ index }}:</td>
             <td>
-              <div v-katex:display="sumKatex(tup, index)"></div>
+              <div v-katex:display="stepKatex(tup, index)"></div>
             </td>
             <td>
               <div v-katex:display="fractionKatex(tup)"></div>
+            </td>
+            <td>
+              <div v-katex:display="sumKatex(tup, index)"></div>
             </td>
           </tr>
         </table>
@@ -57,8 +63,12 @@ export default class KatexExpansion extends Vue {
     return `x = \\sum_{k=n}^{\\infin} a_{k} \\cdot p^{k}`
   }
 
+  stepKatex(step: Step, index: number): string {
+    return `Step \\space \\textcolor{blue}{${index}}`
+  }
+
   sumKatex(step: Step, index: number): string {
-    return `${step.digit} \\cdot \\textcolor{red}{${this.prime}}^{${index}}`
+    return `\\textcolor{magenta}{${step.digit}} \\cdot \\textcolor{red}{${this.prime}}^{\\textcolor{blue}{${index}}}`
   }
 
   fractionKatex(step: Step): string {

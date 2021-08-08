@@ -202,3 +202,110 @@ export function modPower(b: number, exp: number, mod: number): number {
   }
   return r
 }
+
+/**
+ * Compute Knuth-Morris-Pratt search tables
+ * http://benwendt.ca/articles/the-knuth-morris-pratt-algorithm-implemented-in-javascript/
+ * @param orig string
+ * @returns search table
+ */
+export function makeKMPTable(orig: string): number[] {
+  const word = orig.split('')
+  const results = []
+  let pos = 2
+  let cnd = 0
+
+  results[0] = -1
+  results[1] = 0
+  while (pos < word.length) {
+    if (word[pos - 1] == word[cnd]) {
+      cnd++
+      results[pos] = cnd
+      pos++
+    } else if (cnd > 0) {
+      cnd = results[cnd]
+    } else {
+      results[pos] = 0
+      pos++
+    }
+  }
+  return results
+}
+
+/**
+ * Perform KMP search
+ * @param origString
+ * @param origWord
+ * @returns
+ */
+export function KMPSearch(origString: string, origWord: string): number {
+  const string = origString.split('')
+  const word = origWord.split('')
+
+  const index = -1
+  let m = 0
+  let i = 0
+  const T = makeKMPTable(origWord)
+
+  while (m + i < string.length) {
+    if (word[i] == string[m + i]) {
+      if (i == word.length - 1) {
+        return m
+      }
+      i++
+    } else {
+      m = m + i - T[i]
+      if (T[i] > -1) {
+        i = T[i]
+      } else {
+        i = 0
+      }
+    }
+  }
+  return index
+}
+
+/**
+ * Double cursor window cycle detection
+ * @param arr
+ * @returns offset and repeated window
+ */
+export function repeatedSequencePattern(arr: number[]): { offset: number; size: number } {
+  // Increasing offset
+  for (let offset = 0; offset < arr.length / 2; offset++) {
+    const str = arr.slice(offset)
+    // Window size
+    for (let size = 1; size < str.length / 2; size++) {
+      const window = str.slice(0, size)
+      const repetitions = Math.ceil(str.length / size)
+      let repeated: number[] = []
+      // Create repeated window array
+      for (let i = 0; i < repetitions; i++) {
+        repeated = repeated.concat(window)
+      }
+      repeated = repeated.slice(0, str.length)
+      // Array equality test
+      if (arraysEqual(repeated, str)) {
+        return { offset, size }
+      }
+    }
+  }
+  return { offset: 0, size: 0 }
+}
+
+/**
+ * Equality check for number[]
+ * @param a number[]
+ * @param b number[]
+ * @returns boolean
+ */
+function arraysEqual(a: number[], b: number[]): boolean {
+  if (a === b) return true
+  if (a == null || b == null) return false
+  if (a.length !== b.length) return false
+
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false
+  }
+  return true
+}

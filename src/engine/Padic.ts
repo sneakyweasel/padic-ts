@@ -1,5 +1,6 @@
 // Imports
 import { MAX_EXP, MAX_APPROX } from './constants'
+import { repeatedSequencePattern } from './helpers'
 import Ratio from './Ratio'
 
 /**
@@ -176,6 +177,30 @@ export default class Padic {
       }
       return new Ratio(x, y)
     }
+  }
+
+  /**
+   * Extract repeated digits
+   * @returns repeated digits of padic expansion
+   */
+  repeatedDigits(): { offset: number; size: number } {
+    return repeatedSequencePattern(this.toArray())
+  }
+
+  /**
+   * Return fixed part of expansion
+   * @returns
+   */
+  toKatex(): string {
+    const repeated = this.repeatedDigits()
+    const offset = repeated.offset
+    const size = repeated.size
+    const unique = this.toArray().slice(0, offset).join('\\space')
+    const window = this.toArray()
+      .slice(offset, offset + size)
+      .join('\\space')
+    return `${unique} \\space \\space \\textcolor{red}{\\overline{${window}}}`
+    // return `\\textcolor{red}{\\overline{${window}}} \\space \\space ${unique}`
   }
 
   /**
