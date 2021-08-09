@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-300 mx-auto my-6 px-6 py-6 shadow">
+  <div class="container w-300 mx-auto my-6 px-6 shadow">
     <h1 class="text-black-600 font-bold font-sans text-4xl text-center">
       Introduction to p-adic numbers
     </h1>
@@ -38,8 +38,10 @@
                 shadow-md
                 border-none
                 focus:ring-transparent
-                rounded-sm
+                rounded-md
                 bg-gray-100
+                focus:ring-2 focus:ring-purple-600
+                hover:bg-gray-200
                 text-black-500
               "
             />
@@ -54,9 +56,10 @@
                 text-xl text-center
                 shadow-md
                 border-none
-                focus:ring-transparent
-                rounded-sm
+                focus:ring-2 focus:ring-purple-600
+                rounded-md
                 bg-gray-100
+                hover:bg-gray-200
                 text-black-500
               "
             />
@@ -78,9 +81,10 @@
                 text-xl text-center
                 shadow-md
                 border-none
-                focus:ring-transparent
-                rounded-sm
+                focus:ring-2 focus:ring-purple-600
+                rounded-md
                 bg-gray-100
+                hover:bg-gray-200
                 text-blue-500
               "
             />
