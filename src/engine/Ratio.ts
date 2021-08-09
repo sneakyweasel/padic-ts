@@ -443,7 +443,7 @@ export default class Ratio {
    * Factors in katex string format
    * @returns katex string
    */
-  factorsKatex(p: number, expNeg = false): string {
+  factorsKatex(padicPrime: number, expNeg = false): string {
     let result = ''
     if (this.n === 0) {
       return '0'
@@ -451,13 +451,19 @@ export default class Ratio {
     if (this.sign < 0) {
       result += '-'
     }
+    // Append prime factor if it isn't part of the ratio's factor
+    const factorsArr = this.factorsArray()
+    if (!this.isFactor(padicPrime)) {
+      factorsArr.push([padicPrime, 0])
+    }
+    // Add minus to exponents for denominator
     const expMinus = expNeg ? '-' : ''
-    this.factorsArray().forEach((tuple) => {
+    factorsArr.forEach((tuple) => {
       const prime = tuple[0]
       const exp = tuple[1]
-      const repr_color = `\\textcolor{red}{${prime}}^{\\textcolor{red}{${expMinus}${exp}}}`
+      const repr_color = `\\textcolor{red}{${prime}^{${expMinus}${exp}}}`
       const repr = `${prime}^{${expMinus}${exp}}`
-      if (tuple[0] === p) {
+      if (tuple[0] === padicPrime) {
         result += `${repr_color}\\:.\\:`
       } else {
         result += `${repr}\\:.\\:`

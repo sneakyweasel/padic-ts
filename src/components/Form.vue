@@ -6,20 +6,18 @@
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5 mb-3"></div>
 
     <!-- Introduction -->
-    <div class="text-center">
-      <p>
-        <b>Why should I care?</b>
-      </p>
-      <p>
-        The p-adics are another way to represent numbers which proved crucial for solving Fermat's
-        last theorem, an unsolved problem for 350 years and has led to lots of progress in Number
-        Theory. It is fascinating because it gives us a new notion of distance between numbers and a
-        new way to write numbers.
-      </p>
-    </div>
+    <p class="text-center mt-6">
+      <b>Why should I care?</b>
+    </p>
+    <p>
+      The p-adics are another way to represent numbers which proved crucial for solving Fermat's
+      last theorem, an unsolved problem for 350 years and has led to lots of progress in Number
+      Theory. It is fascinating because it gives us a new notion of distance between numbers and a
+      new way to write numbers.
+    </p>
 
     <!-- Form -->
-    <p class="text-center mt-3">
+    <p class="text-center mt-6">
       <b>Choose a fraction and a prime number!</b>
     </p>
     <form @submit.prevent="">
@@ -92,30 +90,14 @@
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
     </form>
 
-    <!-- Hide if not prime -->
+    <!-- Hide if p is not prime -->
     <div v-if="primeCheck">
       <!-- Padic absolute value -->
-      <h2 class="text-pink-600 mb-3 font-bold font-sans text-2xl text-center">
-        {{ prime }}-adic distance: a new way to measure distance!
-      </h2>
-      <div class="flex-1 flex">
-        <div class="w-full ml-3">
-          <KatexDistance :ratio="ratio" :prime="prime" :precision="precision" />
-        </div>
-      </div>
+      <PadicDistance :ratio="ratio" :prime="prime" :precision="precision" />
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
       <!-- Padic expansion -->
-      <div class="flex-1 mt-6">
-        <h2 class="text-pink-600 font-bold font-sans text-2xl text-center mb-3">
-          {{ prime }}-adic expansion: a new way to write numbers!
-        </h2>
-        <div class="flex-1 flex">
-          <div class="w-full ml-3">
-            <KatexExpansion :ratio="ratio" :prime="prime" :precision="precision" />
-          </div>
-        </div>
-      </div>
+      <PadicExpansion :ratio="ratio" :prime="prime" :precision="precision" />
     </div>
   </div>
 </template>
@@ -125,13 +107,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { presets } from '@/engine/data'
 import { isPrime } from '@/engine/helpers'
 import Ratio from '@/engine/Ratio'
-import KatexDistance from '@/components/KatexDistance.vue'
-import KatexExpansion from '@/components/KatexExpansion.vue'
+import PadicDistance from '@/components/PadicDistance.vue'
+import PadicExpansion from '@/components/PadicExpansion.vue'
 
 @Component({
   components: {
-    KatexDistance,
-    KatexExpansion,
+    PadicDistance,
+    PadicExpansion,
   },
 })
 export default class Form extends Vue {
@@ -178,5 +160,3 @@ export default class Form extends Vue {
   }
 }
 </script>
-
-<style></style>
