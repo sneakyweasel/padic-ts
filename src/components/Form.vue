@@ -60,6 +60,7 @@
                 text-black-500
               "
             />
+            <p class="text-red-500" v-if="!zeroDivCheck">Can't divide by zero.</p>
           </div>
         </div>
         <div class="flex w-1/2 items-center ml-3">
@@ -91,7 +92,7 @@
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
     <!-- Hide if p is not prime -->
-    <div v-if="primeCheck">
+    <div v-if="primeCheck && zeroDivCheck">
       <PadicDistance :ratio="ratio" :prime="prime" :precision="precision" />
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
@@ -117,6 +118,7 @@ import PadicExpansion from '@/components/PadicExpansion.vue'
 })
 export default class Form extends Vue {
   primeCheck = true
+  zeroDivCheck = true
   preset_id = 1
   n = 2
   d = 5
@@ -143,16 +145,16 @@ export default class Form extends Vue {
   @Watch('d')
   handleConvertPadic(): void {
     this.primeCheck = isPrime(this.prime)
+    this.zeroDivCheck = this.d !== 0
     if (
       Number.isInteger(this.n) &&
       Number.isInteger(this.d) &&
       Number.isInteger(this.prime) &&
       Number.isInteger(this.precision) &&
-      this.n !== 0 &&
-      this.d !== 0 &&
       this.prime > 0 &&
       this.precision > 0 &&
-      this.primeCheck
+      this.primeCheck &&
+      this.zeroDivCheck
     ) {
       this.ratio = new Ratio(this.n, this.d)
     }

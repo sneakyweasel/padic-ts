@@ -153,7 +153,7 @@ export default class KatexFactors extends Vue {
   get classicalDistanceKatex(): string {
     let rat1 = this.ratio.clone()
     let rat2 = this.randomRatio.clone()
-    let res = rat1.sub(rat2)
+    let res = rat1.sub(rat2).reduce()
     return `|x - y| = |${rat1.toKatex()} - ${rat2.toKatex()}| = |${res.toKatex()}| = ${res
       .abs()
       .toFixed()}...`
@@ -162,7 +162,7 @@ export default class KatexFactors extends Vue {
   get padicDistanceKatex(): string {
     let rat1 = this.ratio.clone()
     let rat2 = this.randomRatio.clone()
-    let res = rat1.sub(rat2)
+    let res = rat1.sub(rat2).reduce()
     return `|x - y|_{\\textcolor{blue}{${this.prime}}} = 
     |${res.toKatex()}|_{\\textcolor{blue}{${this.prime}}} = 
     ${res.padicAbs(this.prime).toKatex()}`

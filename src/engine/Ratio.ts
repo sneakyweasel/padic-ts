@@ -145,6 +145,9 @@ export default class Ratio {
    * @returns ratio without p-adic prime
    */
   reconstructWithoutPrime(prime: number): Ratio {
+    if (this.n === 0) {
+      return new Ratio(0)
+    }
     const ratioFacs = this.factorsArray()
     let num = 1
     let denum = 1
