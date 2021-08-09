@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-300 mx-auto my-6 px-6 shadow">
+  <div class="container w-300 mx-auto my-6 px-6 shadow bg-transparent">
     <h1 class="title text-4xl">Introduction to p-adic numbers</h1>
     <div class="separator"></div>
 
