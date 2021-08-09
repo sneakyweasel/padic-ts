@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-pink-600 font-bold font-sans text-2xl text-center mb-3 mt-6">
+    <h2 class="text-black-600 font-bold font-sans text-2xl text-center mb-3 mt-6">
       {{ prime }}-adic expansion: a new way to write numbers!
     </h2>
 

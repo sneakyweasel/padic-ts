@@ -1,6 +1,6 @@
 <template>
   <div class="container w-300 mx-auto my-6 px-6 py-6 shadow">
-    <h1 class="text-pink-600 font-bold font-sans text-4xl text-center">
+    <h1 class="text-black-600 font-bold font-sans text-4xl text-center">
       Introduction to p-adic numbers
     </h1>
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
@@ -40,7 +40,7 @@
                 focus:ring-transparent
                 rounded-sm
                 bg-gray-100
-                text-pink-500
+                text-black-500
               "
             />
             <hr class="bg-black h-0.5" />
@@ -57,7 +57,7 @@
                 focus:ring-transparent
                 rounded-sm
                 bg-gray-100
-                text-pink-500
+                text-black-500
               "
             />
           </div>
@@ -80,7 +80,7 @@
                 focus:ring-transparent
                 rounded-sm
                 bg-gray-100
-                text-pink-500
+                text-blue-500
               "
             />
             <p class="text-red-500" v-if="!primeCheck">{{ prime }} is not a prime number.</p>

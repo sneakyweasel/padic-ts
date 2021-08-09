@@ -43,8 +43,8 @@ export default class Ratio {
     this.d = d
     this.sign = sign
     this.factors = this.generateFactors()
-    console.log('-- GENERATED FACTORS --')
-    console.log(`${this.sign}${this.n}/${this.d} = ${this.factorsArray()}`)
+    // console.log('-- GENERATED FACTORS --')
+    // console.log(`${this.sign}${this.n}/${this.d} = ${this.factorsArray()}`)
   }
 
   /**
@@ -457,16 +457,14 @@ export default class Ratio {
       factorsArr.push([padicPrime, 0])
     }
     // Add minus to exponents for denominator
-    const expMinus = expNeg ? '-' : ''
     factorsArr.forEach((tuple) => {
       const prime = tuple[0]
       const exp = tuple[1]
-      const repr_color = `\\textcolor{red}{${prime}^{${expMinus}${exp}}}`
-      const repr = `${prime}^{${expMinus}${exp}}`
+      const sign = expNeg && exp !== 0 ? '-' : ''
       if (tuple[0] === padicPrime) {
-        result += `${repr_color}\\:.\\:`
+        result += `\\textcolor{blue}{${prime}}^{\\textcolor{magenta}{${sign}${exp}}}\\:.\\:`
       } else {
-        result += `${repr}\\:.\\:`
+        result += `${prime}^{${sign}${exp}}\\:.\\:`
       }
     })
     result = result.substring(0, result.length - 3)

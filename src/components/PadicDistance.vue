@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-pink-600 mb-3 font-bold font-sans text-2xl text-center">
+    <h2 class="text-black-600 mb-3 font-bold font-sans text-2xl text-center">
       {{ prime }}-adic distance: a new way to measure distance!
     </h2>
 
@@ -99,40 +99,45 @@ export default class KatexFactors extends Vue {
   }
 
   get isolationExplainKatex(): string {
-    return `x = p^{v_{p}(x)} \\cdot \\frac{a}{b}`
+    return `x = \\textcolor{blue}{p}^{\\textcolor{magenta}{v_{p}(x)}} \\cdot \\frac{a}{b}`
   }
 
   get isolationKatex(): string {
-    const rat = this.ratio.reconstructWithoutPrime(this.prime)
     const pri = this.ratio.factor(this.prime)
+    const rat = this.ratio.reconstructWithoutPrime(this.prime)
     let result = 'x = '
     if (this.ratio.sign === -1) {
       result += '-'
     }
-    result += `\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}} \\cdot ${rat.toKatex()}`
+    result += `\\textcolor{blue}{${this.prime}}^{\\textcolor{magenta}{${
+      pri[1]
+    }}} \\cdot ${rat.toKatex()}`
     return result
   }
 
   get pValuationExplainKatex(): string {
-    return `v_{p}(\\frac{n}{d}) = v_{p}(n)-v_{p}(d)`
+    return `\\textcolor{magenta}{v_{p}}(\\frac{n}{d}) = \\textcolor{magenta}{v_{p}}(n) - \\textcolor{magenta}{v_{p}}(d)`
   }
 
   get pValuationKatex(): string {
     const pvaln = new Ratio(this.ratio.n).padicValuation(this.prime)
     const pvald = new Ratio(this.ratio.d).padicValuation(this.prime)
-    return `v_{\\textcolor{red}{${this.prime}}}(${this.ratio.toKatex()}) 
-    = \\textcolor{red}{${pvaln} - ${pvald}}
-    = \\textcolor{red}{${pvaln - pvald}}`
+    return `\\textcolor{magenta}{v_{${this.prime}}}(${this.ratio.toKatex()}) 
+    = \\textcolor{magenta}{${pvaln}} - \\textcolor{magenta}{${pvald}}
+    = \\textcolor{magenta}{${pvaln - pvald}}`
   }
 
   get absExplainKatex(): string {
-    return `|x|_{p} = \\frac{1}{p^{v_{p}(x)}}`
+    return `|x|_{\\textcolor{blue}{p}} 
+    = \\frac{1}{
+      \\textcolor{blue}{p}^{\\textcolor{magenta}{v_{p}(x)}}}
+    `
   }
 
   get absKatex(): string {
     const frac = this.ratio.padicAbs(this.prime).toKatex()
     const pri = this.ratio.factor(this.prime)
-    return `|x|_{\\textcolor{red}{${this.prime}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}}} = ${frac}`
+    return `|x|_{\\textcolor{blue}{${this.prime}}} = \\frac{1}{\\textcolor{blue}{${pri[0]}}^{\\textcolor{magenta}{${pri[1]}}}} = ${frac}`
   }
 
   get classicalDistanceKatex(): string {
@@ -148,8 +153,8 @@ export default class KatexFactors extends Vue {
     let rat1 = this.ratio.clone()
     let rat2 = this.randomRatio.clone()
     let res = rat1.sub(rat2)
-    return `|x - y|_{${this.prime}} = 
-    |${res.toKatex()}|_{${this.prime}} = 
+    return `|x - y|_{\\textcolor{blue}{${this.prime}}} = 
+    |${res.toKatex()}|_{\\textcolor{blue}{${this.prime}}} = 
     ${res.padicAbs(this.prime).toKatex()}`
   }
 
