@@ -5,7 +5,7 @@
     </h2>
 
     <!-- Prime factorization -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b
         >With our new distance idea we can now rewrite numbers by their closeness to p={{
           prime
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Computation steps -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b>Steps will repeat after some time in a infinite loop like a classical decimal expansion</b>
     </p>
     <div class="flex items-center text-xl mt-3">
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="flex text-xl mt-3">
-      <div class="w-1/3 text-right mr-3">Repeated expansion sequence</div>
+      <div class="w-1/3 text-right mr-3">Repeated expansion</div>
       <div class="w-2/3 text-center text-lg bg-gray-200">
         {{ padic.toStringLTR() }}
       </div>

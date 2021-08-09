@@ -5,7 +5,7 @@
     </h2>
 
     <!-- Prime decomposition -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b> Every integer is a multiplication of its prime factors</b>
     </p>
     <div class="flex items-center text-xl mt-3">
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Prime isolation form -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b>
         The fraction can be written in a way that shows its relation with the selected prime p={{
           prime
@@ -37,7 +37,7 @@
     </div>
 
     <!-- P-valuation -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b> This "closeness" to p={{ prime }} is called the p-adic valuation v<sub>p</sub>(x)</b>
     </p>
     <div class="flex items-center text-xl mt-3">
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Padic absolute value -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b> This gives us a new notion of distance between numbers in relation with p={{ prime }}</b>
     </p>
     <div class="flex items-center text-xl mt-3">
@@ -57,7 +57,7 @@
     </div>
 
     <!-- Distance compare -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b>
         Let's compare the classical distance and the {{ prime }}-adic distance with the random
         number {{ randomRatio.n }}/{{ randomRatio.d }}, you can modify the first fraction and see

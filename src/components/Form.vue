@@ -6,7 +6,7 @@
     <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
     <!-- Introduction -->
-    <p class="text-center mt-6">
+    <p class="text-center mt-6 text-gray-600">
       <b>Why should I care?</b>
     </p>
     <p>
@@ -17,7 +17,7 @@
     </p>
 
     <!-- Form -->
-    <p class="text-center mt-6">
+    <p class="text-center text-gray-600 mt-6">
       <b>Choose a fraction and a prime number!</b>
     </p>
     <form class="mt-2" @submit.prevent="">
