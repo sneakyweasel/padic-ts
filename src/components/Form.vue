@@ -4,9 +4,7 @@
     <div class="separator"></div>
 
     <!-- Introduction -->
-    <p class="text-center mt-6 text-gray-600">
-      <b>Why should I care?</b>
-    </p>
+    <p class="intro">Why should I care?</p>
     <p>
       The p-adics are another way to represent numbers which proved crucial for solving Fermat's
       last theorem, an unsolved problem for 350 years and has led to lots of progress in Number
@@ -15,9 +13,7 @@
     </p>
 
     <!-- Form -->
-    <p class="text-center text-gray-600 mt-6">
-      <b>Choose a fraction and a prime number!</b>
-    </p>
+    <p class="intro">Choose a fraction and a prime number!</p>
     <form class="mt-2" @submit.prevent="">
       <div class="flex">
         <!-- Fraction input -->
