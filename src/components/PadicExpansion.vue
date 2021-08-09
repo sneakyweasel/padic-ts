@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-pink-600 font-bold font-sans text-2xl text-center mb-3">
+    <h2 class="text-pink-600 font-bold font-sans text-2xl text-center mb-3 mt-6">
       {{ prime }}-adic expansion: a new way to write numbers!
     </h2>
 
@@ -8,7 +8,7 @@
     <p class="text-center mt-6">
       <b>We can write numbers like the sum of how digits relate to p={{ prime }}</b>
     </p>
-    <div class="flex text-xl">
+    <div class="flex text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion (rtl)</div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="explainKatex"></div>
       <div class="w-1/3 text-left text-2xl bg-gray-200" v-katex:display="padic.toKatex()"></div>

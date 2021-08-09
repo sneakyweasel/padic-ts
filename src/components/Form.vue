@@ -1,9 +1,9 @@
 <template>
   <div class="container w-300 mx-auto my-6 px-6 py-6 shadow">
     <h1 class="text-pink-600 font-bold font-sans text-4xl text-center">
-      Introduction to P-adic numbers
+      Introduction to p-adic numbers
     </h1>
-    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-2.5 mb-3"></div>
+    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
     <!-- Introduction -->
     <p class="text-center mt-6">
@@ -20,7 +20,7 @@
     <p class="text-center mt-6">
       <b>Choose a fraction and a prime number!</b>
     </p>
-    <form @submit.prevent="">
+    <form class="mt-2" @submit.prevent="">
       <div class="flex">
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
@@ -87,17 +87,16 @@
           </div>
         </div>
       </div>
-      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
     </form>
+    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
     <!-- Hide if p is not prime -->
     <div v-if="primeCheck">
-      <!-- Padic absolute value -->
       <PadicDistance :ratio="ratio" :prime="prime" :precision="precision" />
       <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
 
-      <!-- Padic expansion -->
       <PadicExpansion :ratio="ratio" :prime="prime" :precision="precision" />
+      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
     </div>
   </div>
 </template>

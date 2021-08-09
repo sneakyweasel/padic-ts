@@ -8,15 +8,15 @@
     <p class="text-center mt-6">
       <b> Every integer is a multiplication of its prime factors</b>
     </p>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Prime factorization of numerator</div>
       <div class="w-2/3 text-left bg-gray-200" v-katex:display="factorsNKatex"></div>
     </div>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Prime factorization of denominator</div>
       <div class="w-2/3 text-left bg-gray-200" v-katex:display="factorsDKatex"></div>
     </div>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Prime factorization of the fraction</div>
       <div class="w-2/3 text-left bg-gray-200" v-katex:display="factorsNDKatex"></div>
     </div>
@@ -30,7 +30,7 @@
       </b>
     </p>
 
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Any fraction can be expressed as</div>
       <div class="w-1/3 text-left bg-gray-100 mr-2" v-katex:display="isolationExplainKatex"></div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="isolationKatex"></div>
@@ -40,7 +40,7 @@
     <p class="text-center mt-6">
       <b> This "closeness" to p={{ prime }} is called the p-adic valuation v<sub>p</sub>(x)</b>
     </p>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation of x</div>
       <div class="w-1/3 text-left bg-gray-100 mr-2" v-katex:display="pValuationExplainKatex"></div>
       <div class="w-1/3 text-left bg-gray-200" v-katex:display="pValuationKatex"></div>
@@ -50,7 +50,7 @@
     <p class="text-center mt-6">
       <b> This gives us a new notion of distance between numbers in relation with p={{ prime }}</b>
     </p>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic absolute value</div>
       <div class="w-1/3 items-left bg-gray-100 mr-2" v-katex:display="absExplainKatex"></div>
       <div class="w-1/3 items-left bg-gray-200" v-katex:display="absKatex"></div>
@@ -64,7 +64,7 @@
         how the difference between those two distances change</b
       >
     </p>
-    <div class="flex items-center text-xl mt-2">
+    <div class="flex items-center text-xl mt-3">
       <div class="w-1/2 items-left bg-gray-100 mr-2" v-katex:display="classicalDistanceKatex"></div>
       <div class="w-1/2 items-left bg-gray-200" v-katex:display="padicDistanceKatex"></div>
     </div>
