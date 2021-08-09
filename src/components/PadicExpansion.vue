@@ -1,33 +1,28 @@
 <template>
   <div>
-    <h2 class="text-black-600 font-bold font-sans text-2xl text-center mb-3 mt-6">
-      {{ prime }}-adic expansion: a new way to write numbers!
-    </h2>
+    <h2 class="title">{{ prime }}-adic expansion: a new way to write numbers!</h2>
 
     <!-- Prime factorization -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       With our new distance idea we can now rewrite numbers by their closeness to p={{ prime }}
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic infinite sum</div>
-      <div
-        class="w-2/3 text-left bg-gray-200 rounded-md"
-        v-katex:display="explainSumKatex + '=' + expandedSumKatex"
-      ></div>
+      <div class="w-1/3 definition">{{ prime }}-adic infinite sum</div>
+      <div class="w-2/3 dynamic" v-katex:display="explainSumKatex + '=' + expandedSumKatex"></div>
     </div>
 
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion (ltr)</div>
-      <div class="w-2/3 text-left bg-gray-200 rounded-md" v-katex:display="padic.toKatex()"></div>
+      <div class="w-1/3 definition">{{ prime }}-adic expansion (ltr)</div>
+      <div class="w-2/3 dynamic" v-katex:display="padic.toKatex()"></div>
     </div>
 
     <!-- Computation steps -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       Steps will repeat after some time in a infinite loop like a classical decimal expansion
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic expansion steps</div>
-      <div class="w-2/3 text-left bg-gray-200">
+      <div class="w-1/3 definition">{{ prime }}-adic expansion steps</div>
+      <div class="w-2/3 dynamic">
         <table class="w-full text-center">
           <tr
             class="border-white border-4"
@@ -48,8 +43,8 @@
       </div>
     </div>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Repeated expansion</div>
-      <div class="w-2/3 text-center text-lg bg-gray-200 rounded-md p-4">
+      <div class="w-1/3 definition">Repeated expansion</div>
+      <div class="w-2/3 dynamic p-4">
         {{ padic.toStringLTR() }}
       </div>
     </div>
@@ -110,4 +105,4 @@ export default class KatexExpansion extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

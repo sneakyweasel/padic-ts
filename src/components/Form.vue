@@ -1,9 +1,7 @@
 <template>
   <div class="container w-300 mx-auto my-6 px-6 shadow">
-    <h1 class="text-black-600 font-bold font-sans text-4xl text-center">
-      Introduction to p-adic numbers
-    </h1>
-    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+    <h1 class="title text-4xl">Introduction to p-adic numbers</h1>
+    <div class="separator"></div>
 
     <!-- Introduction -->
     <p class="text-center mt-6 text-gray-600">
@@ -50,15 +48,15 @@
         </div>
       </div>
     </form>
-    <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+    <div class="separator"></div>
 
     <!-- Hide if p is not prime -->
     <div v-if="primeCheck && zeroDivCheck">
       <PadicDistance :ratio="ratio" :prime="prime" :precision="precision" />
-      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+      <div class="separator"></div>
 
       <PadicExpansion :ratio="ratio" :prime="prime" :precision="precision" />
-      <div class="h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3"></div>
+      <div class="separator"></div>
     </div>
   </div>
 </template>
@@ -81,8 +79,8 @@ export default class Form extends Vue {
   primeCheck = true
   zeroDivCheck = true
   preset_id = 1
-  n = 2
-  d = 5
+  n = 71
+  d = 9
   prime = 3
   precision = 8
   ratio = new Ratio(this.n, this.d)
@@ -122,9 +120,26 @@ export default class Form extends Vue {
   }
 }
 </script>
-
-<style>
+<style lang="scss">
+.title {
+  @apply text-black mb-3 font-bold font-sans text-2xl text-center;
+}
+.separator {
+  @apply h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3;
+}
 .number-input {
   @apply w-full mt-1 mb-3 text-xl text-black text-center shadow-md border-none rounded-md bg-gray-100 focus:ring-2 focus:ring-purple-600 hover:bg-gray-200;
+}
+.intro {
+  @apply text-center text-gray-800 font-semibold text-lg mt-6;
+}
+.definition {
+  @apply text-right text-gray-600 text-lg mr-3;
+}
+.static {
+  @apply bg-gray-100 rounded-md text-lg;
+}
+.dynamic {
+  @apply bg-gray-200 rounded-md text-lg;
 }
 </style>

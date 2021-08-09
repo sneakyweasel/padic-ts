@@ -1,86 +1,67 @@
 <template>
   <div>
-    <h2 class="text-black-600 mb-3 font-bold font-sans text-2xl text-center">
-      {{ prime }}-adic distance: a new way to measure distance!
-    </h2>
+    <h2 class="title">{{ prime }}-adic distance: a new way to measure distance!</h2>
 
     <!-- Prime decomposition -->
-    <p class="text-center text-gray-600 font-bold mt-6">
-      Any fraction can be written as the multiplication of its prime factors
-    </p>
+    <p class="intro">Any fraction can be written as the multiplication of its prime factors</p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Prime factorization of numerator (n)</div>
-      <div class="w-2/3 text-left bg-gray-200 rounded-md" v-katex:display="factorsNKatex"></div>
+      <div class="w-1/3 definition">Prime factorization of numerator (n)</div>
+      <div class="w-2/3 dynamic" v-katex:display="factorsNKatex"></div>
     </div>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Prime factorization of denominator (d)</div>
-      <div class="w-2/3 text-left bg-gray-200 rounded-md" v-katex:display="factorsDKatex"></div>
+      <div class="w-1/3 definition">Prime factorization of denominator (d)</div>
+      <div class="w-2/3 dynamic" v-katex:display="factorsDKatex"></div>
     </div>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Prime factorization of the fraction (x)</div>
-      <div class="w-2/3 text-left bg-gray-200 rounded-md" v-katex:display="factorsNDKatex"></div>
+      <div class="w-1/3 definition">Prime factorization of the fraction (x)</div>
+      <div class="w-2/3 dynamic" v-katex:display="factorsNDKatex"></div>
     </div>
 
     <!-- Prime isolation form -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       We rewrite the fraction to highlight its relation with the selected prime p={{ prime }}
       (shown in blue)
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Any fraction can be expressed as</div>
-      <div
-        class="w-1/3 text-left bg-gray-100 rounded-md mr-2"
-        v-katex:display="isolationExplainKatex"
-      ></div>
-      <div class="w-1/3 text-left bg-gray-200 rounded-md" v-katex:display="isolationKatex"></div>
+      <div class="w-1/3 definition">Any fraction can be expressed as</div>
+      <div class="w-1/3 static" v-katex:display="isolationExplainKatex"></div>
+      <div class="w-1/3 dynamic" v-katex:display="isolationKatex"></div>
     </div>
 
     <!-- P-valuation -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       We call p-adic valuation v<sub>p</sub>(x) the exponent of the selected prime p={{ prime }}
       (shown in magenta)
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation of x</div>
-      <div
-        class="w-1/3 text-left bg-gray-100 rounded-md mr-2"
-        v-katex:display="pValuationExplainKatex"
-      ></div>
-      <div class="w-1/3 text-left bg-gray-200 rounded-md" v-katex:display="pValuationKatex"></div>
+      <div class="w-1/3 definition">{{ prime }}-adic valuation of x</div>
+      <div class="w-1/3 static" v-katex:display="pValuationExplainKatex"></div>
+      <div class="w-1/3 dynamic" v-katex:display="pValuationKatex"></div>
     </div>
 
     <!-- Padic absolute value -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       This gives us a new notion of distance between numbers in relation with p={{ prime }}
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic absolute value</div>
-      <div
-        class="w-1/3 items-left bg-gray-100 rounded-md mr-2"
-        v-katex:display="absExplainKatex"
-      ></div>
-      <div class="w-1/3 items-left bg-gray-200 rounded-md" v-katex:display="absKatex"></div>
+      <div class="w-1/3 definition">{{ prime }}-adic absolute value</div>
+      <div class="w-1/3 static" v-katex:display="absExplainKatex"></div>
+      <div class="w-1/3 dynamic" v-katex:display="absKatex"></div>
     </div>
 
     <!-- Distance compare -->
-    <p class="text-center text-gray-600 font-bold mt-6">
+    <p class="intro">
       Let's compare the classical distance and the {{ prime }}-adic distance with the random number
       {{ randomRatio.n }}/{{ randomRatio.d }}, you can modify the first fraction and see how the
       difference between those two distances changes
     </p>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">Classical distance</div>
-      <div
-        class="w-2/3 items-left bg-gray-200 rounded-md"
-        v-katex:display="classicalDistanceKatex"
-      ></div>
+      <div class="w-1/3 definition">Classical distance</div>
+      <div class="w-2/3 dynamic" v-katex:display="classicalDistanceKatex"></div>
     </div>
     <div class="flex items-center mt-3">
-      <div class="w-1/3 text-right mr-3">{{ prime }}-adic distance</div>
-      <div
-        class="w-2/3 items-left bg-gray-200 rounded-md"
-        v-katex:display="padicDistanceKatex"
-      ></div>
+      <div class="w-1/3 definition">{{ prime }}-adic distance</div>
+      <div class="w-2/3 dynamic" v-katex:display="padicDistanceKatex"></div>
     </div>
   </div>
 </template>
@@ -187,4 +168,4 @@ export default class KatexFactors extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>
