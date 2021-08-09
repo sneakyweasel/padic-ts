@@ -61,12 +61,16 @@
       <b>
         Let's compare the classical distance and the {{ prime }}-adic distance with the random
         number {{ randomRatio.n }}/{{ randomRatio.d }}, you can modify the first fraction and see
-        how the difference between those two distances change</b
+        how the difference between those two distances changes</b
       >
     </p>
     <div class="flex items-center text-xl mt-3">
-      <div class="w-1/2 items-left bg-gray-100 mr-2" v-katex:display="classicalDistanceKatex"></div>
-      <div class="w-1/2 items-left bg-gray-200" v-katex:display="padicDistanceKatex"></div>
+      <div class="w-1/3 text-right mr-3">Classical distance</div>
+      <div class="w-2/3 items-left bg-gray-200" v-katex:display="classicalDistanceKatex"></div>
+    </div>
+    <div class="flex items-center text-xl mt-3">
+      <div class="w-1/3 text-right mr-3">{{ prime }}-adic distance</div>
+      <div class="w-2/3 items-left bg-gray-200" v-katex:display="padicDistanceKatex"></div>
     </div>
   </div>
 </template>
@@ -105,7 +109,7 @@ export default class KatexFactors extends Vue {
   get isolationKatex(): string {
     const pri = this.ratio.factor(this.prime)
     const rat = this.ratio.reconstructWithoutPrime(this.prime)
-    let result = 'x = '
+    let result = this.ratio.toKatex() + ' = '
     if (this.ratio.sign === -1) {
       result += '-'
     }

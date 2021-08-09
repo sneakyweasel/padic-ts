@@ -209,7 +209,7 @@ export default class Padic {
       unique = strArr.slice(0, offset).join('\\space')
     }
     const window = strArr.slice(offset, offset + size).join('\\space')
-    return `${unique} \\space \\space \\textcolor{red}{\\overline{${window}}}`
+    return `\\textcolor{purple}{${unique} \\space \\space \\overline{${window}}}`
     // return `\\textcolor{red}{\\overline{${window}}} \\space \\space ${unique}`
   }
 
