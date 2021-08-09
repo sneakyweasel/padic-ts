@@ -6,7 +6,7 @@
 
     <!-- Prime decomposition -->
     <p class="text-center text-gray-600 mt-6">
-      <b> Every integer is a multiplication of its prime factors</b>
+      <b> Any fraction can be written as the multiplication of its prime factors</b>
     </p>
     <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">Prime factorization of numerator</div>
@@ -24,9 +24,8 @@
     <!-- Prime isolation form -->
     <p class="text-center text-gray-600 mt-6">
       <b>
-        The fraction can be written in a way that shows its relation with the selected prime p={{
-          prime
-        }}
+        We rewrite the fraction to highlight its relation with the selected prime p={{ prime }}
+        (shown in blue)
       </b>
     </p>
 
@@ -38,7 +37,12 @@
 
     <!-- P-valuation -->
     <p class="text-center text-gray-600 mt-6">
-      <b> This "closeness" to p={{ prime }} is called the p-adic valuation v<sub>p</sub>(x)</b>
+      <b
+        >We call p-adic valuation v<sub>p</sub>(x) the exponent of the selected prime p={{
+          prime
+        }}
+        (shown in magenta)</b
+      >
     </p>
     <div class="flex items-center text-xl mt-3">
       <div class="w-1/3 text-right mr-3">{{ prime }}-adic valuation of x</div>
@@ -141,7 +145,9 @@ export default class KatexFactors extends Vue {
   get absKatex(): string {
     const frac = this.ratio.padicAbs(this.prime).toKatex()
     const pri = this.ratio.factor(this.prime)
-    return `|x|_{\\textcolor{blue}{${this.prime}}} = \\frac{1}{\\textcolor{blue}{${pri[0]}}^{\\textcolor{magenta}{${pri[1]}}}} = ${frac}`
+    return `|${this.ratio.toKatex()}|_{\\textcolor{blue}{${
+      this.prime
+    }}} = \\frac{1}{\\textcolor{blue}{${pri[0]}}^{\\textcolor{magenta}{${pri[1]}}}} = ${frac}`
   }
 
   get classicalDistanceKatex(): string {
