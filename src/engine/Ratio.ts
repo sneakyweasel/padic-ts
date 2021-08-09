@@ -43,6 +43,8 @@ export default class Ratio {
     this.d = d
     this.sign = sign
     this.factors = this.generateFactors()
+    console.log('-- GENERATED FACTORS --')
+    console.log(`${this.sign}${this.n}/${this.d} = ${this.factorsArray()}`)
   }
 
   /**
@@ -155,7 +157,7 @@ export default class Ratio {
         }
       }
     })
-    return new Ratio(num, denum)
+    return new Ratio(num, denum).reduce()
   }
 
   /**
@@ -169,6 +171,7 @@ export default class Ratio {
 
   /**
    * Reconstruct prime part
+   * Used for katex output
    * @param prime
    * @returns ratio
    */
@@ -251,7 +254,10 @@ export default class Ratio {
    * @returns padic valuation
    */
   padicValuation(prime: number): number {
-    return this.factor(prime)[1]
+    if (prime in this.factors) {
+      return this.factors[prime]
+    }
+    return 0
   }
 
   /**
@@ -420,7 +426,8 @@ export default class Ratio {
     const steps: Step[] = []
     const digits = this.toPadic(prime).toArray()
     let orig = this.clone()
-    for (const digit of digits) {
+    for (let i = 0; i < precision; i++) {
+      const digit = digits[i]
       const next = orig.sub(new Ratio(digit)).div(new Ratio(prime)).reduce()
       steps.push({ digit, orig, next })
       orig = next
@@ -501,7 +508,8 @@ export default class Ratio {
   }
 
   /**
-   * To fixed
+   * Convert to fixed ecimal notation
+   * @returns decimal notation
    */
   toFixed(dec = 2): string {
     return ((this.sign * this.n) / this.d).toFixed(dec)
