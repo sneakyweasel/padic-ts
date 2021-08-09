@@ -22,50 +22,19 @@
     </p>
     <form class="mt-2" @submit.prevent="">
       <div class="flex">
+        <!-- Fraction input -->
         <div class="flex w-1/2 items-center mr-3">
           <div class="w-1/3">
             <label class="block text-center" for="psw">Fraction (x)</label>
           </div>
           <div class="w-2/3">
-            <input
-              type="number"
-              v-model.number="n"
-              class="
-                w-full
-                mt-1
-                mb-3
-                text-xl text-center
-                shadow-md
-                border-none
-                focus:ring-transparent
-                rounded-md
-                bg-gray-100
-                focus:ring-2 focus:ring-purple-600
-                hover:bg-gray-200
-                text-black-500
-              "
-            />
+            <input type="number" v-model.number="n" class="number-input text-xl bg-gray-100" />
             <hr class="bg-black h-0.5" />
-            <input
-              type="number"
-              v-model.number="d"
-              class="
-                w-full
-                mt-1
-                mb-3
-                text-xl text-center
-                shadow-md
-                border-none
-                focus:ring-2 focus:ring-purple-600
-                rounded-md
-                bg-gray-100
-                hover:bg-gray-200
-                text-black-500
-              "
-            />
+            <input type="number" v-model.number="d" class="number-input text-xl bg-gray-100" />
             <p class="text-red-500" v-if="!zeroDivCheck">Can't divide by zero.</p>
           </div>
         </div>
+        <!-- Prime input -->
         <div class="flex w-1/2 items-center ml-3">
           <div class="w-1/3">
             <label class="my-2 text-center" for="uname">Prime number (p)</label>
@@ -74,19 +43,7 @@
             <input
               type="number"
               v-model.number="prime"
-              class="
-                w-full
-                mt-1
-                mb-3
-                text-xl text-center
-                shadow-md
-                border-none
-                focus:ring-2 focus:ring-purple-600
-                rounded-md
-                bg-gray-100
-                hover:bg-gray-200
-                text-blue-500
-              "
+              class="number-input bg-gray-100 text-xl text-blue-500"
             />
             <p class="text-red-500" v-if="!primeCheck">{{ prime }} is not a prime number.</p>
           </div>
@@ -165,3 +122,9 @@ export default class Form extends Vue {
   }
 }
 </script>
+
+<style>
+.number-input {
+  @apply w-full mt-1 mb-3 text-xl text-black text-center shadow-md border-none rounded-md bg-gray-100 focus:ring-2 focus:ring-purple-600 hover:bg-gray-200;
+}
+</style>
