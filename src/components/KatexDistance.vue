@@ -109,8 +109,8 @@ export default class KatexFactors extends Vue {
   }
 
   get isolationKatex(): string {
-    const rat = this.ratio.absReconstruct(this.prime)
-    const pri = this.ratio.primeReconstruct(this.prime)
+    const rat = this.ratio.reconstructWithoutPrime(this.prime)
+    const pri = this.ratio.factor(this.prime)
     let result = 'x = '
     if (this.ratio.sign === -1) {
       result += '-'
@@ -137,7 +137,7 @@ export default class KatexFactors extends Vue {
 
   get absKatex(): string {
     const frac = this.ratio.padicAbs(this.prime).toKatex()
-    const pri = this.ratio.primeReconstruct(this.prime)
+    const pri = this.ratio.factor(this.prime)
     return `|x|_{\\textcolor{red}{${this.prime}}} = \\frac{1}{\\textcolor{red}{${pri[0]}}^{\\textcolor{red}{${pri[1]}}}} = ${frac}`
   }
 

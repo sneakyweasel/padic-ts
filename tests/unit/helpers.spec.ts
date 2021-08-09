@@ -23,7 +23,7 @@ describe('Helpers', () => {
     expect(facs1).toEqual({ '2': 2, '5': 1, '7': 1 })
     const facs2 = factors(297)
     expect(facs2).toEqual({ '11': 1, '3': 3 })
-    const rat1 = new Ratio(140, 297).factors()
+    const rat1 = new Ratio(140, 297).factors
     expect(rat1).toEqual({ '11': -1, '2': 2, '3': -3, '5': 1, '7': 1 })
   })
 
@@ -47,7 +47,7 @@ describe('Helpers', () => {
     expect(facs1).toEqual({ '2': 1, '3': 4 })
     const facs2 = factors(13)
     expect(facs2).toEqual({ '13': 1 })
-    const rat1 = new Ratio(162, 13).absReconstruct(3)
+    const rat1 = new Ratio(162, 13).reconstructWithoutPrime(3)
     expect(rat1.toString()).toEqual('2/13')
   })
 })

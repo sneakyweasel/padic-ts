@@ -14,6 +14,7 @@ export default class Ratio {
   n: number
   d: number
   sign: number
+  factors: Record<string, number>
 
   /**
    * Ratio constructor and sign processing
@@ -41,6 +42,35 @@ export default class Ratio {
     this.n = n
     this.d = d
     this.sign = sign
+    this.factors = this.generateFactors()
+  }
+
+  /**
+   * Prime factorization of ratio
+   * Returns a dict of primes and their exponents
+   * @returns prime factors in dict format. Eg: {"2": 1, "5": 2}
+   */
+  generateFactors(): Record<string, number> {
+    const factorsA: Record<string, number> = factors(Math.abs(this.n))
+    const factorsB: Record<string, number> = factors(Math.abs(this.d))
+    // get unique keys
+    const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
+    const uniq = [...new Set(keys)]
+    // perform addition
+    const result: Record<string, number> = {}
+    uniq.forEach((key: string) => {
+      let counter = 0
+      if (key in factorsA) {
+        counter += factorsA[key]
+      }
+      if (key in factorsB) {
+        counter -= factorsB[key]
+      }
+      if (counter !== 0) {
+        result[key] = counter
+      }
+    })
+    return result
   }
 
   //------------------
@@ -89,57 +119,30 @@ export default class Ratio {
   }
 
   /**
-   * Prime factorization of ratio
-   * Returns a dict of primes and their exponents
-   * @returns prime factors in dict format. Eg: {"2": 1, "5": 2}
-   */
-  factors(): Record<string, number> {
-    const factorsA: Record<string, number> = factors(Math.abs(this.n))
-    const factorsB: Record<string, number> = factors(Math.abs(this.d))
-    // get unique keys
-    const keys = [...Object.keys(factorsA), ...Object.keys(factorsB)]
-    const uniq = [...new Set(keys)]
-    // perform addition
-    const result: Record<string, number> = {}
-    uniq.forEach((key: string) => {
-      let counter = 0
-      if (key in factorsA) {
-        counter += factorsA[key]
-      }
-      if (key in factorsB) {
-        counter -= factorsB[key]
-      }
-      if (counter !== 0) {
-        result[key] = counter
-      }
-    })
-    return result
-  }
-
-  /**
    * Ratio factors in sorted array form
+   * Useful for ordered output
    * @returns [prime, exponent] array. Eg: [[3, 2], [5, 1], [7, -1]]
    */
   factorsArray(): [number, number][] {
-    const ratioFacs = this.factors()
+    const factors = this.factors
     const result: [number, number][] = []
-    Object.keys(ratioFacs)
+    Object.keys(factors)
       .map((key) => {
         return parseInt(key)
       })
       .map(function (key) {
-        result.push([key, ratioFacs[key.toString()]])
+        result.push([key, factors[key.toString()]])
         return result
       })
     return result
   }
 
   /**
-   * Reconstruct rational part without prime exponent
+   * Reconstruct ratio without prime exponent
    * @param prime
    * @returns ratio without p-adic prime
    */
-  absReconstruct(prime: number): Ratio {
+  reconstructWithoutPrime(prime: number): Ratio {
     const ratioFacs = this.factorsArray()
     let num = 1
     let denum = 1
@@ -156,14 +159,22 @@ export default class Ratio {
   }
 
   /**
+   * Check if prime is a factor of ratio
+   * @param prime
+   * @returns boolean
+   */
+  isFactor(prime: number): boolean {
+    return prime in this.factors
+  }
+
+  /**
    * Reconstruct prime part
    * @param prime
    * @returns ratio
    */
-  primeReconstruct(prime: number): [number, number] {
-    const ratioFacs = this.factors()
-    if (prime in ratioFacs) {
-      return [prime, ratioFacs[prime]]
+  factor(prime: number): [number, number] {
+    if (this.isFactor(prime)) {
+      return [prime, this.factors[prime]]
     }
     return [prime, 0]
   }
@@ -240,7 +251,7 @@ export default class Ratio {
    * @returns padic valuation
    */
   padicValuation(prime: number): number {
-    return this.primeReconstruct(prime)[1]
+    return this.factor(prime)[1]
   }
 
   /**
@@ -426,19 +437,15 @@ export default class Ratio {
    * @returns katex string
    */
   factorsKatex(p: number, expNeg = false): string {
-    const ratioFacs = this.factorsArray()
     let result = ''
-    if (this.sign < 0) {
-      result += '-'
-    }
     if (this.n === 0) {
       return '0'
     }
-    if (this.n === 1) {
-      return '1'
+    if (this.sign < 0) {
+      result += '-'
     }
     const expMinus = expNeg ? '-' : ''
-    ratioFacs.forEach((tuple) => {
+    this.factorsArray().forEach((tuple) => {
       const prime = tuple[0]
       const exp = tuple[1]
       const repr_color = `\\textcolor{red}{${prime}}^{\\textcolor{red}{${expMinus}${exp}}}`
