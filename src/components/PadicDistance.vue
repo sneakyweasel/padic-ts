@@ -72,7 +72,7 @@ import { getRandomInt } from '../engine/helpers'
 import Ratio from '../engine/Ratio'
 
 @Component({})
-export default class KatexFactors extends Vue {
+export default class PadicDistance extends Vue {
   @Prop() readonly ratio!: Ratio
   @Prop() readonly prime!: number
 

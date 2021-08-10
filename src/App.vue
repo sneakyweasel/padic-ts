@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <!-- <Navbar :links="['Weasel', 'Contact']" /> -->
-    <Form />
+    <Navbar />
+    <Main />
     <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Form from './components/Form.vue'
+import Main from './components/Main.vue'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 
 @Component({
   components: {
-    Form,
+    Main,
     Navbar,
     Footer,
   },

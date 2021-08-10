@@ -12,7 +12,12 @@
       new way to write numbers.
     </p>
 
+    <!-- Refresher -->
+    <MathRefresher />
+    <div class="separator"></div>
+
     <!-- Form -->
+    <h2 class="title">Let's begin</h2>
     <p class="intro">Choose a fraction and a prime number!</p>
     <form class="mt-2" @submit.prevent="">
       <div class="flex">
@@ -22,9 +27,9 @@
             <label class="block text-center" for="psw">Fraction (x)</label>
           </div>
           <div class="w-2/3">
-            <input type="number" v-model.number="n" class="number-input text-xl bg-gray-100" />
+            <input type="number" v-model.number="n" class="number-input text-xl" />
             <hr class="bg-black h-0.5" />
-            <input type="number" v-model.number="d" class="number-input text-xl bg-gray-100" />
+            <input type="number" v-model.number="d" class="number-input text-xl" />
             <p class="text-red-500" v-if="!zeroDivCheck">Can't divide by zero.</p>
           </div>
         </div>
@@ -37,7 +42,7 @@
             <input
               type="number"
               v-model.number="prime"
-              class="number-input bg-gray-100 text-xl text-blue-500"
+              class="number-input text-xl text-blue-500"
             />
             <p class="text-red-500" v-if="!primeCheck">{{ prime }} is not a prime number.</p>
           </div>
@@ -62,16 +67,18 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { presets } from '@/engine/data'
 import { isPrime } from '@/engine/helpers'
 import Ratio from '@/engine/Ratio'
+import MathRefresher from '@/components/MathRefresher.vue'
 import PadicDistance from '@/components/PadicDistance.vue'
 import PadicExpansion from '@/components/PadicExpansion.vue'
 
 @Component({
   components: {
+    MathRefresher,
     PadicDistance,
     PadicExpansion,
   },
 })
-export default class Form extends Vue {
+export default class Main extends Vue {
   primeCheck = true
   zeroDivCheck = true
   preset_id = 1
@@ -118,16 +125,16 @@ export default class Form extends Vue {
 </script>
 <style lang="scss">
 .title {
-  @apply text-black mb-3 font-bold font-sans text-2xl text-center;
+  @apply text-black mt-6 mb-3 font-bold font-sans text-2xl text-center;
 }
 .separator {
   @apply h-0.5 bg-gray-200 w-36 mx-auto mt-3 mb-3;
 }
 .number-input {
-  @apply w-full mt-1 mb-3 text-xl text-black text-center shadow-md border-none rounded-md bg-gray-100 focus:ring-2 focus:ring-purple-600 hover:bg-gray-200;
+  @apply w-full mt-1 mb-1 text-xl text-black text-center shadow-md border-none rounded-md focus:ring-2 focus:ring-purple-600 hover:bg-gray-200;
 }
 .intro {
-  @apply text-center text-gray-800 font-semibold text-lg mt-6;
+  @apply text-center text-gray-800 font-semibold text-lg mt-3;
 }
 .definition {
   @apply text-right text-gray-600 text-lg mr-3;

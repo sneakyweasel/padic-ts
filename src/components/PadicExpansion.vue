@@ -58,7 +58,7 @@ import Padic from '@/engine/Padic'
 import { Prop, Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class KatexExpansion extends Vue {
+export default class PadicExpansion extends Vue {
   @Prop() readonly ratio!: Ratio
   @Prop() readonly prime!: number
   @Prop() readonly precision!: number
