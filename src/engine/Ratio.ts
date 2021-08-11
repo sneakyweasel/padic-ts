@@ -446,7 +446,7 @@ export default class Ratio {
    * Factors in katex string format
    * @returns katex string
    */
-  factorsKatex(padicPrime: number, expNeg = false): string {
+  factorsKatex(padicPrime = 1, expNeg = false): string {
     let result = ''
     if (this.n === 0) {
       return '0'
@@ -456,7 +456,7 @@ export default class Ratio {
     }
     // Append prime factor if it isn't part of the ratio's factor
     const factorsArr = this.factorsArray()
-    if (!this.isFactor(padicPrime)) {
+    if (!this.isFactor(padicPrime) && padicPrime !== 1) {
       factorsArr.push([padicPrime, 0])
     }
     // Add minus to exponents for denominator

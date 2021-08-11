@@ -15,6 +15,7 @@ In mathematics, the p-adic number system for any prime number p extends the ordi
 ## Tech stack
 
 - Vue
+- TailwindCSS
 - Typescript
 
 ## Related links

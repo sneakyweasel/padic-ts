@@ -2,7 +2,7 @@
   <div>
     <h2 class="title">Math refresher</h2>
 
-    <!-- Exponent refresher -->
+    <!-- Exponent -->
     <p class="intro">
       Exponentiation x<sup>y</sup> is a repeated multiplication of x just like multiplication is a
       repeated addition
@@ -19,7 +19,7 @@
       <div class="w-1/2 dynamic" v-katex:display="expKatex"></div>
     </div>
 
-    <!-- Factorization -->
+    <!-- Prime number -->
     <p class="intro">
       A prime number p is a natural number greater than 1 that is not the multiplication of two
       smaller numbers
