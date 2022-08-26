@@ -24,6 +24,7 @@ In mathematics, the p-adic number system for any prime number p extends the ordi
 
 - [Youtube introduction](https://www.youtube.com/watch?v=_9POg4HSgfI)
 - [3Blue1Brown](https://www.youtube.com/watch?v=XFDM1ip5HdU)
+- [Manim video](https://www.youtube.com/watch?v=3gyHKCDq1YA)
 
 ### Docs and articles
 
@@ -35,6 +36,7 @@ In mathematics, the p-adic number system for any prime number p extends the ordi
 - [Math Exchange](https://math.stackexchange.com/questions/1186967/method-of-finding-a-p-adic-expansion-to-a-rational-number/1187037#1187037)
 - [RosettaCode](http://rosettacode.org/wiki/P-Adic_numbers,_basic)
 - [Introduction SciAmerican](https://blogs.scientificamerican.com/roots-of-unity/the-numbers-behind-a-fields-medalists-math/)
+- [Publication](https://www.sciencedirect.com/science/article/pii/S0019357716300866?via%3Dihub)
 
 ## Project setup
 
